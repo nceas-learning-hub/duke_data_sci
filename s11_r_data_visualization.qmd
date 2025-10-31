@@ -438,7 +438,7 @@ What changes do you expect to see in your plot by adding the following line of c
 
 `scale_x_continuous(breaks = seq(0,120, 20))`
 
-::: {.callout-answer}
+:::: {.callout-answer}
 ```{r}
 ggplot(data = daily_visits_loc,
        aes(y = restore_loc, x = daily_visits, fill = visitor_type)) +
@@ -451,10 +451,9 @@ ggplot(data = daily_visits_loc,
     scale_x_continuous(breaks = seq(0,120, 20)) +
     my_theme
 ```
+::::
+
 :::
-
-
-
 
 Finally we are going to expand the bars all the way to the axis line. In other words, remove the gap between the bars and the vertical "x-axis" line.
 
@@ -471,8 +470,6 @@ ggplot(data = daily_visits_loc,
     my_theme
 
 ```
-
-
 
 #### Reordering things
 
