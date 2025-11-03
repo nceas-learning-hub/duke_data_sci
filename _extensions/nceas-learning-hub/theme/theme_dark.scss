@@ -118,6 +118,14 @@ $code-block-bg: $lh-gray-0; // code block background color
   --bs-dropdown-link-hover-bg: #01BAEF;
 }
 
+.sidebar-logo {
+  height: 50px !important; /* Set a fixed height */
+  width: auto !important; /* Adjust width automatically */
+  max-width: unset !important;
+  max-height: unset !important;
+}
+
+
 /////////////////////////////
 //      Other doc text     //
 /////////////////////////////

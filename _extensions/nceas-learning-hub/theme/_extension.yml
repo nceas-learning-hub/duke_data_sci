@@ -8,7 +8,7 @@ contributes:
       theme:
         light: theme_light.scss
         dark: theme_dark.scss
-      css: banner/banner.css
+      # css: banner/banner.css
       toc: true
       number-sections: true
       code-overflow: wrap
@@ -16,6 +16,6 @@ contributes:
       code-copy: hover
       link-external-newwindow: true
       link-external-icon: false
-      title-block-banner: "#44444444"
+     #  title-block-banner: "#44444444"
   filters:
     - callout_exercise.lua

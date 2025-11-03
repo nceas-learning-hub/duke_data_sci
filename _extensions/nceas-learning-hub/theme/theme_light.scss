@@ -60,7 +60,7 @@ $navbar-bg: $lh-grn-4;  // navbar
 $navbar-fg: $lh-cream;  // navbar foreground elements
 $navbar-hl: $lh-grn-1;  // highlight color when on a page
 $sidebar-bg: $lh-grn-1; // sidebar bg for "docked" style
-$sidebar-fg: $lh-black;
+$sidebar-fg: $lh-grn-4;
 $body-bg: white;        // page background
 $body-color: $lh-black; // page text
 $footer-bg: $lh-grn-4;  // footer
@@ -88,22 +88,31 @@ $code-block-bg: $lh-gray-0; // code block background color
 
 // Navbar size and text height
 .navbar {
-  height: 30px;
+  height: 40px;
 }
 .navbar-brand { /* Just the course name - not other nav elements */
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .quarto-title-block .title, .subtitle {
   /* in elements with quarto-title-block class, change color for classes
   // title and subtitle */
-  color: white;
+  color: $lh-grn-4;
 }
 
 .quarto-title-block code {
   // in elements with quarto-title-block class, change code color
   color: $lh-pur-1;
 }
+
+.sidebar-logo {
+  height: 50px !important; /* Set a fixed height */
+  width: auto !important; /* Adjust width automatically */
+  max-width: unset !important;
+  max-height: unset !important;
+}
+
+
 
 /////////////////////////////
 //      Other doc text     //
@@ -121,8 +130,8 @@ pre code:not(.sourceCode) { background-color: white; }
 
 // Navbar dropdown elements
 .dropdown-menu{
-  --bs-dropdown-link-hover-color: #F4F3EE;
-  --bs-dropdown-link-hover-bg: #01BAEF;
+  --bs-dropdown-link-hover-color: #01BAEF;
+  --bs-dropdown-link-hover-bg:#F4F3EE;
 }
 
 
@@ -254,3 +263,4 @@ div.callout-example.callout {
 div.callout-example.callout-style-default > .callout-header {
   background-color: $lh-pur-0;
 }
+
