@@ -14,10 +14,10 @@ format:
   theme-html
 
 website:
-  title: "Duke Data Science Training"
+  title: "coreDUML"
   reader-mode: false
   repo-url: https://github.com/nceas-learning-hub/duke_data_sci
-  favicon: images/cori-hex-sticker.png # logo on browser tab
+  favicon: images/duml-murex.png # logo on browser tab
   bread-crumbs: false
   search:
     location: sidebar # or navbar
