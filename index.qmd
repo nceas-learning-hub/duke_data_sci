@@ -1,5 +1,5 @@
 ---
-title: About the course
+title: About this series
 format:
   theme-html:
     toc: false
@@ -8,6 +8,9 @@ format:
 ::: column-margin
 
 :::
+
+## Why Should I Join?
+
 
 
 ## NCEAS Expertise
@@ -26,16 +29,12 @@ NCEAS has over 25 years of success with this model among working groups and envi
 - Increase your familiarity and confidence with data science tools
 :::
 
-### Week's Schedule
+<!-- ### Week's Schedule -->
 
-:::{.column-body-outset}
-<!-- ![](images/schedule.png) -->
-:::
+<!-- :::{.column-body-outset} -->
+<!-- <!-- ![](images/schedule.png) --> -->
+<!-- ::: -->
 
-
-## Code of Conduct
-
-By participating in this activity you agree to abide by the [NCEAS Code of Conduct](https://www.nceas.ucsb.edu/sites/default/files/2021-11/NCEAS_Code-of-Conduct_Nov2021_0.pdf).
 
 ## About this book
 
