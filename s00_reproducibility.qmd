@@ -1,0 +1,32 @@
+---
+title: Introduction
+---
+
+:::{.callout-tip}
+## Learning Objectives
+-   Introduce the concept of reproducibility
+-   Understand the benefits of setting reproducible workflows
+-   Discuss reproducibility best practices: file system structure, file organization, robust file paths!
+
+:::
+
+
+![](images/reproducibility_alibi_horst.png)
+
+
+<br>
+
+## Slides
+
+<!-- <iframe width="560" height="380"src="https://docs.google.com/presentation/d/1Zgvx2YCf-HeqkSty-fdnyJnSV_jhYjWOw5bAIo4ioEs/preview"allowfullscreen></iframe> -->
+
+<iframe width="645" height="400"src="https://docs.google.com/presentation/d/13IMnS7JyRJPVNyoWafwkLUwKAL8Ke6qtzjOwDAwN_70/preview"allowfullscreen></iframe>
+
+
+## More on Reproducible Workflows
+- [Best Practices for Writing Reproducible Code, University of Utrecht](https://utrechtuniversity.github.io/workshop-computational-reproducibility/)
+- [A Guide to Reproducible Code in Ecology and Evolution, British Ecological Society](https://www.britishecologicalsociety.org/wp-content/uploads/2017/12/guide-to-reproducible-code.pdf)
+- [Reproducibility Lesson, LTER Synthesis Skills for Early Career Researchers](https://lter.github.io/ssecr/mod_reproducibility.html)
+- EDS 221 (2023), [Lesson 1](https://docs.google.com/presentation/d/e/2PACX-1vQ9-fDLw5exrrp6tteMXld4ds2aT8dze9XrzgEMuAwgMo-onIVO4lI_vIaE0xXIckacWB1fqXMOF3hl/pub?start=false&loop=false&delayms=3000&slide=id.p) and [Lesson 2](https://docs.google.com/presentation/d/e/2PACX-1vQ9-fDLw5exrrp6tteMXld4ds2aT8dze9XrzgEMuAwgMo-onIVO4lI_vIaE0xXIckacWB1fqXMOF3hl/pub?start=false&loop=false&delayms=3000&slide=id.ge50e8d8fef_0_373), UCSB MEDS, By Allison Horst
+- [GitHub Clinic, Openscapes](https://docs.google.com/presentation/d/1geUN-dv-NMx6IgeCwMRVmTO8nZaauIl26tZDOrkLW_E/edit)
+- [Building reproducible analytical pipelines with R, Bruno Rodrigues](https://raps-with-r.dev/)
