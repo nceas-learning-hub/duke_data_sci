@@ -78,9 +78,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6a408ca58bd4a6a797a5e39cd8f88439.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-69172f107c44c63e368303e25785fb50.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-f35b882622bf7d91c7d342c7217f6281.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-6a408ca58bd4a6a797a5e39cd8f88439.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-69172f107c44c63e368303e25785fb50.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -334,10 +334,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <img src="./images/cori-hex-sticker.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
       <img src="./images/cori-hex-sticker.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
-      <div class="sidebar-tools-main">
-    <a href="https://www.nceas.ucsb.edu/learning-hub" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-house-door-fill"></i></a>
-    <a href="./nceas-learning-hub.github.io/duke_data_sci" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
-</div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -346,18 +342,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">About this series</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./s00_reproducibility.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction</span></a>
-  </div>
-</li>
         <li class="px-0"><hr class="sidebar-divider hi "></li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
@@ -439,12 +423,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="introduction-to-literate-programming" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="introduction-to-literate-programming"><span class="header-section-number">1</span> Introduction to Literate Programming</h2>
-<p>All too often, computational methods are written in such a way as to be borderline incomprehensible even to the person who originally wrote the code! The reason for this is obvious, computers interpret information very differently than people do. In 1984, Donald Knuth proposed a reversal of the programming paradigm by introducing the concept of <em>Literate Programming</em> (<a href="http://www.literateprogramming.com/knuthweb.pdf">Knuth 1984</a>).</p>
+<p>All too often, computational methods are written to be borderline incomprehensible even to the person who originally wrote the code! The reason for this is obvious: computers interpret information very differently than people do. In 1984, Donald Knuth proposed a reversal of the programming paradigm by introducing the concept of <em>Literate Programming</em> (<a href="http://www.literateprogramming.com/knuthweb.pdf">Knuth 1984</a>).</p>
 <blockquote class="blockquote">
 <p><em>“Instead of imagining that our main task is to instruct a computer what to do, let us concentrate rather on explaining to human beings what we want a computer to do.”</em></p>
 </blockquote>
 <p>If our aim is to make scientific research more transparent, the appeal of this paradigm reversal is immediately apparent. By switching to a literate analysis model, <strong>you help enable human understanding of what the computer is doing</strong>. As Knuth describes, in the literate analysis model, the author is an “<em>essayist</em>” who chooses variable names carefully, explains what they mean, and introduces concepts in the analysis in a way that facilitates understanding.</p>
-<p>Quarto and RMarkdown are an excellent way to generate literate analysis, and a reproducible workflow. These types of files, combine R the programming language, and <strong>markdown, a set of text formatting directives</strong>.</p>
+<p>Quarto and RMarkdown are excellent ways to generate literate analysis and a reproducible workflow. These types of files combine R the programming language and <strong>markdown, a set of text formatting directives</strong>.</p>
 <p>In an R script, the language assumes that you are writing R code, unless you specify that you are writing prose (using a comment, designated by <code>#</code>). The paradigm shift of literate analysis comes in the switch to RMarkdown or Quarto, where instead of assuming you are writing code, they assume that you are writing prose unless you specify that you are writing code. This, along with the formatting provided by markdown, encourages the “essayist” to write understandable prose to accompany the code that explains to the human-beings reading the document what the author told the computer to do. This is in contrast to writing just R code, where the author telling to the computer what to do with maybe a smattering of terse comments explaining the code to a reader.</p>
 <p>Before we dive in deeper, let’s look at an example of what a rendered literate analysis can look like using a real example. <a href="https://nceas.github.io/sasap-training/materials/reproducible_research_in_r_fairbanks/example-brood-table-analysis.html">Here is an example</a> of an analysis workflow written using RMarkdown. Note that if this analysis would be in Quarto, the render version it would be similar, except for formatting and layout (eg: the default font in Quarto is different).</p>
 <p>There are a few things to notice about this document, which assembles a set of similar data sources on salmon brood tables with different formatting into a single data source.</p>
@@ -1466,7 +1450,7 @@ date  (1): Date
       &nbsp;
     </div>   
     <div class="nav-footer-center">
-<p>Copyright © 2025, NCEAS</p>
+<p>Copyright © 2025, NCEAS &amp; C. Lopazanski</p>
 </div>
     <div class="nav-footer-right">
       &nbsp;
