@@ -14,16 +14,20 @@ format:
   theme-html
 
 website:
-  title: "Duke Data Sci Course"
+  title: "Duke Data Science Training"
   reader-mode: false
   repo-url: https://github.com/nceas-learning-hub/duke_data_sci
-
-  favicon: cori-hex-sticker.png # logo on browser tab
-
+  favicon: images/cori-hex-sticker.png # logo on browser tab
   bread-crumbs: false
+  search:
+    location: sidebar # or navbar
+    type: textbox
+
   navbar:
+    collapse: false
+    logo: images/logo_nceas.svg
     right:
-      - text: "Instructors"
+      - text: "Instructor"
         menu:
           - text: "Cori Lopazanski"
             href: https://sites.nicholas.duke.edu/silliman/people/current-lab-members/cori-lopazanski/
@@ -32,51 +36,52 @@ website:
         aria-label: GitHub
 
   sidebar:
-    title: "Training Materials"
-    style: "floating"
-    search: true
-    tools:
-      - icon: house-door-fill
-        href: https://www.nceas.ucsb.edu/learning-hub
-      - icon: twitter
-        href: https://twitter.com/ucsb_nceas
-      - icon: github
-        href: nceas-learning-hub.github.io/duke_data_sci
-    contents:
-      - index.qmd # preface
-      # START SESSIONS
-      - section: "Day 1"
-        contents:
-        - s01_r_rstudio_server_setup.qmd
-        - s02_git_setup.qmd
-        - s03_r_programming_introduction.qmd
-        - s04_r_quarto_literate_analysis.qmd
-        - s05_activity_reproducibility_lego.qmd
-      - section: "Day 2"
-        contents:
-        - s06_github_introduction.qmd
-        - s07_lecture_tidy_data.qmd
-        - s08_r_tidyverse_clean_wrangle.qmd
-        - s09_r_practice_tidy_data_joins.qmd
-      - section: "Day 3"
-        contents:
-        - s10_github_collaboration.qmd
-        - s11_r_data_visualization.qmd
-        - s12_github_publishing.qmd
-        - s13_r_practice_clean_wrangle_visualize.qmd
-        - s14_lecture_data_management.qmd
-      - section: "Day 4"
-        contents:
-        - s15_r_geospatial_vector_analysis.qmd
-        - s16_r_functions.qmd
-        - s17_r_packages.qmd
-        - s18_r_practice_functions.qmd
-      - section: "Day 5"
-        contents:
-        - s19_github_project_management.qmd
-        - s20_r_provenance_reproducibility.qmd
+      logo: images/cori-hex-sticker.png
+      collapse: false
+      style: "floating"
+      tools:
+       - icon: house-door-fill
+         href: https://www.nceas.ucsb.edu/learning-hub
+       - icon: github
+         href: nceas-learning-hub.github.io/duke_data_sci
+      contents:
+        - index.qmd # preface
+        - s00_reproducibility.qmd
+        - section: "Day 1"
+          contents:
+          - s01_r_rproject_setup.qmd
+          - s02_git_setup.qmd
+          - s03_r_programming_introduction.qmd
+          - s04_r_quarto_literate_analysis.qmd
+
+        - text: "----"
         - s21_r_git_install_guide.qmd
-      # END SESSIONS
+        # - section: "Day 2"
+      #   contents:
+      #   - s06_github_introduction.qmd
+      #   - s07_lecture_tidy_data.qmd
+      #   - s08_r_tidyverse_clean_wrangle.qmd
+      #   - s09_r_practice_tidy_data_joins.qmd
+      # - section: "Day 3"
+      #   contents:
+      #   - s10_github_collaboration.qmd
+      #   - s11_r_data_visualization.qmd
+      #   - s12_github_publishing.qmd
+      #   - s13_r_practice_clean_wrangle_visualize.qmd
+      #   - s14_lecture_data_management.qmd
+      # - section: "Day 4"
+      #   contents:
+      #   - s15_r_geospatial_vector_analysis.qmd
+      #   - s16_r_functions.qmd
+      #   - s17_r_packages.qmd
+      #   - s18_r_practice_functions.qmd
+      # - section: "Day 5"
+      #   contents:
+      #   - s19_github_project_management.qmd
+      #   - s20_r_provenance_reproducibility.qmd
+
+      # - s05_activity_reproducibility_lego.qmd
+
 
   page-footer:
     center: "Copyright \u00a9 2025, NCEAS"
