@@ -353,8 +353,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
         <li class="sidebar-item">
- <span class="menu-text">s00_reproducibility.qmd</span>
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="./s00_reproducibility.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
@@ -365,8 +368,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </div>
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
- <span class="menu-text">s01_r_rproject_setup.qmd</span>
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="./s01_r_rproject_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Project Setup</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./s02_git_setup.html" class="sidebar-item-text sidebar-link">
@@ -453,11 +459,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1" class="anchored" data-anchor-id="installation-steps-for-macos"><span class="header-section-number">1</span> Installation steps for MacOS</h2>
 <section id="install-or-update-r" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="install-or-update-r"><span class="header-section-number">1.1</span> Install or update R</h3>
-<p>To install R, visit <a href="https://cloud.r-project.org/">cloud.r-project.org</a> to download the most recent version for your operating system. The latest release is version 4.4 (Puppy Cup, released 2024-04-24).</p>
+<p>To install R, visit <a href="https://cloud.r-project.org/">cloud.r-project.org</a> to download the most recent version for your operating system. The latest release is version 4.5 ([Not] Part in a Rumble, released 2025-10-31). Note: As long as you have version 4.4 or higher you are set for this series.</p>
 </section>
 <section id="install-or-update-rstudio" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="install-or-update-rstudio"><span class="header-section-number">1.2</span> Install or update RStudio</h3>
-<p>While R is a programming language, RStudio is a software (often referred to as an IDE, <strong>I</strong>ntegrated <strong>D</strong>evelopment <strong>E</strong>nvironment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers.</p>
+<p>While R is a programming language, RStudio is a software (often referred to as an IDE, <strong>I</strong>ntegrated <strong>D</strong>evelopment <strong>E</strong>nvironment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers. <em>Quick caveat that Positron is slowly increasing in popularity and many thing it will ultimately replace RStudio as the top IDE.</em></p>
 <p><strong>Note:</strong> RStudio will not work without R installed, and you won’t particularly enjoy using R without having RStudio installed. Be sure to install <em>both</em>!</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -509,7 +515,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>If after running that you get something that looks like a file path to git on your computer, then you have git installed. For example, that might return something like this (or it could differ a bit): <code>/usr/local/bin/git</code>. If you instead get no response at all, you should download &amp; install git from here: <a href="https://git-scm.com/downloads">git-scm.com/downloads</a></li>
 </ul>
-<p><strong>An aside:</strong> Is it ncesary to have Git installed in your machine for this workshop. GitHub’s <a href="https://github.com/git-guides">Git Guides</a> are a really wonderful resource to start learning about this topic.</p>
+<p><strong>An aside:</strong> Is it necessary to have Git installed in your machine for this workshop. GitHub’s <a href="https://github.com/git-guides">Git Guides</a> are a really wonderful resource to start learning about this topic.</p>
 </section>
 <section id="install-r-packages" class="level3" data-number="1.5">
 <h3 data-number="1.5" class="anchored" data-anchor-id="install-r-packages"><span class="header-section-number">1.5</span> Install R packages</h3>
