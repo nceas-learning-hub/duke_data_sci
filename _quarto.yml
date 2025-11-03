@@ -55,7 +55,7 @@ website:
         #   - s04_r_quarto_literate_analysis.qmd
 
         - text: "----"
-        - s21_r_git_install_guide.qmd
+        - r_git_install_guide.qmd
         # - section: "Day 2"
       #   contents:
       #   - s06_github_introduction.qmd
