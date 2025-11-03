@@ -47,12 +47,12 @@ website:
       contents:
         - index.qmd # preface
         - s00_reproducibility.qmd
-        - section: "Day 1"
-          contents:
-          - s01_r_rproject_setup.qmd
-          - s02_git_setup.qmd
-          - s03_r_programming_introduction.qmd
-          - s04_r_quarto_literate_analysis.qmd
+        # - section: "Day 1"
+        #   contents:
+        #   - s01_r_rproject_setup.qmd
+        #   - s02_git_setup.qmd
+        #   - s03_r_programming_introduction.qmd
+        #   - s04_r_quarto_literate_analysis.qmd
 
         - text: "----"
         - s21_r_git_install_guide.qmd
