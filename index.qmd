@@ -11,14 +11,14 @@ format:
 
 ## Why Should I Join?
 
+By popular request, I’m going to lead a series of workshops about working with data. We will cover practical ways to make life easier for Future You and keep projects (mostly) under control, including key collaboration tools and best practices for using R for ecological data analyses.
 
+The first session will be Friday Nov. 7th, 1 - 2:30 pm (DUML & Zoom). We’ll cover:
+1) Benefits of reproducible workflows
+2) Best practices for file structure and organization
+3) Intro to Git & GitHub
 
-## NCEAS Expertise
-
-The [National Center for Ecological Analysis and Synthesis (NCEAS)](https://www.nceas.ucsb.edu/), a research affiliate of UCSB, is a leading expert on interdisciplinary data science and works collaboratively to answer the world's largest and most complex questions. The NCEAS approach leverages existing data and employs a team science philosophy to squeeze out all potential insights and solutions efficiently - this is called [synthesis science](https://www.nceas.ucsb.edu/our-approach).
-
-NCEAS has over 25 years of success with this model among working groups and environmental professionals. Together with the Delta Science Program and the Delta Stewardship Council we are excited to pass along skills, workflows, mindsets learn throughout the years.
-
+We’ll also decide together what future topics would be most helpful. These will build on the essentials from this first session, so please attend this one if you’re at all interested in the series. 
 
 :::{.callout-tip}
 ### Learning Objectives
@@ -29,10 +29,16 @@ NCEAS has over 25 years of success with this model among working groups and envi
 - Increase your familiarity and confidence with data science tools
 :::
 
+## NCEAS Expertise
+
+The [National Center for Ecological Analysis and Synthesis (NCEAS)](https://www.nceas.ucsb.edu/), a research affiliate of UCSB, is a leading expert on interdisciplinary data science and works collaboratively to answer the world's largest and most complex questions. The NCEAS approach leverages existing data and employs a team science philosophy to squeeze out all potential insights and solutions efficiently - this is called [synthesis science](https://www.nceas.ucsb.edu/our-approach).
+
+NCEAS has over 25 years of success with this model among working groups and environmental professionals. We are excited to pass along skills, workflows, mindsets learn throughout the years.
+
 <!-- ### Week's Schedule -->
 
 <!-- :::{.column-body-outset} -->
-<!-- <!-- ![](images/schedule.png) --> -->
+<!-- <!-- ![](images/schedule.png) --> 
 <!-- ::: -->
 
 
@@ -45,11 +51,6 @@ This work is licensed under a [Creative Commons Attribution 4.0 International Li
 **Citation:** Camila Vargas Poulsen & Angel Chen (2024), NCEAS coreR for Delta Science Program, June 2024, NCEAS Learning Hub. URL <https://learning.nceas.ucsb.edu/2024-06-delta>.
 
 **Additional contributors:** Ben Bolker, Amber E. Budden, Julien Brun, Samantha Csik, Halina Do-Linh, Natasha Haycock-Chavez, S. Jeanette Clark, Julie Lowndes, Stephanie Hampton, Matt Jone, Samanta Katz, Erin McLean, Bryce Mecum, Deanna Pennington, Karthik Ram, Jim Regetz, Tracy Teal, Daphne Virlar-Knight, Leah Wasser.
-
-
-
-This is a Quarto book. To learn more about Quarto books visit <https://quarto.org/docs/books>.
-
 
 
 
