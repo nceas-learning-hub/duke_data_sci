@@ -20,7 +20,7 @@ title: Introduction
 
 <!-- <iframe width="560" height="380"src="https://docs.google.com/presentation/d/1Zgvx2YCf-HeqkSty-fdnyJnSV_jhYjWOw5bAIo4ioEs/preview"allowfullscreen></iframe> -->
 
-<iframe width="645" height="400"src="https://docs.google.com/presentation/d/13IMnS7JyRJPVNyoWafwkLUwKAL8Ke6qtzjOwDAwN_70/preview"allowfullscreen></iframe>
+<!-- <iframe width="645" height="400"src="https://docs.google.com/presentation/d/13IMnS7JyRJPVNyoWafwkLUwKAL8Ke6qtzjOwDAwN_70/preview"allowfullscreen></iframe> -->
 
 
 ## More on Reproducible Workflows

@@ -15,9 +15,7 @@ title: R Project Setup
 
 In this course, we will use an R project to organize our work. An R project is tied to a directory on your local computer, and makes organizing your work and collaborating with others easier.
 
-**The Big Idea:** using an R project is a reproducible research best practice because it bundles all your work within a working directory. 
-
-Consider your current data analysis workflow. Where do you import you data? Where do you clean and wrangle it? Where do you create graphs, and ultimately, a final report? Are you going back and forth between multiple software tools like Microsoft Excel, R, and Google Docs? Using an R project (and the tools in R) will consolidate this process because it can all be done (and updated) in using one software tool, RStudio, and within one R project.
+**The Big Idea:** using an R project is a reproducible research best practice because it bundles all your work within a working directory. Consider your current data analysis workflow. Where do you import you data? Where do you clean and wrangle it? Where do you create graphs, and ultimately, a final report? Are you going back and forth between multiple software tools like Microsoft Excel, R, and Google Docs? Using an R project (and the tools in R) will consolidate this process because it can all be done (and updated) in using one software tool, RStudio, and within one R project.
 
 ::: {.callout-tip}
 ## R Project Setup
@@ -32,26 +30,10 @@ Consider your current data analysis workflow. Where do you import you data? Wher
 RStudio should open your new project automatically after creating it. One way to check this is by looking at the top right corner and checking for the project name.
 :::
 
-<!-- ::: {.callout-tip} -->
-<!-- ## Sharing your project -->
-<!-- To share your project with the instructor team, locate the “project switcher” dropdown menu in the upper right of your RStudio window. This dropdown has the name of your project (eg: training_vargas), and a dropdown arrow. Click the dropdown menu, then “Share Project.” When the dialog box pops up, add the following usernames to your project: -->
-
-<!-- -   jclark -->
-<!-- -   mmklope -->
-<!-- -   achen -->
-<!-- -   jeakadi -->
-<!-- -   agarcia -->
-<!-- -   vargas-pouslen -->
-
-
-<!-- Once those names show up in the list, click “OK”. -->
-
-<!-- ::: -->
 
 ## Organizing an R Project
 
-
-When starting a new research project, one of the first things I do is create an R Project for it. The next step is to populate that project with relevant directories. There are many tools that can do this automatically - e.g., `rrtools` or `usethis::create_package()`. The goal is to organize your project so that it is a compendium of your research. This means that the project has all of the digital parts needed to replicate your analysis, like code, figures, the manuscript, and data.
+The next step is to populate that project with relevant directories. There are many tools that can do this automatically (e.g., `rrtools` or `usethis::create_package()`). The goal is to organize your project so that it is a compendium of your research. This means that the project has all of the digital parts needed to replicate your analysis, like code, figures, the manuscript, and data.
 
 Some common directories are:
 
@@ -59,11 +41,12 @@ Some common directories are:
 
 ::: {.column width="55%"}
 - `data`: where we store data (often contains subdirectories for raw, processed, and metadata data)
-- `scripts:` has all scripts where you clean and wrangle data and run your analysis.
+- `scripts:` has all scripts where you clean and wrangle data and run your analysis
 - `plots` or `figs`: generated plots, graphs, and figures
 - `docs`: summaries or reports of analysis or other relevant project information
 
 Directory organization varies from project to project, but the goal is to create a well-organized project for both reproducibility and collaboration.
+
 :::
 
 ::: {.column width="45%"}
@@ -71,16 +54,14 @@ Directory organization varies from project to project, but the goal is to create
 :::
 :::
 
-
 ::: {.callout-tip}
 ## Project Sub-directories
-For this series we are going to create 3 folders (directories) in our `training_{USERNAME}` Rproject.
+For this series we will create 3 folders (directories) in our `training_{USERNAME}` Rproject.
 
 - In the files pane in RStudio (bottom right), click on the New Folder button (with a green circle and plus sign) and create 3 new folders: `data`, `plots`, `scripts`.
 
 The idea here is treat this RProject as an example of how to organize our work.
 :::
-
 
 
 ## Moving in an R Project using Paths & Working Directories

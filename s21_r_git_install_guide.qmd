@@ -10,7 +10,7 @@ To install R, visit [cloud.r-project.org](https://cloud.r-project.org/) to downl
 
 ### Install or update RStudio
 
-While R is a programming language, RStudio is a software (often referred to as an IDE, **I**ntegrated **D**evelopment **E**nvironment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers. *Quick caveat that Positron is slowly increasing in popularity and many thing it will ultimately replace RStudio as the top IDE.*
+While R is a programming language, RStudio is a software (often referred to as an IDE, **I**ntegrated **D**evelopment **E**nvironment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers. 
 
 **Note:** RStudio will not work without R installed, and you won't particularly enjoy using R without having RStudio installed. Be sure to install *both*!
 

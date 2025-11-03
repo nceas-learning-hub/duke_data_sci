@@ -20,27 +20,28 @@ This lesson is a combination of excellent lessons by others. Huge thanks to [Jul
 
 ![Artwork by Allison Horst](images/r_programming_introduction/allison-horst-code-kitchen.png)
 
-There is a vibrant community out there that is collectively developing increasingly easy to use and powerful open source programming tools. The changing landscape of programming is making learning how to code easier than it ever has been. Incorporating programming into analysis workflows not only makes science more efficient, but also more computationally reproducible. In this course, we will use the programming language R, and the accompanying integrated development environment (IDE) RStudio. R is a great language to learn for data-oriented programming because it is widely adopted, user-friendly, and (most importantly) open source.
+There is a vibrant community that is collectively developing increasingly easy-to-use and powerful open source programming tools. The changing landscape of programming is making learning how to code easier than it ever has been. Incorporating programming into analysis workflows not only makes science more efficient, but also more computationally reproducible. We will use the programming language R, and the accompanying integrated development environment (IDE) RStudio. R is a great language to learn for data-oriented programming because it is widely adopted, user-friendly, and (most importantly) open source.
 
-So what is the difference between R and RStudio? Here is an analogy to start us off. Imagine you are a chef, and you have to prepare a meal.  You'll need a place to work (a kitchen), you'll need some tools (pots, pans, a knife, etc), and you'll need some ingredients.  In this analogy, **R is a good chef's knife** - one of the most important tools that you'll use to accomplish your task.
+What is the difference between R and RStudio? Imagine you are a chef, and you have to prepare a meal. You'll need a place to work (a kitchen), you'll need some tools (pots, pans, a knife, etc.), and you'll need some ingredients.  In this analogy, **R is a good chef's knife** - one of the most important tools that you'll use to accomplish your task.
 
-And **if R is your chef's knife, RStudio is your kitchen**. RStudio provides a place to do your work! RStudio makes your life as a researcher easier by bringing together other tools you need to do your work efficiently - like a file browser, data viewer, help pages, terminal, community, support, the list goes on. So it's not just the infrastructure (the user interface or IDE), although it is a great way to learn and interact with your variables, files, and interact directly with git. It's also data science philosophy, R packages, community, and more. 
+And **if R is your chef's knife, RStudio is your kitchen**. RStudio provides a place to do your work! RStudio makes your life as a researcher easier by bringing together other tools you need to do your work efficiently - like a file browser, data viewer, help pages, terminal, community, support, the list goes on.
 
 (and in this analogy, your ingredients are **data**!)
 
 ::: {.callout-warning}
 ### R without RStudio?
 
-Just as you can prepare food without a kitchen, we could learn R without RStudio, but that's not what we're going to do.  RStudio makes it much easier to work with R, just as a well stocked kitchen makes cooking more fun.  We are going to take advantage of the great RStudio support, and learn R and RStudio together.
+Just as you can prepare food without a kitchen, we could learn R without RStudio.  RStudio makes it much easier to work with R, just as a well-stocked kitchen makes cooking more fun. We are going to take advantage of the great RStudio support, and learn R and RStudio together.
 :::
 
 :::{.callout-note}
 
 ### New to coding? new to R? No worries!
 
-Something else to start us off is to mention that you are learning a new language here. It's an ongoing process, it takes time, you'll make mistakes, it can be frustrating, but it will be overwhelmingly awesome in the long run. We all speak at least one language; it's a similar process, really. And no matter how fluent you are, you'll always be learning, you'll be trying things in new contexts, learning words that mean the same as others, etc, just like everybody else. And just like any form of communication, there will be miscommunication that can be frustrating, but hands down we are all better off because of it.
+Learning R is like learning any new language. It's an ongoing process, it takes time, you'll make mistakes, it can be frustrating, but it will be overwhelmingly useful in the long run. We all speak at least one language - no matter how fluent you are, you'll always be learning, you'll be trying things in new contexts, learning new words and new phrases.
 
-While language is a familiar concept, programming languages are in a different context from spoken languages and you will understand this context with time. For example: you have a concept that there is a first meal of the day, and there is a name for that: in English it's "breakfast." So if you're learning Spanish, you could expect there is a word for this concept of a first meal. (And you'd be right: "desayuno"). We will get you to expect that programming languages also have words (called functions) for concepts as well. You'll soon expect that there is a way to order values numerically. Or alphabetically. Or search for patterns in text. Or calculate the median. Or reorganize columns to rows. Or subset exactly what you want. We will get you to increase your expectations and learn to ask and find what you're looking for.
+You'll learn to understand context for programming language just like you learn the context for spoken language. Think about how every language often has a word for the first meal of the day -- *breakfast* in English, *desayuno* in Spanish. Programming languages also have words (functions) that express specific ideas. There is a way to sort values, search for text patterns, calculate medians, or reshape data. The goal is to expand your expectations so that each goal that you have, there's likely a function that helps you get there.
+
 :::
 
 ## Using R within the RStudio IDE

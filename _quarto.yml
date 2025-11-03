@@ -39,14 +39,14 @@ website:
       logo: images/cori-hex-sticker.png
       collapse: false
       style: "floating"
-      tools:
-       - icon: house-door-fill
-         href: https://www.nceas.ucsb.edu/learning-hub
-       - icon: github
-         href: nceas-learning-hub.github.io/duke_data_sci
+      # tools:
+      #  - icon: house-door-fill
+      #    href: https://www.nceas.ucsb.edu/learning-hub
+      #  - icon: github
+      #    href: nceas-learning-hub.github.io/duke_data_sci
       contents:
-        - index.qmd # preface
-        - s00_reproducibility.qmd
+       # - index.qmd # preface
+       # - s00_reproducibility.qmd
         # - section: "Day 1"
         #   contents:
         #   - s01_r_rproject_setup.qmd
@@ -84,7 +84,7 @@ website:
 
 
   page-footer:
-    center: "Copyright \u00a9 2025, NCEAS"
+    center: "Copyright \u00a9 2025, NCEAS & C. Lopazanski"
     ### NCEAS main website footer:
     # center: "\u00a9 The Regents of the University of California, All Rights Reserved"
     # could also include license info?
