@@ -6,28 +6,27 @@ format:
 ---
 
 ::: column-margin
-
 :::
 
 ## Why Should I Join?
 
-By popular request, I’m going to lead a series of workshops about working with data. We will cover practical ways to make life easier for Future You and keep projects (mostly) under control, including key collaboration tools and best practices for using R for ecological data analyses.
+By popular request, I’m going to lead a series of workshops about working with data. These are based on stellar training materials developed by the [National Center for Ecological Analysis and Synthesis (NCEAS)](https://www.nceas.ucsb.edu/), who are arguably the experts at teaching this stuff. We will cover practical ways to make life easier for Future You and keep projects (mostly) under control. 
 
-The first session will be Friday Nov. 7th, 1 - 2:30 pm (DUML & Zoom). We’ll cover:
-1) Benefits of reproducible workflows
-2) Best practices for file structure and organization
-3) Intro to Git & GitHub
+This is an immersion series in R programming for environmental data science, focusing on how to leverage data science tools to:
 
-We’ll also decide together what future topics would be most helpful. These will build on the essentials from this first session, so please attend this one if you’re at all interested in the series. 
+-   increase your capacity to **collaborate with your team,**
+-   create **reproducible workflows,**
+-   and learn **best practices for open science.**
 
-:::{.callout-tip}
-### Learning Objectives
--   Effectively manage data using `tidy` data practices
--   Implement reproducible scientific workflows throughout all aspects of a project
--   Establish best practices and utilize tools like Git & GitHub to optimize your collaboration
--   Better communicate scientific analyses and results using Markdown, GitHub webpages, and R packages like `ggplot2` and `Shiny`
-- Increase your familiarity and confidence with data science tools
-:::
+<!-- ::: callout-tip -->
+<!-- ### Learning Objectives -->
+
+<!-- -   Effectively manage data using `tidy` data practices -->
+<!-- -   Implement reproducible scientific workflows throughout all aspects of a project -->
+<!-- -   Establish best practices and utilize tools like Git & GitHub to optimize your collaboration -->
+<!-- -   Better communicate scientific analyses and results using Markdown, GitHub webpages, and R packages like `ggplot2` and `Shiny` -->
+<!-- -   Increase your familiarity and confidence with data science tools -->
+<!-- ::: -->
 
 ## NCEAS Expertise
 
@@ -38,19 +37,17 @@ NCEAS has over 25 years of success with this model among working groups and envi
 <!-- ### Week's Schedule -->
 
 <!-- :::{.column-body-outset} -->
-<!-- <!-- ![](images/schedule.png) --> 
+
+<!-- <!-- ![](images/schedule.png) -->
+
 <!-- ::: -->
 
-
-## About this book
+## About these materials
 
 These written materials are the result of a continuous and collaborative effort at NCEAS to help researchers make their work more transparent and reproducible. This work began in the early 2000's, and reflects the expertise and diligence of many, many individuals. The primary authors are listed in the citation below, with additional contributors recognized for their role in developing previous iterations of these or similar materials.
 
 This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
 
-**Citation:** Camila Vargas Poulsen & Angel Chen (2024), NCEAS coreR for Delta Science Program, June 2024, NCEAS Learning Hub. URL <https://learning.nceas.ucsb.edu/2024-06-delta>.
+**Citation:** Camila Vargas Poulsen, Casey O'Hara, Shayna Sura (2024), NCEAS coreR for Delta Science Program, October 2024, NCEAS Learning Hub.
 
 **Additional contributors:** Ben Bolker, Amber E. Budden, Julien Brun, Samantha Csik, Halina Do-Linh, Natasha Haycock-Chavez, S. Jeanette Clark, Julie Lowndes, Stephanie Hampton, Matt Jone, Samanta Katz, Erin McLean, Bryce Mecum, Deanna Pennington, Karthik Ram, Jim Regetz, Tracy Teal, Daphne Virlar-Knight, Leah Wasser.
-
-
-

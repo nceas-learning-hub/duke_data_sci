@@ -17,7 +17,7 @@ website:
   title: "coreDUML"
   reader-mode: false
   repo-url: https://github.com/nceas-learning-hub/duke_data_sci
-  favicon: images/duml-murex.png # logo on browser tab
+  favicon: images/cori-hex-sticker.png # logo on browser tab
   bread-crumbs: false
   search:
     location: sidebar # or navbar
@@ -45,8 +45,8 @@ website:
       #  - icon: github
       #    href: nceas-learning-hub.github.io/duke_data_sci
       contents:
-       # - index.qmd # preface
-       # - s00_reproducibility.qmd
+        - index.qmd # preface
+        - s00_reproducibility.qmd
         # - section: "Day 1"
         #   contents:
         #   - s01_r_rproject_setup.qmd
@@ -56,6 +56,7 @@ website:
 
         - text: "----"
         - r_git_install_guide.qmd
+        - zotero.qmd
 
         # - section: "Day 2"
       #   contents:

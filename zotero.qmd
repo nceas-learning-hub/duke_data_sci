@@ -1,0 +1,16 @@
+---
+title: "Zotero 201"
+---
+
+:::{.callout-tip}
+## Learning Objectives
+-   Compare Zotero pros & cons to other reference managers
+-   Configure general Zotero settings
+-   Expand Zotero usage through add-ons
+
+:::
+
+
+## Slides
+
+<iframe width="645" height="400"src="https://docs.google.com/presentation/d/1bY04s1b_5b7uaqdq-rV4oWVaWDsYpJzr6nGkA0xtq3g/preview"allowfullscreen></iframe>
