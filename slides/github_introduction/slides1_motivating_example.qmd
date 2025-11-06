@@ -144,4 +144,4 @@ In this case, we tagged the version of our code we used to run the analysis for 
 
 :::
 
-<a href="http:/https://nceas-learning-hub.github.io/duke_data_sci/github_introduction.html#introduction-to-git-github">Return to Original Page</a>
+<a href="http://nceas-learning-hub.github.io/duke_data_sci/github_introduction.html#introduction-to-git-github">Return to Original Page</a>

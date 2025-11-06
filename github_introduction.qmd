@@ -15,7 +15,7 @@ title: Git and GitHub
 
 ![](images/github_introduction/phd_comics_final.png){width="70%" fig-align="center"}
 
-Every file in the scientific process changes. Manuscripts are edited. Figures get revised. Code gets fixed when bugs are discovered. Sometimes those fixes lead to even more bugs, leading to more changes in the code base. Data files get combined together. Sometimes those same files are split and combined again. In just one research project, we can expect thousands of changes to occur. 
+Every file changes throughout the scientific process. Manuscripts are edited. Figures get revised. Code gets fixed when bugs are discovered. Sometimes those fixes lead to even more bugs, leading to more changes in the code base. Data files get combined together. Sometimes those same files are split and combined again. In just one research project, we can expect thousands of changes to occur. 
 
 These changes are important to track, and yet, we often use simplistic file names to do so. Many of us have experienced renaming a document or script multiple times with the disingenuous addition of "final" to the file name (like the comic above demonstrates).
 
