@@ -15,24 +15,26 @@ title: Git and GitHub
 
 ![](images/github_introduction/phd_comics_final.png){width="70%" fig-align="center"}
 
-Every file changes throughout the scientific process. Manuscripts are edited. Figures get revised. Code gets fixed when bugs are discovered. Sometimes those fixes lead to even more bugs, leading to more changes in the code base. Data files get combined together. Sometimes those same files are split and combined again. In just one research project, we can expect thousands of changes to occur. 
+Every file changes throughout the scientific process. Manuscripts are edited. Figures get revised. Code gets fixed when bugs are discovered. Sometimes those fixes lead to even more bugs, leading to more changes in the code base. Data files get combined. Those same files are split and combined again. In just one research project, we can expect thousands of changes!
 
-These changes are important to track, and yet, we often use simplistic file names to do so. Many of us have experienced renaming a document or script multiple times with the disingenuous addition of "final" to the file name (like the comic above demonstrates).
+These changes are important to track, and yet, we often use simplistic file names to do so. Many of us have experienced renaming a document or script multiple times with the disingenuous addition of "final" to the file name.
 
-You might think there is a better way, and you'd be right: **version control**. Version control provides an organized and transparent way to track changes in code and additional files. This practice was designed for software development, but is easily applicable to scientific programming.
+A better way: **version control**
 
-There are many benefits to using a version control software including:
+Version control provides an organized and transparent way to track changes in code and files. This practice was designed for software development, but is easily applicable to scientific programming.
 
--   **Maintain a history** of your research project's development while keeping your workspace clean
+Benefits to using a version control software include:
+
+-   **Maintain a history** of project development while keeping your workspace clean
 -   **Facilitate collaboration** and transparency when working on teams
--   **Explore bugs or new features** without disrupting your team members' work
+-   **Explore bugs or new features** without disrupting your team's work
 -   and more!
 
 The version control system we'll be diving into is Git, the most widely used modern version control system in the world.
 
 ## Introduction to Git + GitHub
 
-Before diving into the details of Git and how to use it, let's start with a motivating example that's representative of the types of problems Git can help us solve.
+Let's start with a motivating example that's representative of the types of problems Git can help us solve.
 
 [Full Screen](slides/github_introduction/slides1_motivating_example.html)
 
@@ -48,45 +50,46 @@ Before diving into the details of Git and how to use it, let's start with a moti
 - Work on multiple **branches** simultaneously, allowing for parallel development, and optionally merge them together.
 - Use commits to **access and even execute older versions** of our code.
 - **Assign meaningful tags** to specific versions of our code.
-- Additionally, Git offers a powerful distributed feature. **Multiple individuals can work on the same analysis concurrently** on their own computers, with the ability to merge everyone's changes together.
+- **Multiple individuals can work on the same analysis concurrently** on their own computers, with the ability to merge everyone's changes together.
 
 ### What *exactly* are Git and GitHub?
 
-#### Git: {.unnumbered}
+#### Git: an open-source **version control** software {.unnumbered}
 
--   an open-source distributed **version control** software
-- designed to manage the versioning and tracking of source code files and project history
--   **operates locally** on your computer, allowing you to create repositories, and track changes
-- provides features such as committing changes, branching and merging code, reverting to previous versions, and managing project history
-- works directly with the files on your computer and does not require a network connection to perform most operations
+-  designed to manage the versioning and tracking of files and project history
+-  **operates locally** on your computer, allowing you to create repositories and track changes
+-  provides features such as committing changes, branching and merging code, reverting to previous versions, and managing project history
+-  works directly with the files on your computer and does not require a network connection for most operations
 - primarily used through the command-line interface (CLI, e.g. Terminal), but also has various GUI tools available (e.g. RStudio IDE)
 
 ::: {.column-margin}
 ![](images/github_introduction/git-intro.png)
 :::
 
-#### GitHub: {.unnumbered}
-- **online platform** and service built around Git
-- provides a **centralized hosting platform for Git repositories**
-- allows us to store, manage, and collaborate on their Git repositories in the cloud
--  offers additional features on top of Git, such as a web-based interface, issue tracking, project management tools, pull requests, code review, and collaboration features
--   enables easy sharing of code with others, facilitating collaboration and contribution to open source projects
--   provides a social aspect, allowing users to follow projects, star repositories, and discover new code
+#### GitHub: an **online platform** and service built around Git {.unnumbered}
+
+-  provides a **centralized hosting platform for Git repositories**
+-  allows us to store, manage, and collaborate on Git repositories in the cloud
+-  offers additional features on top of Git, including a web-based interface, issue tracking, project management tools, pull requests, code review, and collaboration features
+-  enables easy sharing of code with others, facilitating collaboration and contribution to open source projects
+-  provides a social aspect, allowing users to follow projects, star repositories, and discover new code
 
 
 ::: {.column-margin}
 ![](images/github_introduction/github-intro.png)
 :::
 
-### Understanding how local working files, Git, and GitHub all work together
+### How local files, Git, and GitHub work together
 
-It can be a bit daunting to understand all the moving parts of the Git / GitHub life cycle (i.e. how file changes are tracked locally within repositories, then stored for safe-keeping and collaboration on remote repositories, then brought back down to a local machine(s) for continued development). It gets easier with practice, but we'll explain (first in words, then with an illustration) at a high-level how things work:
+It can be daunting to understand the moving parts of the Git / GitHub life cycle (i.e. how file changes are tracked locally within repositories, then stored for safe-keeping and collaboration on remote repositories, then brought back down to a local machine(s) for continued development). It gets easier with practice, but here's a high-level overview of how things work:
 
-#### What is the difference between a "normal" folder vs. a Git repository
+#### What is the difference between a "normal" folder vs. a Git repository?
 
-Whether you're a Mac or a PC user, you'll likely have created a folder at some point in time for organizing files. Let's pretend that we create a folder, called `myFolder/`, and add two files: `myData.csv` and `myAnalysis.R`. The contents of this folder are not currently version controlled -- meaning, for example, that if we make some changes to `myAnalysis.R` that don't quite work out, we have no way of accessing or reverting back to a previous version of `myAnalysis.R` (without remembering/rewriting things, of course).
+Let's pretend that we create a folder, called `myFolder/`, and add two files: `myData.csv` and `myAnalysis.R`. The contents of this folder are not currently version-controlled -- meaning, for example, that if we make changes to `myAnalysis.R` that don't work out, we have no way of accessing or reverting back to a previous version of `myAnalysis.R` (without remembering or rewriting things, of course).
 
-Git allows you to turn any "normal" folder, like `myFolder/`, into a **Git repository** -- you'll often see/hear this referenced as "initializing a Git repository". When you initialize a folder on your local computer as a Git repository, a hidden `.git/` folder is created *within* that folder (e.g. `myFolder/.git/`) -- this `.git/` folder *is* the **Git repository**. As you use Git commands to capture versions or "snapshots" of your work, those versions (and their associated metadata) get stored within the `.git/` folder. This allows you to access and/or recover any previous versions of your work. If you delete `.git/`, you delete your project's history.
+Git allows you to turn any "normal" folder, like `myFolder/`, into a **Git repository** -- this is often referenced as "initializing a Git repository". When you initialize a folder on your local computer as a Git repository, a hidden `.git/` folder is created *within* that folder (e.g. `myFolder/.git/`). This `.git/` folder *is* the **Git repository**. 
+
+As you use Git commands to capture versions or "snapshots" of your work, those versions (and their associated metadata) get stored within the `.git/` folder. This allows you to access and/or recover any previous versions of your work. If you delete `.git/`, you delete your project's history.
 
 Here is our example folder / Git repository represented visually:
 
@@ -102,9 +105,9 @@ knitr::include_graphics("images/github_introduction/git-repo.png")
 
 <br>
 
-#### How do I actually tell Git to preserve versions of my local working files?
+#### How do I tell Git to preserve versions of my local working files?
 
-Git was built as a command-line tool, meaning we can use Git commands in the command line (e.g. Terminal, Git Bash, etc.) to take "snapshots" of our local working files through time. Alternatively, RStudio provides buttons that help to easily execute these Git commands.
+Git was built as a command-line tool, meaning we can use Git commands in the command line (e.g. Terminal, Git Bash, etc.) to take "snapshots" of our local working files. Alternatively, RStudio provides buttons that easily execute these Git commands.
 
 Generally, that workflow looks something like this:
 
@@ -112,11 +115,9 @@ Generally, that workflow looks something like this:
 - Stage the file(s) using `git add myAnalysis.R` (or `git add .` to stage multiple changed files at once). This lets Git know that you'd like to include the file(s) in your next commit.
 - Commit the file(s) using `git commit -m "a message describing my changes"`. This records those changes (along with a descriptive message) as a "snapshot" or version in the local repository (i.e. the `.git/` folder).
 
-#### My versioned work is on my local computer, but I want to send it to GitHub. How?
+#### How do I send work from my local computer to GitHub?
 
-The last step is synchronizing the changes made to our local repository with a remote repository (oftentimes, this remote repository is stored on GitHub). The `git push` command is used to send local commits up to a remote repository. The `git pull` command is used to fetch changes from a remote repository and merge them into the local repository -- **pull**ing will become a regular part of your workflow when collaborating with others, or even when working alone but on different machines (e.g. a laptop at home and a desktop at the office).
-
-The processes described in the above sections (i.e. making changes to local working files, recording "snapshots" of them to create a versioned history of changes in a local Git repository, and sending those versions from our local Git repository to a remote repository (which is oftentimes on GitHub)) is illustrated using islands, buildings, bunnies, and packages in the artwork, below:
+The last step is synchronizing the changes made to our local repository with a remote repository (this remote repository is often stored on GitHub). The `git push` command is used to send local commits up to a remote repository. The `git pull` command is used to fetch changes from a remote repository and merge them into the local repository -- **pull**ing will become a regular part of your workflow when collaborating with others, or even when working alone but on different machines (e.g. a laptop at home and a desktop at the office).
 
 [A basic git workflow represented as two islands, one with "local repo" and "working directory", and another with "remote repo." Bunnies move file boxes from the working directory to the staging area, then with Commit move them to the local repo. Bunnies in rowboats move changes from the local repo to the remote repo (labeled "PUSH") and from the remote repo to the working directory (labeled "PULL").]{.aside}
 
