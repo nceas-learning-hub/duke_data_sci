@@ -49,6 +49,8 @@ website:
         - text: "----"
         - reproducibility.qmd
         - r_rproject_setup.qmd
+        - r_programming_introduction.qmd
+
         - text: "----"
         - r_git_install_guide.qmd
         - zotero.qmd
@@ -56,7 +58,7 @@ website:
         # - section: "Day 1"
         #   contents:
         #   - s02_git_setup.qmd
-        #   - s03_r_programming_introduction.qmd
+        #   -
         #   - s04_r_quarto_literate_analysis.qmd
         # - section: "Day 2"
       #   - s07_lecture_tidy_data.qmd

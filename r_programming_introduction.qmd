@@ -22,7 +22,9 @@ This lesson is a combination of excellent lessons by others. Huge thanks to [Jul
 
 There is a vibrant community that is collectively developing increasingly easy-to-use and powerful open source programming tools. The changing landscape of programming is making learning how to code easier than it ever has been. Incorporating programming into analysis workflows not only makes science more efficient, but also more computationally reproducible. We will use the programming language R, and the accompanying integrated development environment (IDE) RStudio. R is a great language to learn for data-oriented programming because it is widely adopted, user-friendly, and (most importantly) open source.
 
-What is the difference between R and RStudio? Imagine you are a chef, and you have to prepare a meal. You'll need a place to work (a kitchen), you'll need some tools (pots, pans, a knife, etc.), and you'll need some ingredients.  In this analogy, **R is a good chef's knife** - one of the most important tools that you'll use to accomplish your task.
+### What is the difference between R and RStudio? 
+
+Imagine you are a chef, and you have to prepare a meal. You'll need a place to work (a kitchen), you'll need some tools (pots, pans, a knife, etc.), and you'll need some ingredients.  In this analogy, **R is a good chef's knife** - one of the most important tools that you'll use to accomplish your task.
 
 And **if R is your chef's knife, RStudio is your kitchen**. RStudio provides a place to do your work! RStudio makes your life as a researcher easier by bringing together other tools you need to do your work efficiently - like a file browser, data viewer, help pages, terminal, community, support, the list goes on.
 
