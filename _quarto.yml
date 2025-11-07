@@ -46,24 +46,19 @@ website:
       #    href: nceas-learning-hub.github.io/duke_data_sci
       contents:
         - index.qmd # preface
+        - text: "----"
         - reproducibility.qmd
         - r_rproject_setup.qmd
-        - github_introduction.qmd
-
-        # - section: "Day 1"
-        #   contents:
-        #
-        #   - s02_git_setup.qmd
-        #   - s03_r_programming_introduction.qmd
-        #   - s04_r_quarto_literate_analysis.qmd
-
         - text: "----"
         - r_git_install_guide.qmd
         - zotero.qmd
-
+      #  - github_introduction.qmd
+        # - section: "Day 1"
+        #   contents:
+        #   - s02_git_setup.qmd
+        #   - s03_r_programming_introduction.qmd
+        #   - s04_r_quarto_literate_analysis.qmd
         # - section: "Day 2"
-      #   contents:
-      #
       #   - s07_lecture_tidy_data.qmd
       #   - s08_r_tidyverse_clean_wrangle.qmd
       #   - s09_r_practice_tidy_data_joins.qmd

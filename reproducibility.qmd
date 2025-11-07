@@ -1,5 +1,5 @@
 ---
-title: Introduction
+title: Intro to Reproducible Workflows
 ---
 
 :::{.callout-tip}
