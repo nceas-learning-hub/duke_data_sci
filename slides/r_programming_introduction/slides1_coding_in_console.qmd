@@ -60,7 +60,7 @@ Let's take a tour of the RStudio interface!
 
 :::: {.column width="60%"}
 
-![](images/rstudio_ide.png){width=100%}
+![](images/rstudio_IDE.png){width=100%}
 :::: 
 <!-- end left column -->
 
