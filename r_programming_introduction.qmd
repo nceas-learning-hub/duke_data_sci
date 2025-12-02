@@ -429,64 +429,6 @@ tree_h_m >= 14
 tree_h_m != 11.3
 ```
 
-## Error messages are your friends
-
-::::: columns
-::: {.column width="50%"}
-![](images/r_programming_introduction/practicalDev_googleErrorMessage.jpg){width="100%"}
-:::
-
-::: {.column width="50%"}
-Programming comes with an implicit contract: the computer handles the tedious work, and you provide precise instructions. Typos and capitalization matter, and small differences can change the meaning entirely. Treat R as a language... misunderstandings will happen.
-
-When R can’t interpret what you’ve written, you’ll get an error. Some errors are straightforward, essentially asking “What?” or pointing to exactly where the problem is. Others are less helpful. Either way, they’re part of the process and a normal part of learning to communicate clearly with the computer.
-:::
-:::::
-
-Error messages are a learning opportunity. Copy and paste them into Google (or ChatGPT) to see what they mean. Note that knowing how to Google is a skill and takes practice. This [Masters of Environmental Data Science](https://bren.ucsb.edu/masters-programs/master-environmental-data-science) (MEDS) program workshop [Teach Me How to Google](https://ucsb-meds.github.io/teach-me-how-to-google/#1) has a very helpful guide.
-
-Some mistakes don't trigger errors right away. R may understand what you wrote, but not what you intended... much like talking about "tables" and realizing too late that the listener was picturing furniture instead of data. These misunderstandings accumulate and make later results confusing. Writing clear code and checking your work step by step helps prevent these silent errors and keeps your analysis on track.
-
-## R Packages
-
-![Artwork by Allison Horst](images/r_programming_introduction/allison-horst-r-doorway.png){width="80%" fig-align="center"}
-
-R packages are the building blocks of computational reproducibility in R. Each package contains a set of related functions that enable you to more easily do a task or set of tasks in R. There are thousands of community-maintained packages out there for just about every imaginable use of R - including many that you have probably never thought of!
-
-To install a package, we use the syntax `install.packages("packge_name")`. A package only needs to be installed once, so this code can be run directly in the console if needed. Generally, you don't want to save your install package calls in a script, because when you run the script it will re-install the package, which you only need to do once, or if you need to update the package.
-
-## R Resources
-
-+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Learning R Resources | -   [Introduction to R](http://www.datacarpentry.org/R-ecology-lesson/01-intro-to-r.html) lesson in [Data Carpentry's R for data analysis](http://www.datacarpentry.org/R-ecology-lesson/) course |
-|                      | -   Jenny Bryan's Stat 545 [course materials](https://stat545.com/r-basics.html)                                                                                                                  |
-|                      | -   [Julie Lowndes' Data Science Training for the Ocean Health Index](http://ohi-science.org/data-science-training/)                                                                              |
-|                      | -   Learn R in the console with [swirl](https://swirlstats.com/)                                                                                                                                  |
-|                      | -   [Programming in R](http://ohi-science.org/data-science-training/programming.html)                                                                                                             |
-|                      | -   [R, RStudio, RMarkdown](http://ohi-science.org/data-science-training/rstudio.html)                                                                                                            |
-+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Community Resources  | -   [NCEAS' EcoDataScience](https://eco-data-science.github.io/)                                                                                                                                  |
-|                      |                                                                                                                                                                                                   |
-|                      | -   [R-Ladies](https://rladies.org/)                                                                                                                                                              |
-|                      |                                                                                                                                                                                                   |
-|                      | -   [rOpenSci](https://ropensci.org/community/)                                                                                                                                                   |
-|                      |                                                                                                                                                                                                   |
-|                      | -   [Minorities in R (MiR)](https://mircommunity.com/)                                                                                                                                            |
-|                      |                                                                                                                                                                                                   |
-|                      | -   Twitter - there is *a lot* here but some hashtags to start with are:                                                                                                                          |
-|                      |                                                                                                                                                                                                   |
-|                      |     -   #rstats                                                                                                                                                                                   |
-|                      |                                                                                                                                                                                                   |
-|                      |     -   #TidyTuesday                                                                                                                                                                              |
-|                      |                                                                                                                                                                                                   |
-|                      |     -   #dataviz                                                                                                                                                                                  |
-+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Cheatsheets          | -   [Base R Cheatsheet](https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf)                                                                                                     |
-|                      | -   [LaTeX Equation Formatting](https://www.caam.rice.edu/~heinken/latex/symbols.pdf)                                                                                                             |
-|                      | -   [MATLAB/R Translation Cheatsheet](http://mathesaurus.sourceforge.net/octave-r.html)                                                                                                           |
-+----------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
-: Awesome R Resources to Check out {tbl-colwidths="\[20,80\]"}
 
 ## Clearing the environment
 
