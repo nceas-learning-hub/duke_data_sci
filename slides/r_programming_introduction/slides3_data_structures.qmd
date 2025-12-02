@@ -94,7 +94,7 @@ A **vector** contains one or more elements of the same data type
 
 
 ```{r}
-age_yrs = c(5, 3, 7)
+age_yrs <- c(5, 3, 7)
 ```
 
 :::: 
@@ -362,7 +362,12 @@ Accessing elements of a data frame
 
 :::{.body-text}
 
-You can extract elements from a data frame with two-dimensional indexing: `df[rows, columns]`. Entire columns can be pulled by name using `df[['col']]` or `df$col`. To access specific elements within a column, index the column directly, for example `df$col[3]`.
+You can extract elements from a data frame with two-dimensional indexing: 
+`df[rows, columns]`. 
+
+Entire columns can be pulled by name using `df[['col']]` or `df$col`. 
+
+To access specific elements within a column, index the column directly, for example `df$col[3]`.
     
 :::
 

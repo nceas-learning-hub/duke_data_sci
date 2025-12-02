@@ -123,7 +123,7 @@ When naming objects, variables, observations, or data frames, make them:
 4.  **Code and coder-friendly**
     -   Avoid punctuation (%, !, \~, (, ), #) in names - more challenging to type and can mean things in code that you don't want it to (or break it)
 
-    -   Avoid spaces (makes coding much more difficult
+    -   Avoid spaces (makes coding much more difficult)
 
     -   Avoid starting object names with numbers (but could be useful for file names in sequence)
 
@@ -135,10 +135,19 @@ A clear, consistent [naming convention](https://en.wikipedia.org/wiki/Naming_con
 
 For the object `fave_num`, we used an underscore to separate the object name. This naming convention is called **lowercase snake case** - it is common in data science because it's easy to scan, works well across operating systems, and avoids ambiguity.
 
--   `snake_case`
--   `camelCase` is compact but less readable
--   `UpperCamelCase` (also called `PascalCase`) sometimes signals a different kind of object
--   `kebab-case` is not good for object names because R treats a hyphen (`-`) as a minus sign
++---------------------------------------------+---------------------------------------------------------------------------------------------------------+
+| `snake_case`                                | easy to scan, works well across OS                                                                      |
++---------------------------------------------+---------------------------------------------------------------------------------------------------------+
+| `camelCase`                                 | compact but less readable                                                                               |
++---------------------------------------------+---------------------------------------------------------------------------------------------------------+
+| `UpperCamelCase` (also called `PascalCase`) | often used to signal a different type of object (e.g. functions)                                        |
++---------------------------------------------+---------------------------------------------------------------------------------------------------------+
+| `kebab-case`                                | not good for objects because R treats a hyphen as a minus sign                                          |
+|                                             |                                                                                                         |
+|                                             | (but works nicely for file names)                                                                       |
++---------------------------------------------+---------------------------------------------------------------------------------------------------------+
+| `SCREAMING_SNAKE_CASE`                      | case is a personal preference so you can absolutely pick what you want as long as you are consistent... |
++---------------------------------------------+---------------------------------------------------------------------------------------------------------+
 
 ## Running code in an R Script
 
@@ -153,7 +162,7 @@ We've been typing code in the Console, let's try running code in an R Script. A 
 :::: callout-exercise
 **Create a vector!**
 
-Create a vector with the values 18.1, 8.9, 11.3, 11.2, and 15.7, representing tree heights in meters, and assign it an appropriate name. Convert these heights to feet (1 meter = 3.28 feet) and store the result in a second object. 
+Create a vector with the values 18.1, 8.9, 11.3, 11.2, and 15.7, representing tree heights in meters, and assign it an appropriate name. Convert these heights to feet (1 meter = 3.28 feet) and store the result in a second object.
 
 As a bonus, calculate the average tree height. Hint: look at the `mean` function! Typing `?mean` in the console will show you the help page for this function.e
 
@@ -175,12 +184,11 @@ mean(tree_h_ft)
 
 ## Data types and structures in R
 
-We've been using `numeric` data types, but R also works with text. Creating a `character` object requires quotes: 
+We've been using `numeric` data types, but R also works with text. Creating a `character` object requires quotes:
 
 ```{r}
 science_rocks <- "yes it does!"
 ```
-
 
 ::: callout-exercise
 Try running the following lines in your script or console:
@@ -194,14 +202,12 @@ Try running the following lines in your script or console:
 7 * 5
 ```
 
-What happened? What do you see in the Console? 
-
+What happened? What do you see in the Console?
 :::
 
 These examples show how R treats different data types. Only the numeric expression produces a calculation. Character strings can’t be multiplied because their operations differ from those defined for numbers.
 
 Every object in R has a class, and valid operations depend on that class. Numbers support arithmetic; strings support text manipulation, which you can extend with packages such as [`stringr`](http://stringr.tidyverse.org/) and [`tidytext`](https://github.com/juliasilge/tidytext) packages.
-
 
 [Full Screen](slides/r_programming_introduction/slides3_data_structures.html)
 
@@ -283,7 +289,7 @@ mean(x = temp_c)
 :::
 ::::
 
-::::: callout-exercise
+:::: callout-exercise
 **Save the mean to an object called `mean_temp_c`**
 
 ::: callout-answer
@@ -292,7 +298,7 @@ mean(x = temp_c)
 mean_temp_c <- mean(x = temp_c)
 ```
 :::
-:::::
+::::
 
 :::: callout-exercise
 Earlier, we created a vector of tree heights in meters (`tree_h_m`). Use mean() again and store it in a new object called `mean_h_m`.
@@ -310,19 +316,17 @@ tree_h_m <- tree_h_m + 3 ### note, this adds 3 to each element!
 Now, call `mean_height_m` in the console or take a look at your Global Environment. Is that the value you expected? Why or why not?
 
 ::: callout-answer
-
-Calling `mean_h_m` now shows the original value. Object assignment in R is independent: updating     `tree_h_m` does not update `mean_h_m` unless you recalculate it. 
+Calling `mean_h_m` now shows the original value. Object assignment in R is independent: updating `tree_h_m` does not update `mean_h_m` unless you recalculate it.
 :::
 ::::
 
 This provides an important concept: **R scripts run from top to bottom**. When editing a script, values depend on the order in which the lines are executed. Clearing the environment and running the script from start to finish is the best way to ensure the results reflect the full sequence of code.
 
-
 ## Reading and working with data frames
 
 ### Use the `read.csv()` function to read a file into R
 
-We’ve assigned values to objects and used functions, but now we’ll bring in real data. `read.csv()` is a function that does exactly what it promises: it reads a CSV file into R. 
+We’ve assigned values to objects and used functions, but now we’ll bring in real data. `read.csv()` is a function that does exactly what it promises: it reads a CSV file into R.
 
 Since this is our first time using it, start with the Help page (`?read.csv`). It’s long because the function has many optional arguments, but the key one is the first: you need to tell R which file to read. Let's get a file!
 
@@ -332,13 +336,11 @@ Since this is our first time using it, start with the Help page (`?read.csv`). I
 1)  Navigate to this dataset by Craig Tweedie that is published on the Arctic Data Center. [Craig Tweedie. 2009. North Pole Environmental Observatory Bottle Chemistry. Arctic Data Center. doi:10.18739/A25T3FZ8X.](http://doi.org/10.18739/A25T3FZ8X)
 2)  Download `BGchem2008data.csv` by clicking the "download" button next to the file (cloud + arrow). Save it in a folder called `data` in the project.
 3)  Confirm the file is in `data` by checking the **Files** pane.
-
 :::
 
-Now tell `read.csv()` where to find the file. The `Help` page shows the `file` argument, which takes a path.  In R, you can either use absolute paths (which will start with your home directory `~/`) or paths **relative to your current working directory.** RStudio has some great auto-complete capabilities when using relative paths, so we will go that route.
+Now tell `read.csv()` where to find the file. The `Help` page shows the `file` argument, which takes a path. In R, you can either use absolute paths (which will start with your home directory `~/`) or paths **relative to your current working directory.** RStudio has some great auto-complete capabilities when using relative paths, so we will go that route.
 
 If your working directory is your project (`training_{NAME}`) and the CSV is in `data`, your import looks like this:
-
 
 ```{r}
 #| eval: false
@@ -355,7 +357,6 @@ This creates a data frame called `bg_chem_dat`. Check that it loaded by looking 
 The Help page for `read.csv()` lists many arguments we didn’t use. Some are optional; some are required. Optional arguments appear as `name = value`, where the value shown is the default. If you don’t specify that argument, the function uses the default. For `read.csv()`, `header = TRUE` is a typical example.
 
 Required arguments appear without a value. For `read.csv()`, the only **required** argument is `file`.
-
 :::
 
 R can match arguments by name or by position. In our earlier call, we didn’t specify `file =` because `file` is the first argument, and R assigns the first value to it automatically. The equivalent explicit call would be:
@@ -378,7 +379,6 @@ bg_chem_dat <- read.csv("data/BGchem2008data.csv", stringsAsFactors = FALSE)
 #### Quick Tip
 
 With familiar functions, it’s common to omit names for the first one or two arguments. For less familiar functions, naming every argument makes your code more readable for collaborators and your future self.
-
 :::
 
 ### Working with data frames in R
@@ -404,10 +404,9 @@ mean_temp <- mean(bg_chem_dat$CTD_Temperature)
 
 Base R’s `read.csv()` is common, but many workflows use other import functions that also produce data frames:
 
-1. `readr::read_csv()` from the handles csv files quickly and parses types (including dates) more reliably. (try: `bg_chem_dat <- readr::read_csv("data/BGchem2008data.csv")`)
-2. `readxl::read_excel()` reads Excel files.
-3. `googlesheets4::read_sheet()` reads directly from Google Sheets.
-
+1.  `readr::read_csv()` from the handles csv files quickly and parses types (including dates) more reliably. (try: `bg_chem_dat <- readr::read_csv("data/BGchem2008data.csv")`)
+2.  `readxl::read_excel()` reads Excel files.
+3.  `googlesheets4::read_sheet()` reads directly from Google Sheets.
 :::
 
 ## Logical operators and expressions
@@ -438,18 +437,15 @@ tree_h_m != 11.3
 :::
 
 ::: {.column width="50%"}
-
 Programming comes with an implicit contract: the computer handles the tedious work, and you provide precise instructions. Typos and capitalization matter, and small differences can change the meaning entirely. Treat R as a language... misunderstandings will happen.
 
 When R can’t interpret what you’ve written, you’ll get an error. Some errors are straightforward, essentially asking “What?” or pointing to exactly where the problem is. Others are less helpful. Either way, they’re part of the process and a normal part of learning to communicate clearly with the computer.
-
 :::
 :::::
 
-
 Error messages are a learning opportunity. Copy and paste them into Google (or ChatGPT) to see what they mean. Note that knowing how to Google is a skill and takes practice. This [Masters of Environmental Data Science](https://bren.ucsb.edu/masters-programs/master-environmental-data-science) (MEDS) program workshop [Teach Me How to Google](https://ucsb-meds.github.io/teach-me-how-to-google/#1) has a very helpful guide.
 
-Some mistakes don't trigger errors right away. R may understand what you wrote, but not what you intended... much like talking about "tables" and realizing too late that the listener was picturing furniture instead of data. These misunderstandings accumulate and make later results confusing.  Writing clear code and checking your work step by step helps prevent these silent errors and keeps your analysis on track.
+Some mistakes don't trigger errors right away. R may understand what you wrote, but not what you intended... much like talking about "tables" and realizing too late that the listener was picturing furniture instead of data. These misunderstandings accumulate and make later results confusing. Writing clear code and checking your work step by step helps prevent these silent errors and keeps your analysis on track.
 
 ## R Packages
 
