@@ -7,8 +7,8 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bb1cd4028f63a369ab283e072cb7d572.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.25">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d640c705e8c17715bca3574aa719063f.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
 
   <title>coreDUML – slides2_coding_in_script</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -210,9 +210,9 @@
 <p><img data-src="images/rstudio_script1.png" style="width:100.0%"></p>
 </div><!-- end left column --><div class="column" style="width:40%;">
 <div class="body-text">
-<p>From the “File” menu, select “New File,” then choose “R Script” from the list of options. (We’ll look at other options later, particularly “Quarto document”)</p>
+<p>From the “File” menu, select “New File,” then choose “R Script.”</p>
 <p>You can also create the script from the “new file” button in the <strong>Files</strong> pane.</p>
-<p>Notice a new pane appears above the Console. This is called the <strong>Source pane</strong> and is where we write and edit R code and documents. This pane is only present if there are files open in the editor.</p>
+<p>A new pane appears. This is the <strong>Source</strong> pane, where we write and edit code and documents. This pane is only present if there are files open in the editor.</p>
 </div>
 </div><!-- end right column -->
 </div>
@@ -233,13 +233,7 @@
 <span id="cb1-3"><a></a>age_dog_years <span class="ot">&lt;-</span> age_years <span class="sc">*</span> <span class="dv">7</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="body-text">
-<p>After typing those lines, do you see the values in the <strong>Environment</strong> pane? Probably not - unlike the <strong>Console</strong>, the script does not automatically run the code when you type it in.</p>
-<p>To interpret and run the code you’ve written, R needs you to send the code from the script (or editor) to the Console to execute it. To run code in an R Script:</p>
-<ul>
-<li>Place your cursor on (or at the end of) a line of code you want to run, or highlight the line(s).</li>
-<li>Then use the shortcut <code>command</code> + <code>enter</code> (Mac) or <code>control</code> + <code>enter</code> (Windows), or click the green <code>Run</code> button in the top right of the Source pane.</li>
-</ul>
-<p>Try these shortcuts out and get comfortable with them - you will do this a lot!</p>
+<p>The script editor doesn’t execute code automatically, so nothing appears in the <strong>Environment</strong> until you send lines to the Console. To run code, place the cursor on a line (or highlight several) and press <code>command</code> + <code>enter</code> (Mac) or <code>control</code> + <code>enter</code> (Windows), or click the green <code>Run</code> button in the top right of the Source pane. These shortcuts are worth practicing because you’ll use them constantly.</p>
 </div>
 </section>
 <section class="slide level2">
@@ -258,8 +252,8 @@
 </div>
 </div>
 <div class="body-text">
-<p>Use the pound sign/hashtag <code>#</code> at the start of a line to create a comment - R will not run any text after that, so you can add human-readable comments to help explain what the code is doing.</p>
-<p>Comments can also be used to “comment out” a line of code to temporarily prevent it from running. Use <code>command</code> <code>shift</code> <code>C</code> as a shortcut to toggle this.</p>
+<p>Scripts also let you document your work. Lines starting with <code>#</code> are comments, which R ignores, so you can add brief explanations or notes.</p>
+<p>Commenting is also useful for temporarily disabling code. Use <code>command+shift+C</code> to toggle comments on selected lines.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="do">### age in human years</span></span>
@@ -276,8 +270,7 @@
 
 <p><span class="slide-title">Multiple values</span></p>
 <div class="body-text">
-<p>You can also store more than one value in a single object. Storing a series of ages in a single object is a convenient way to perform the same operation on multiple values at the same time. One way to create such an object is with the function <code>c()</code>, which stands for “combine”.</p>
-<p>Let’s create a <strong>vector</strong> of ages using <code>c()</code> (we’ll talk more about vectors in the next section, <a href="#/data_structures">Data structures in R</a>).</p>
+<p>You can store multiple values in a single object. For example, a vector of ages lets you apply the same operation to all values at once. You create a vector with <code>c()</code>, which <em>combines</em> the values into one object.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>age_yrs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">7</span>)  <span class="do">### create a vector of ages</span></span>
@@ -305,8 +298,7 @@
 <p><strong>Quick Tips</strong></p>
 </div>
 <div class="callout-content">
-<p>You will make many objects and the assignment operator <code>&lt;-</code> can be tedious to type over and over. Instead, use <strong>RStudio’s keyboard shortcut: <code>option</code> + <code>-</code> (the minus sign)</strong>. (use <code>alt</code> instead of <code>option</code> for Windows)</p>
-<p>Notice that the RStudio shortcut automatically surrounds <code>&lt;-</code> with spaces, which demonstrates a useful code formatting practice. Code is miserable to read on a good day. Give your eyes a break and use spaces.</p>
+<p>You’ll assign objects frequently, and typing <code>&lt;-</code> each time is slow. Use RStudio’s shortcut: <code>option + minus</code> (Mac), <code>alt + minus</code> (Windows). The shortcut also inserts spaces around &lt;-, which makes assignments easier to read. Consistent spacing improves clarity and reduces strain when scanning code.</p>
 <p>RStudio offers many handy <a href="https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts">keyboard shortcuts</a>. Also, <code>option</code>+<code>Shift</code>+<code>K</code> brings up a keyboard shortcut reference card.</p>
 <p>For more RStudio tips, check out Master of Environmental Data Science (MEDS) workshop: <a href="https://ucsb-meds.github.io/IDE-tips-and-tricks/#/title-slide">IDE Tips &amp; Tricks</a>.</p>
 </div>

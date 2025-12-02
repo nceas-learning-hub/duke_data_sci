@@ -7,8 +7,8 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bb1cd4028f63a369ab283e072cb7d572.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.25">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d640c705e8c17715bca3574aa719063f.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
 
   <title>coreDUML – slides1_coding_in_console</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -245,14 +245,14 @@
 <p><img data-src="images/rstudio_ide_console.png" style="width:100.0%"></p>
 </div><!-- end left column --><div class="column" style="width:40%;">
 <div class="body-text">
-<p>The <strong>Console pane</strong> is where you can directly type R code, and R will interpret the code and return some value.</p>
-<p>When you first start, you’ll see some text including the version of R software currently installed (yours may not match the image!)</p>
+<p><strong>Console</strong> is where you can directly type R code.</p>
+<p>When you start a new session, you’ll see some text that includes the current version of R software installed (yours may not match the image).</p>
 </div>
 </div><!-- end right column -->
 </div>
 <!-- end .columns -->
 <div class="body-text">
-<p>Note there are tabs for <strong>Terminal</strong> and <strong>Background Jobs</strong>. <strong>Terminal</strong> is direct access to your computer’s operating system (NOT R software). We won’t do anything with those for now.</p>
+<p>There are tabs for <strong>Terminal</strong> and <strong>Background Jobs</strong>. <strong>Terminal</strong> is direct access to your computer’s operating system (not R software).</p>
 </div>
 </section>
 <section id="rstudio-envir" class="slide level2" data-menu-title="RStudio Environment">
@@ -263,14 +263,14 @@
 <p><img data-src="images/rstudio_ide_envir.png" style="width:100.0%"></p>
 </div><!-- end left column --><div class="column" style="width:40%;">
 <div class="body-text">
-<p>The <strong>Environment pane</strong> is where R will display information it is holding in memory - “objects” that may contain individual values, lists or vectors containing multiple values, data frames containing tabular data, etc.</p>
-<p>When you first start up, if you have set things up as we prefer to set them, the Environment pane will say “Environment is empty.” Later, as we use R to make some simple calculations, you will see objects in this pane.</p>
+<p><strong>Environment</strong> displays information in working memory - “objects” that may be individual values, lists or vectors with multiple values, data frames of tabular data, etc.</p>
+<p>When you start a new session, the environment pane should say “Environment is empty.” As you use R to make calculations and store values, you will see objects in this pane.</p>
 </div>
 </div><!-- end right column -->
 </div>
 <!-- end .columns -->
 <div class="body-text">
-<p>Note there is a tab for <strong>History</strong> and perhaps others. <strong>History</strong> will show you the sequence of any commands you have typed or executed into R. When we start writing <strong>R scripts</strong>, you will see that the History tab is not something we need for reproducible science.</p>
+<p>There is a tab for <strong>History</strong> and perhaps others. <strong>History</strong> will show you the sequence of any commands you have typed or executed into R. When writing <strong>R scripts</strong>, the History tab is not necessary for reproducible science.</p>
 </div>
 </section>
 <section id="rstudio-files" class="slide level2" data-menu-title="RStudio Files">
@@ -281,22 +281,22 @@
 <p><img data-src="images/rstudio_ide_files.png" style="width:100.0%"></p>
 </div><!-- end left column --><div class="column" style="width:40%;">
 <div class="body-text">
-<p>The <strong>Files pane</strong> displays files and folders where you might store R scripts, datasets, images, etc.</p>
-<p>You can navigate around these files just like you would normally browse on your computer, and open scripts, inspect data, etc.</p>
+<p><strong>Files</strong> displays files and folders on your computer. You can navigate just like you would normally browse on your computer.</p>
 </div>
 </div><!-- end right column -->
 </div>
 <!-- end .columns -->
 <div class="body-text">
-<p>Note the other tabs: when you create plots, this pane will switch to that tab and show you the plots. You can see what packages (and versions) you have installed, get help on functions and packages, and view HTML or other outputs on these tabs.</p>
+<p>Note the other tabs in this pane: when you create plots or tables, they will generate in the <em>plots</em> pane. <em>Packages</em> provides information on the packages and versions installed, and <em>Help</em> is provides searchable documentation for those packages and functions. <em>Viewer</em> and <em>Presentation</em> display HTML or other outputs.</p>
 </div>
 </section>
 <section class="slide level2">
 
 <p><span class="slide-title">Coding in the Console</span></p>
 <div class="body-text">
-<p>We can run code in the Console window - direct access to the R application. Let’s start there, but later we’ll generally not do much in the console, but instead in scripts.</p>
-<p>At its most basic, we can use R as a calculator. Let’s try a couple of examples in the console.</p>
+<p>We run code in the Console.</p>
+<p>At its most basic, we can use R as a calculator.</p>
+<p>Let’s try a couple of examples in the console.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="dv">3</span> <span class="sc">*</span> <span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -317,7 +317,7 @@
 </div>
 </div>
 <div class="body-text">
-<p>Notice when you hit “enter” after the calculation, R immediately evaluates the calculation for you and tells you the result.</p>
+<p>When you hit “enter” after the calculation, R immediately evaluates the expression and provides the result.</p>
 </div>
 </section>
 <section class="slide level2">
@@ -330,7 +330,7 @@
 <p><strong>Quick Tip</strong></p>
 </div>
 <div class="callout-content">
-<p>When you’re in the console you’ll see a greater than sign (<code>&gt;</code>) at the start of a line. This is called the “prompt” and when we see it, it means R is ready to accept commands. If you see a plus sign (<code>+</code>) in the Console, it means R is waiting on additional information before running. You can always press escape (<code>esc</code>) to return to the prompt. Try practicing this by running <code>3*</code> (or any incomplete expression) in the console.</p>
+<p>In the console, a greater than sign (<code>&gt;</code>) signals the start of a line. This is called the “prompt” and means R is ready to accept commands. If you see a plus sign (<code>+</code>) in the console, it means R is waiting for additional information. You can press escape (<code>esc</code>) to return to the prompt. Try practicing this by running <code>3*</code> (or any incomplete expression).</p>
 </div>
 </div>
 </div>
@@ -340,7 +340,8 @@
 <p><span class="slide-title">Storing values in objects</span></p>
 <hr>
 <div class="body-text">
-<p>We can assign the value of some calculation to an “object” by giving it a name. For example, we can store the result of the calculation <code>3 * 4</code> and call it “result”. Then we can call the name of the object to retrieve the value.</p>
+<p>The assignment operator (<code>&lt;-</code>) creates an “object” by assigning it a name. R will evaluate the expression on the right side, and store that value with the name on the left.</p>
+<p>For example, assign the result of <code>3 * 4</code> and call it “result”. Then we can call the <em>name</em> of the object to use the <em>value</em> in other calculations, and so on.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>result <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="sc">*</span> <span class="dv">4</span>   <span class="do">### assign the value</span></span>
@@ -349,9 +350,6 @@
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12</code></pre>
 </div>
-</div>
-<div class="body-text">
-<p>Technically, we are creating an object called “result” and assigning the value to that object. Then we can call the <em>name</em> of the object to use the <em>value</em> in other calculations, and so on.</p>
 </div>
 </section>
 <section class="slide level2">
@@ -386,7 +384,7 @@
 <p><img data-src="images/rstudio_ide_envir2.png" style="width:100.0%"></p>
 </div><!-- end left column --><div class="column" style="width:40%;">
 <div class="body-text">
-<p>Check the <strong>Environment pane</strong> again - it no longer says “Environment is empty” but instead contains the objects and values we created in our example.</p>
+<p>Now the <strong>Environment</strong> pane contains the objects and values we created in our example.</p>
 </div>
 </div><!-- end right column -->
 </div>
@@ -401,7 +399,7 @@
 </div>
 <p><strong>A better way is to create an R Script, and write your code there.</strong></p>
 <div class="body-text">
-<p>Then when you run your code from the script, you can save it when you are done, and you can re-run it later to get the exact same result - a key to <strong>reproducible science</strong>. We’re going to work some more example code in the Console for now, but we’ll code in an R Script later in this lesson.</p>
+<p>When you run your code from the script, you can save it when you are done, and you can re-run it later to get the exact same result - a key to <strong>reproducible science</strong>.</p>
 </div>
 
 

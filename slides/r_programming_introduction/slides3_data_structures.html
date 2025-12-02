@@ -7,8 +7,8 @@
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bb1cd4028f63a369ab283e072cb7d572.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.25">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d640c705e8c17715bca3574aa719063f.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
 
   <title>coreDUML – slides3_data_structures</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -206,14 +206,15 @@
 
 <p><span class="slide-title">Common data types in R</span></p>
 <div class="body-text">
-<p>A single element of data in R typically falls into one of these types, or “classes” (there are others, but they are beyond the scope of this course):</p>
+<p>A single data value in R usually falls into one of a few basic classes:</p>
 <ul>
-<li><code>logical</code> (sometimes called <code>boolean</code>): Data take on the value of either <code>TRUE</code> or <code>FALSE</code>.</li>
-<li><code>integer</code>: Data are whole numbers (those numbers without a decimal point), e.g., <code>1</code>, <code>2</code>, <code>-999</code>. To explicitly create an integer data type, use the suffix <code>L</code> (e.g.&nbsp;<code>x &lt;- 2L</code>).</li>
-<li><code>numeric</code> (also called <code>double</code>): Data are numbers that contain a decimal, e.g., <code>0.001</code>, <code>1.0</code>, <code>-273.16</code>.</li>
-<li><code>character</code>: Data are text values, or “strings”, e.g., <code>"cat"</code>, <code>"I like bananas"</code>, or <code>"Everest is 8848.9 m tall"</code>. You can think of character strings as a word or sentence or paragraph. A special type of character string is a <code>factor</code>, which is a string but with additional attributes (like levels or an order).</li>
+<li><code>logical</code>: <code>TRUE</code> or <code>FALSE</code></li>
+<li><code>integer</code>: whole numbers (e.g., <code>1</code>, <code>2</code>, <code>-999</code>) - add L to specify the type explicitly (e.g.&nbsp;<code>x &lt;- 2L</code>)</li>
+<li><code>numeric</code> (also called <code>double</code>): real numbers with decimals (e.g., <code>0.001</code>, <code>1.0</code>, <code>-273.16</code>)</li>
+<li><code>character</code>: text or enclosed in quotes (e.g., <code>"cat"</code>, <code>"I like bananas"</code>, or <code>"Everest is 8848.9 m tall"</code>); character strings are words, sentences, or paragraphs.</li>
+<li><code>factor</code>: characteris with defined levels or orders (e.g., <code>low</code>, <code>medium</code>, <code>high</code> might be converted to a factor by setting their order)</li>
 </ul>
-<p>Any of these can also contain <code>NA</code> to represent missing values.</p>
+<p>Any class can include <code>NA</code> to represent missing values.</p>
 </div>
 </section>
 <section class="slide level2">
@@ -233,7 +234,7 @@
 </div>
 </div>
 <div class="body-text">
-<p>You can see what data type or class an object is using the <code>class()</code> function, or you can use a logical test such as: <code>is.numeric()</code>, <code>is.character()</code>, <code>is.logical()</code>, and so on.</p>
+<p>Check the class of a given object using <code>class()</code>, or with a logical test such as: <code>is.numeric()</code>, <code>is.character()</code>, <code>is.logical()</code>, etc.</p>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a>science_rocks <span class="ot">&lt;-</span> <span class="st">"yes it does!"</span></span>
@@ -255,23 +256,22 @@
 
 <p><span class="slide-title">Data structures in R</span></p>
 <div class="body-text">
-<p>Working with more than one data point, we need to think about how to systematically organize and store collections of data. Here are five common data structures used in R (and other programming languages):</p>
+<p>When you work with multiple values, you need structures that store data in an organized way. R uses several core structures for this purpose: vectors, matrices, arrays, data frames, and lists. Each holds collections of values in a defined shape and is suited to different types of operations.</p>
 </div>
 
 <img data-src="images/data_structures.png" class="r-stretch"></section>
 <section class="slide level2">
 
 <p><span class="slide-title">Data structures in R: vectors</span></p>
-<p>A <strong>vector</strong> is the most common and most basic data structure in R.</p>
+<p>A <strong>vector</strong> contains one or more elements of the same data type</p>
 <div class="columns">
 <div class="column" style="width:30%;">
 <p><img data-src="images/data_structures_vector.png" style="width:100.0%"></p>
 </div><!-- end left column --><div class="column" style="width:70%;">
 <div class="body-text">
 <ul>
-<li>A vector contains one or more elements, all with the same data type.</li>
-<li>Think back to our <code>age_yrs</code> vector. That was a vector of three elements each with a data type of <code>numeric</code>.</li>
-<li>We can create a vector using the <code>c()</code> function (“combine”):</li>
+<li>Our <code>age_yrs</code> object was a vector of three elements, all <code>numeric</code> data type.</li>
+<li>Create a vector using the <code>c()</code> function (“combine”):</li>
 </ul>
 </div>
 <div class="cell">
@@ -372,7 +372,7 @@
 <p><strong>Tip</strong></p>
 </div>
 <div class="callout-content">
-<p>Matrices and arrays are useful for mathematical purposes, e.g., linear algebra, but not as commonly used for data science purposes, so we’ll skip right on past them!</p>
+<p>Matrices and arrays are useful for mathematical purposes, e.g., linear algebra, but not as commonly used for data science purposes.</p>
 </div>
 </div>
 </div>
@@ -380,16 +380,13 @@
 <section class="slide level2">
 
 <p><span class="slide-title">Data structures in R: lists</span></p>
-<p>A <strong>list</strong> is another common and basic data structure in R.</p>
+<p>A <strong>list</strong> contains one or more elements, but <em>unlike</em> a vector, each element can be a different type.</p>
 <div class="columns">
 <div class="column" style="width:40%;">
 <p><img data-src="images/data_structures_list.png" style="width:100.0%"></p>
 </div><!-- end left column --><div class="column" style="width:60%;">
 <div class="body-text">
-<ul>
-<li>Like a vector, a list contains one or more elements, but <em>unlike</em> a vector, each element can be a different type (including vectors and other lists!).</li>
-<li>We can create a list using the <code>list()</code> function.</li>
-</ul>
+<p>We can create a list using the <code>list()</code> function.</p>
 </div>
 </div><!-- end right column -->
 </div>
@@ -435,17 +432,13 @@
 <section class="slide level2">
 
 <p><span class="slide-title">Data structures in R: data frames</span></p>
-<p>A <strong>data frame</strong> is another common data structure in R, and commonly used in data science for tabular data.</p>
+<p>A <strong>data frame</strong> is a two-dimensional structure for tabular data, with columns that can differ in type.</p>
 <div class="columns">
 <div class="column" style="width:40%;">
 <p><img data-src="images/data_structures_dataframe.png" style="width:100.0%"></p>
 </div><!-- end left column --><div class="column" style="width:60%;">
 <div class="body-text">
-<ul>
-<li>Like a matrix, a data frame is two dimensional - but each column can be of a different type!</li>
-<li>We can create data frames in many ways, including <code>data.frame()</code></li>
-<li>More commonly we will read in tabular data from spreadsheets like Excel files (<code>.xlsx</code>) and comma-separated value (<code>.csv</code>) files.</li>
-</ul>
+<p>You can create one with <code>data.frame()</code>, but in practice most data frames come from importing spreadsheets such as <code>.xlsx</code> files or comma-separated <code>.csv</code> files.</p>
 </div>
 </div><!-- end right column -->
 </div>
@@ -455,7 +448,8 @@
 
 <p><span class="slide-title">Data structures in R: data frames</span></p>
 <div class="body-text">
-<p>Data frames have one or more named <strong>columns</strong>, each representing a variable, and <strong>rows</strong> representing observations with values for each variable. Let’s create a simple one representing three dogs, with ages (in human years) and weights (in pounds).</p>
+<p>Data frames consist of named <strong>columns</strong>, each storing a variable, and <strong>rows</strong> that hold the observed values for those variables.</p>
+<p>Let’s create a simple one representing three dogs, with ages (in human years) and weights (in pounds).</p>
 </div>
 <div class="columns">
 <div class="column" style="width:65%;">
@@ -552,18 +546,7 @@
 <p><span class="slide-title">Data structures in R: data frames</span></p>
 <p>Accessing elements of a data frame</p>
 <div class="body-text">
-<ul>
-<li>We can access individual elements of a data frame using a 2-d square bracket notation with numbers: <code>example_df[&lt;row(s)&gt;, &lt;column(s)&gt;]</code>.</li>
-<li>We can access entire columns/variables using their name, in two ways:
-<ul>
-<li>Double square brackets: <code>example_df[['&lt;colname&gt;']]</code></li>
-<li>Dollar sign notation: <code>example_df$&lt;colname&gt;</code></li>
-</ul></li>
-<li>We can access specific rows of a variable using a combination:
-<ul>
-<li>Dollar sign notation plus index: <code>example_df$&lt;colname&gt;[&lt;element number&gt;]</code></li>
-</ul></li>
-</ul>
+<p>You can extract elements from a data frame with two-dimensional indexing: <code>df[rows, columns]</code>. Entire columns can be pulled by name using <code>df[['col']]</code> or <code>df$col</code>. To access specific elements within a column, index the column directly, for example <code>df$col[3]</code>.</p>
 </div>
 </section>
 <section class="slide level2">
