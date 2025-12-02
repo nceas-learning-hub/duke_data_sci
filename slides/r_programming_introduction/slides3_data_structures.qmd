@@ -27,14 +27,15 @@ execute:
 [Common data types in R]{.slide-title}
 
 ::: {.body-text}
-A single element of data in R typically falls into one of these types, or "classes" (there are others, but they are beyond the scope of this course):
+A single data value in R usually falls into one of a few basic classes:
 
-* `logical` (sometimes called `boolean`): Data take on the value of either `TRUE` or `FALSE`. 
-* `integer`: Data are whole numbers (those numbers without a decimal point), e.g., `1`, `2`, `-999`. To explicitly create an integer data type, use the suffix `L` (e.g. `x <- 2L`).
-* `numeric` (also called `double`): Data are numbers that contain a decimal, e.g., `0.001`, `1.0`, `-273.16`.
-* `character`: Data are text values, or "strings", e.g., `"cat"`, `"I like bananas"`, or `"Everest is 8848.9 m tall"`. You can think of character strings as a word or sentence or paragraph. A special type of character string is a `factor`, which is a string but with additional attributes (like levels or an order). 
+* `logical`: `TRUE` or `FALSE`
+* `integer`: whole numbers (e.g., `1`, `2`, `-999`) - add L to specify the type explicitly (e.g. `x <- 2L`)
+* `numeric` (also called `double`): real numbers with decimals (e.g., `0.001`, `1.0`, `-273.16`)
+* `character`: text or enclosed in quotes (e.g., `"cat"`, `"I like bananas"`, or `"Everest is 8848.9 m tall"`); character strings are words, sentences, or paragraphs.
+* `factor`: characteris with defined levels or orders (e.g., `low`, `medium`, `high` might be converted to a factor by setting their order)
 
-Any of these can also contain `NA` to represent missing values. 
+Any class can include `NA` to represent missing values. 
 
 :::
 
@@ -47,7 +48,7 @@ Any of these can also contain `NA` to represent missing values.
 :::
 
 :::{.body-text}
-You can see what data type or class an object is using the `class()` function, or you can use a logical test such as: `is.numeric()`, `is.character()`, `is.logical()`, and so on.
+Check the class of a given object using `class()`, or with a logical test such as: `is.numeric()`, `is.character()`, `is.logical()`, etc.
 
 :::
 
@@ -63,7 +64,9 @@ is.character(science_rocks)
 [Data structures in R]{.slide-title}
 
 ::: {.body-text}
-Working with more than one data point, we need to think about how to systematically organize and store collections of data.  Here are five common data structures used in R (and other programming languages):
+
+When you work with multiple values, you need structures that store data in an organized way. R uses several core structures for this purpose: vectors, matrices, arrays, data frames, and lists. Each holds collections of values in a defined shape and is suited to different types of operations.
+
 :::
 
 ![](images/data_structures.png)
@@ -72,7 +75,7 @@ Working with more than one data point, we need to think about how to systematica
 
 [Data structures in R: vectors]{.slide-title}
 
-A **vector** is the most common and most basic data structure in R.
+A **vector** contains one or more elements of the same data type
 
 ::: {.columns}
 
@@ -85,9 +88,8 @@ A **vector** is the most common and most basic data structure in R.
 :::: {.column width="70%"}
 
 ::::: {.body-text}
-* A vector contains one or more elements, all with the same data type.
-* Think back to our `age_yrs` vector. That was a vector of three elements each with a data type of `numeric`.
-* We can create a vector using the `c()` function ("combine"):
+* Our `age_yrs` object was a vector of three elements, all `numeric` data type.
+* Create a vector using the `c()` function ("combine"):
 :::::
 
 
@@ -178,14 +180,14 @@ Like a vector, all elements of a matrix or array must be of the same type.
 :::
 
 :::{.callout-tip}
-Matrices and arrays are useful for mathematical purposes, e.g., linear algebra, but not as commonly used for data science purposes, so we'll skip right on past them!
+Matrices and arrays are useful for mathematical purposes, e.g., linear algebra, but not as commonly used for data science purposes.
 :::
 
 ---
 
 [Data structures in R: lists]{.slide-title}
 
-A **list** is another common and basic data structure in R.
+A **list** contains one or more elements, but *unlike* a vector, each element can be a different type.
 
 ::: {.columns}
 
@@ -198,8 +200,7 @@ A **list** is another common and basic data structure in R.
 :::: {.column width="60%"}
 
 ::::: {.body-text}
-* Like a vector, a list contains one or more elements, but *unlike* a vector, each element can be a different type (including vectors and other lists!).
-* We can create a list using the `list()` function.
+We can create a list using the `list()` function.
 :::::
 
 :::: 
@@ -242,7 +243,7 @@ class(list_of_stuff[[1]]) ### was numeric, now it's a list!
 
 [Data structures in R: data frames]{.slide-title}
 
-A **data frame** is another common data structure in R, and commonly used in data science for tabular data.
+A **data frame** is a two-dimensional structure for tabular data, with columns that can differ in type.
 
 ::: {.columns}
 
@@ -255,9 +256,8 @@ A **data frame** is another common data structure in R, and commonly used in dat
 :::: {.column width="60%"}
 
 ::::: {.body-text}
-* Like a matrix, a data frame is two dimensional - but each column can be of a different type!
-* We can create data frames in many ways, including `data.frame()`
-* More commonly we will read in tabular data from spreadsheets like Excel files (`.xlsx`) and comma-separated value (`.csv`) files.
+
+You can create one with `data.frame()`, but in practice most data frames come from importing spreadsheets such as `.xlsx` files or comma-separated `.csv` files.
 
 :::::
 
@@ -272,7 +272,10 @@ A **data frame** is another common data structure in R, and commonly used in dat
 [Data structures in R: data frames]{.slide-title}
 
 :::{.body-text}
-Data frames have one or more named **columns**, each representing a variable, and **rows** representing observations with values for each variable.  Let's create a simple one representing three dogs, with ages (in human years) and weights (in pounds).
+
+Data frames consist of named **columns**, each storing a variable, and **rows** that hold the observed values for those variables.
+
+Let's create a simple one representing three dogs, with ages (in human years) and weights (in pounds).
 :::
 
 ::: {.columns}
@@ -358,12 +361,8 @@ Because a data frame is a list of vectors, our single `[...]` and double `[[...]
 Accessing elements of a data frame
 
 :::{.body-text}
-* We can access individual elements of a data frame using a 2-d square bracket notation with numbers: `example_df[<row(s)>, <column(s)>]`.
-* We can access entire columns/variables using their name, in two ways:
-    * Double square brackets: `example_df[['<colname>']]`
-    * Dollar sign notation: `example_df$<colname>`
-* We can access specific rows of a variable using a combination:
-    * Dollar sign notation plus index: `example_df$<colname>[<element number>]`
+
+You can extract elements from a data frame with two-dimensional indexing: `df[rows, columns]`. Entire columns can be pulled by name using `df[['col']]` or `df$col`. To access specific elements within a column, index the column directly, for example `df$col[3]`.
     
 :::
 

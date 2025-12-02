@@ -12,7 +12,7 @@ execute:
   code-line-numbers: false
 ---
 
-## {#title-slide data-menu-title="Title Slide"} 
+##  {#title-slide data-menu-title="Title Slide"}
 
 [Scripts in R and RStudio]{.custom-title}
 
@@ -22,46 +22,44 @@ execute:
 
 [**NCEAS Learning Hub**]{.custom-subtitle2}
 
----
+------------------------------------------------------------------------
 
-## {#script1 data-menu-title="script1"} 
+##  {#script1 data-menu-title="script1"}
 
 [Creating an R script]{.slide-title}
 
-::: {.columns}
+:::::: columns
+::: {.column width="60%"}
+![](images/rstudio_script1.png){width="100%"}
+:::
 
-:::: {.column width="60%"}
-
-![](images/rstudio_script1.png){width=100%}
-:::: 
 <!-- end left column -->
 
 :::: {.column width="40%"}
-
-::::: {.body-text}
-From the "File" menu, select "New File," then choose "R Script" from the list of options. (We'll look at other options later, particularly "Quarto document")
+::: body-text
+From the "File" menu, select "New File," then choose "R Script."
 
 You can also create the script from the "new file" button in the **Files** pane.
 
-Notice a new pane appears above the Console. This is called the **Source pane** and is where we write and edit R code and documents. This pane is only present if there are files open in the editor.
-:::::
+A new pane appears. This is the **Source** pane, where we write and edit code and documents. This pane is only present if there are files open in the editor.
+:::
+::::
 
-:::: 
 <!-- end right column -->
+::::::
 
-::: 
 <!-- end .columns -->
 
-:::{.body-text}
-Save the R Script in your `script` folder, name the file `intro_to_programming.R`.  The name at the top of the **Source pane** will change from `Untitled` to the new file name.
+::: body-text
+Save the R Script in your `script` folder, name the file `intro_to_programming.R`. The name at the top of the **Source pane** will change from `Untitled` to the new file name.
 :::
 
----
+------------------------------------------------------------------------
 
 [A simple script]{.slide-title}
 
-:::{.body-text}
-Let's write some simple code in our script.  We'll start with the age of a dog in (human) years, then convert to dog years.
+::: body-text
+Let's write some simple code in our script. We'll start with the age of a dog in (human) years, then convert to dog years.
 :::
 
 ```{r}
@@ -70,27 +68,20 @@ age_years <- 5
 age_dog_years <- age_years * 7
 ```
 
-:::{.body-text}
-After typing those lines, do you see the values in the **Environment** pane?  Probably not - unlike the **Console**, the script does not automatically run the code when you type it in.
-
-To interpret and run the code you've written, R needs you to send the code from the script (or editor) to the Console to execute it. To run code in an R Script:
-
-* Place your cursor on (or at the end of) a line of code you want to run, or highlight the line(s). 
-* Then use the shortcut `command` + `enter` (Mac) or `control` + `enter` (Windows), or click the green `Run` button in the top right of the Source pane.
-
-Try these shortcuts out and get comfortable with them - you will do this a lot!
+::: body-text
+The script editor doesn’t execute code automatically, so nothing appears in the **Environment** until you send lines to the Console. To run code, place the cursor on a line (or highlight several) and press `command` + `enter` (Mac) or `control` + `enter` (Windows), or click the green `Run` button in the top right of the Source pane. These shortcuts are worth practicing because you’ll use them constantly.
 :::
 
----
+------------------------------------------------------------------------
 
-:::{.callout-tip}
+::: callout-tip
 ### Writing human-readable comments
 :::
 
-::: {.body-text}
-Use the pound sign/hashtag `#` at the start of a line to create a comment - R will not run any text after that, so you can add human-readable comments to help explain what the code is doing.
+::: body-text
+Scripts also let you document your work. Lines starting with `#` are comments, which R ignores, so you can add brief explanations or notes.
 
-Comments can also be used to "comment out" a line of code to temporarily prevent it from running.  Use `command` `shift` `C` as a shortcut to toggle this.
+Commenting is also useful for temporarily disabling code. Use `command+shift+C` to toggle comments on selected lines.
 :::
 
 ```{r}
@@ -104,15 +95,12 @@ age_dog_years <- age_years * 7
 # age_centuries <- age_years / 100 
 ```
 
----
+------------------------------------------------------------------------
 
 [Multiple values]{.slide-title}
 
-:::{.body-text}
-
-You can also store more than one value in a single object. Storing a series of ages in a single object is a convenient way to perform the same operation on multiple values at the same time. One way to create such an object is with the function `c()`, which stands for "combine".
-
-Let's create a **vector** of ages using `c()` (we'll talk more about vectors in the next section, [Data structures in R](#data_structures)).
+::: body-text
+You can store multiple values in a single object. For example, a vector of ages lets you apply the same operation to all values at once. You create a vector with `c()`, which *combines* the values into one object.
 :::
 
 ```{r}
@@ -127,14 +115,12 @@ age_dog_yrs <- age_yrs * yr_to_dog_yr
 age_dog_yrs
 ```
 
----
+------------------------------------------------------------------------
 
-::: {.callout-tip}
+::: callout-tip
 #### Quick Tips
 
-You will make many objects and the assignment operator `<-` can be tedious to type over and over. Instead, use **RStudio's keyboard shortcut: `option` + `-` (the minus sign)**. (use `alt` instead of `option` for Windows)
-
-Notice that the RStudio shortcut automatically surrounds `<-` with spaces, which demonstrates a useful code formatting practice. Code is miserable to read on a good day. Give your eyes a break and use spaces.
+You’ll assign objects frequently, and typing `<-` each time is slow. Use RStudio’s shortcut: `option + minus` (Mac), `alt + minus` (Windows). The shortcut also inserts spaces around <-, which makes assignments easier to read. Consistent spacing improves clarity and reduces strain when scanning code.
 
 RStudio offers many handy [keyboard shortcuts](https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts). Also, `option`+`Shift`+`K` brings up a keyboard shortcut reference card.
 

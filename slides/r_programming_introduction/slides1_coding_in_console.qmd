@@ -106,9 +106,10 @@ Notice the default panes:
 
 ::::: {.body-text}
 
-The **Console pane** is where you can directly type R code, and R will interpret the code and return some value.  
+**Console** is where you can directly type R code.  
 
-When you first start, you'll see some text including the version of R software currently installed (yours may not match the image!)
+When you start a new session, you'll see some text that includes the current version of R software installed (yours may not match the image).
+
 :::::
 
 :::: 
@@ -118,7 +119,7 @@ When you first start, you'll see some text including the version of R software c
 <!-- end .columns -->
 
 :::{.body-text}
-Note there are tabs for **Terminal** and **Background Jobs**.  **Terminal** is direct access to your computer's operating system (NOT R software).  We won't do anything with those for now.
+There are tabs for **Terminal** and **Background Jobs**.  **Terminal** is direct access to your computer's operating system (not R software).
 :::
 
 ---
@@ -139,9 +140,9 @@ Note there are tabs for **Terminal** and **Background Jobs**.  **Terminal** is d
 
 ::::: {.body-text}
 
-The **Environment pane** is where R will display information it is holding in memory - "objects" that may contain individual values, lists or vectors containing multiple values, data frames containing tabular data, etc.
+**Environment** displays information in working memory - "objects" that may be individual values, lists or vectors with multiple values, data frames of tabular data, etc.
 
-When you first start up, if you have set things up as we prefer to set them, the Environment pane will say "Environment is empty."  Later, as we use R to make some simple calculations, you will see objects in this pane.
+When you start a new session, the environment pane should say "Environment is empty." As you use R to make calculations and store values, you will see objects in this pane.
 :::::
 
 :::: 
@@ -151,7 +152,7 @@ When you first start up, if you have set things up as we prefer to set them, the
 <!-- end .columns -->
 
 :::{.body-text}
-Note there is a tab for **History** and perhaps others.  **History** will show you the sequence of any commands you have typed or executed into R.  When we start writing **R scripts**, you will see that the History tab is not something we need for reproducible science.
+There is a tab for **History** and perhaps others.  **History** will show you the sequence of any commands you have typed or executed into R.  When writing **R scripts**, the History tab is not necessary for reproducible science.
 :::
 
 ---
@@ -172,9 +173,8 @@ Note there is a tab for **History** and perhaps others.  **History** will show y
 
 ::::: {.body-text}
 
-The **Files pane** displays files and folders where you might store R scripts, datasets, images, etc.
+**Files** displays files and folders on your computer. You can navigate just like you would normally browse on your computer.
 
-You can navigate around these files just like you would normally browse on your computer, and open scripts, inspect data, etc.
 :::::
 
 :::: 
@@ -184,7 +184,7 @@ You can navigate around these files just like you would normally browse on your 
 <!-- end .columns -->
 
 :::{.body-text}
-Note the other tabs: when you create plots, this pane will switch to that tab and show you the plots.  You can see what packages (and versions) you have installed, get help on functions and packages, and view HTML or other outputs on these tabs.
+Note the other tabs in this pane: when you create plots or tables, they will generate in the *plots* pane. *Packages* provides information on the packages and versions installed, and *Help* is provides searchable documentation for those packages and functions. *Viewer* and *Presentation* display HTML or other outputs.
 :::
 
 ---
@@ -192,9 +192,12 @@ Note the other tabs: when you create plots, this pane will switch to that tab an
 [Coding in the Console]{.slide-title}
 
 :::{.body-text}
-We can run code in the Console window - direct access to the R application.  Let's start there, but later we'll generally not do much in the console, but instead in scripts.
+We run code in the Console. 
 
-At its most basic, we can use R as a calculator.  Let's try a couple of examples in the console.
+At its most basic, we can use R as a calculator.  
+
+Let's try a couple of examples in the console.
+
 :::
 
 ```{r}
@@ -205,7 +208,7 @@ At its most basic, we can use R as a calculator.  Let's try a couple of examples
 ```
 
 :::{.body-text}
-Notice when you hit "enter" after the calculation, R immediately evaluates the calculation for you and tells you the result.
+When you hit "enter" after the calculation, R immediately evaluates the expression and provides the result.
 :::
 
 ---
@@ -217,7 +220,8 @@ Notice when you hit "enter" after the calculation, R immediately evaluates the c
 ::: {.callout-caution icon="false"}
 #### Quick Tip
 
-When you're in the console you'll see a greater than sign (`>`) at the start of a line. This is called the "prompt" and when we see it, it means R is ready to accept commands. If you see a plus sign (`+`) in the Console, it means R is waiting on additional information before running. You can always press escape (`esc`) to return to the prompt. Try practicing this by running `3*` (or any incomplete expression) in the console.
+In the console, a greater than sign (`>`) signals the start of a line. This is called the "prompt" and means R is ready to accept commands. If you see a plus sign (`+`) in the console, it means R is waiting for additional information. You can press escape (`esc`) to return to the prompt. Try practicing this by running `3*` (or any incomplete expression).
+
 :::
 
 ---
@@ -229,9 +233,10 @@ When you're in the console you'll see a greater than sign (`>`) at the start of 
 <hr>
 
 ::: {.body-text}
-We can assign the value of some calculation to an "object" by giving it a name.
-For example, we can store the result of the calculation `3 * 4` and call it "result".
-Then we can call the name of the object to retrieve the value.
+The assignment operator (`<-`) creates an "object" by assigning it a name. R will evaluate the expression on the right side, and store that value with the name on the left.
+
+For example, assign the result of `3 * 4` and call it "result". Then we can call the *name* of the object to use the *value* in other calculations, and so on.
+
 :::
 
 ```{r}
@@ -240,9 +245,6 @@ result <- 3 * 4   ### assign the value
 result            ### retrieve the value
 ```
 
-::: {.body-text}
-Technically, we are creating an object called "result" and assigning the value to that object.  Then we can call the *name* of the object to use the *value* in other calculations, and so on.
-:::
 
 ---
 
@@ -283,7 +285,7 @@ vol               ### report the volume
 
 ::::: {.body-text}
 
-Check the **Environment pane** again - it no longer says "Environment is empty" but instead contains the objects and values we created in our example.
+Now the **Environment** pane contains the objects and values we created in our example.
 :::::
 
 :::: 
@@ -305,7 +307,7 @@ While there are many cases where it makes sense to type code directly in to the 
 **A better way is to create an R Script, and write your code there.** 
 
 ::: {.body-text}
-Then when you run your code from the script, you can save it when you are done, and you can re-run it later to get the exact same result - a key to  **reproducible science**. We're going to work some more example code in the Console for now, but we'll code in an R Script later in this lesson.
+When you run your code from the script, you can save it when you are done, and you can re-run it later to get the exact same result - a key to  **reproducible science**.
 :::
 
 
