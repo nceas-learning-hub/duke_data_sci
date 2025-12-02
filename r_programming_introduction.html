@@ -411,11 +411,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#working-with-data-frames-in-r" id="toc-working-with-data-frames-in-r" class="nav-link" data-scroll-target="#working-with-data-frames-in-r"><span class="header-section-number">6.2</span> Working with data frames in R</a></li>
   </ul></li>
   <li><a href="#logical-operators-and-expressions" id="toc-logical-operators-and-expressions" class="nav-link" data-scroll-target="#logical-operators-and-expressions"><span class="header-section-number">7</span> Logical operators and expressions</a></li>
-  <li><a href="#error-messages-are-your-friends" id="toc-error-messages-are-your-friends" class="nav-link" data-scroll-target="#error-messages-are-your-friends"><span class="header-section-number">8</span> Error messages are your friends</a></li>
-  <li><a href="#r-packages" id="toc-r-packages" class="nav-link" data-scroll-target="#r-packages"><span class="header-section-number">9</span> R Packages</a></li>
-  <li><a href="#r-resources" id="toc-r-resources" class="nav-link" data-scroll-target="#r-resources"><span class="header-section-number">10</span> R Resources</a></li>
-  <li><a href="#clearing-the-environment" id="toc-clearing-the-environment" class="nav-link" data-scroll-target="#clearing-the-environment"><span class="header-section-number">11</span> Clearing the environment</a></li>
-  <li><a href="#save-workspace-image-to-.rdata" id="toc-save-workspace-image-to-.rdata" class="nav-link" data-scroll-target="#save-workspace-image-to-.rdata"><span class="header-section-number">12</span> Save Workspace Image to .RData?</a></li>
+  <li><a href="#clearing-the-environment" id="toc-clearing-the-environment" class="nav-link" data-scroll-target="#clearing-the-environment"><span class="header-section-number">8</span> Clearing the environment</a></li>
+  <li><a href="#save-workspace-image-to-.rdata" id="toc-save-workspace-image-to-.rdata" class="nav-link" data-scroll-target="#save-workspace-image-to-.rdata"><span class="header-section-number">9</span> Save Workspace Image to .RData?</a></li>
   </ul>
 </nav>
     </div>
@@ -627,12 +624,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 data-number="2.2.1" class="anchored" data-anchor-id="case-conventions"><span class="header-section-number">2.2.1</span> Case conventions</h4>
 <p>A clear, consistent <a href="https://en.wikipedia.org/wiki/Naming_convention_(programming)#:~:text=In%20computer%20programming%2C%20a%20naming,in%20source%20code%20and%20documentation">naming convention</a> improves readability and reduces cognitive load. Choosing one is a personal preference.</p>
 <p>For the object <code>fave_num</code>, we used an underscore to separate the object name. This naming convention is called <strong>lowercase snake case</strong> - it is common in data science because it’s easy to scan, works well across operating systems, and avoids ambiguity.</p>
-<ul>
-<li><code>snake_case</code></li>
-<li><code>camelCase</code> is compact but less readable</li>
-<li><code>UpperCamelCase</code> (also called <code>PascalCase</code>) sometimes signals a different kind of object</li>
-<li><code>kebab-case</code> is not good for object names because R treats a hyphen (<code>-</code>) as a minus sign</li>
-</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 69%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><code>snake_case</code></td>
+<td>easy to scan, works well across OS</td>
+</tr>
+<tr class="even">
+<td><code>camelCase</code></td>
+<td>compact but less readable</td>
+</tr>
+<tr class="odd">
+<td><code>UpperCamelCase</code> (also called <code>PascalCase</code>)</td>
+<td>often used to signal a different type of object (e.g.&nbsp;functions)</td>
+</tr>
+<tr class="even">
+<td><code>kebab-case</code></td>
+<td><p>not good for objects because R treats a hyphen as a minus sign</p>
+<p>(but works nicely for file names)</p></td>
+</tr>
+<tr class="odd">
+<td><code>SCREAMING_SNAKE_CASE</code></td>
+<td>case is a personal preference so you can absolutely pick what you want as long as you are consistent…</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 </section>
@@ -1093,78 +1113,8 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 </div>
 </div>
 </section>
-<section id="error-messages-are-your-friends" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="error-messages-are-your-friends"><span class="header-section-number">8</span> Error messages are your friends</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><img src="images/r_programming_introduction/practicalDev_googleErrorMessage.jpg" class="img-fluid" style="width:100.0%"></p>
-</div><div class="column" style="width:50%;">
-<p>Programming comes with an implicit contract: the computer handles the tedious work, and you provide precise instructions. Typos and capitalization matter, and small differences can change the meaning entirely. Treat R as a language… misunderstandings will happen.</p>
-<p>When R can’t interpret what you’ve written, you’ll get an error. Some errors are straightforward, essentially asking “What?” or pointing to exactly where the problem is. Others are less helpful. Either way, they’re part of the process and a normal part of learning to communicate clearly with the computer.</p>
-</div>
-</div>
-<p>Error messages are a learning opportunity. Copy and paste them into Google (or ChatGPT) to see what they mean. Note that knowing how to Google is a skill and takes practice. This <a href="https://bren.ucsb.edu/masters-programs/master-environmental-data-science">Masters of Environmental Data Science</a> (MEDS) program workshop <a href="https://ucsb-meds.github.io/teach-me-how-to-google/#1">Teach Me How to Google</a> has a very helpful guide.</p>
-<p>Some mistakes don’t trigger errors right away. R may understand what you wrote, but not what you intended… much like talking about “tables” and realizing too late that the listener was picturing furniture instead of data. These misunderstandings accumulate and make later results confusing. Writing clear code and checking your work step by step helps prevent these silent errors and keeps your analysis on track.</p>
-</section>
-<section id="r-packages" class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="r-packages"><span class="header-section-number">9</span> R Packages</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/r_programming_introduction/allison-horst-r-doorway.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Artwork by Allison Horst</figcaption>
-</figure>
-</div>
-<p>R packages are the building blocks of computational reproducibility in R. Each package contains a set of related functions that enable you to more easily do a task or set of tasks in R. There are thousands of community-maintained packages out there for just about every imaginable use of R - including many that you have probably never thought of!</p>
-<p>To install a package, we use the syntax <code>install.packages("packge_name")</code>. A package only needs to be installed once, so this code can be run directly in the console if needed. Generally, you don’t want to save your install package calls in a script, because when you run the script it will re-install the package, which you only need to do once, or if you need to update the package.</p>
-</section>
-<section id="r-resources" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="r-resources"><span class="header-section-number">10</span> R Resources</h2>
-<table class="caption-top table">
-<caption>Awesome R Resources to Check out</caption>
-<colgroup>
-<col style="width: 20%">
-<col style="width: 80%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td>Learning R Resources</td>
-<td><ul>
-<li><a href="http://www.datacarpentry.org/R-ecology-lesson/01-intro-to-r.html">Introduction to R</a> lesson in <a href="http://www.datacarpentry.org/R-ecology-lesson/">Data Carpentry’s R for data analysis</a> course</li>
-<li>Jenny Bryan’s Stat 545 <a href="https://stat545.com/r-basics.html">course materials</a></li>
-<li><a href="http://ohi-science.org/data-science-training/">Julie Lowndes’ Data Science Training for the Ocean Health Index</a></li>
-<li>Learn R in the console with <a href="https://swirlstats.com/">swirl</a></li>
-<li><a href="http://ohi-science.org/data-science-training/programming.html">Programming in R</a></li>
-<li><a href="http://ohi-science.org/data-science-training/rstudio.html">R, RStudio, RMarkdown</a></li>
-</ul></td>
-</tr>
-<tr class="even">
-<td>Community Resources</td>
-<td><ul>
-<li><p><a href="https://eco-data-science.github.io/">NCEAS’ EcoDataScience</a></p></li>
-<li><p><a href="https://rladies.org/">R-Ladies</a></p></li>
-<li><p><a href="https://ropensci.org/community/">rOpenSci</a></p></li>
-<li><p><a href="https://mircommunity.com/">Minorities in R (MiR)</a></p></li>
-<li><p>Twitter - there is <em>a lot</em> here but some hashtags to start with are:</p>
-<ul>
-<li><p>#rstats</p></li>
-<li><p>#TidyTuesday</p></li>
-<li><p>#dataviz</p></li>
-</ul></li>
-</ul></td>
-</tr>
-<tr class="odd">
-<td>Cheatsheets</td>
-<td><ul>
-<li><a href="https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf">Base R Cheatsheet</a></li>
-<li><a href="https://www.caam.rice.edu/~heinken/latex/symbols.pdf">LaTeX Equation Formatting</a></li>
-<li><a href="http://mathesaurus.sourceforge.net/octave-r.html">MATLAB/R Translation Cheatsheet</a></li>
-</ul></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="clearing-the-environment" class="level2" data-number="11">
-<h2 data-number="11" class="anchored" data-anchor-id="clearing-the-environment"><span class="header-section-number">11</span> Clearing the environment</h2>
+<section id="clearing-the-environment" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="clearing-the-environment"><span class="header-section-number">8</span> Clearing the environment</h2>
 <p>Take a look at the objects in your Environment (Workspace) in the upper right pane. The Workspace is where user-defined objects accumulate. There are a few useful commands for getting information about your Environment, which make it easier for you to reference your objects when your Environment gets filled with many, many objects.</p>
 <p><img src="images/r_programming_introduction/RStudio_IDE_env.png" class="img-fluid"></p>
 <p>You can get a listing of these objects with a couple of different R functions:</p>
@@ -1192,13 +1142,13 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="quick-tip-1" class="level4 {,callout-tip}" data-number="11.0.1">
-<h4 data-number="11.0.1" class="anchored" data-anchor-id="quick-tip-1"><span class="header-section-number">11.0.1</span> Quick Tip</h4>
+<section id="quick-tip-1" class="level4 {,callout-tip}" data-number="8.0.1">
+<h4 data-number="8.0.1" class="anchored" data-anchor-id="quick-tip-1"><span class="header-section-number">8.0.1</span> Quick Tip</h4>
 <p>It’s good practice to clear your environment. Over time your Global Environmental will fill up with many objects, and this can result in unexpected errors or objects being overridden with unexpected values. Also it’s difficult to read / reference your environment when it’s cluttered!</p>
 </section>
 </section>
-<section id="save-workspace-image-to-.rdata" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="save-workspace-image-to-.rdata"><span class="header-section-number">12</span> Save Workspace Image to .RData?</h2>
+<section id="save-workspace-image-to-.rdata" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="save-workspace-image-to-.rdata"><span class="header-section-number">9</span> Save Workspace Image to .RData?</h2>
 <p><img src="images/r_programming_introduction/save-workspace.png" class="img-fluid" style="width:50.0%"></p>
 <p><strong>DON’T SAVE</strong></p>
 <p>When ever you close or switch projects you will be promped with the question: Do you want to save your workspace image to /“current-project”/ .RData?</p>
