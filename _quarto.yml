@@ -50,7 +50,10 @@ website:
         - reproducibility.qmd
         - r_rproject_setup.qmd
         - r_programming_introduction.qmd
-
+        - text: "----"
+        - lecture_tidy_data.qmd
+        - r_tidyverse_clean_wrangle.qmd
+        - r_practice_tidy_data_joins.qmd
         - text: "----"
         - r_git_install_guide.qmd
         - zotero.qmd
@@ -61,9 +64,9 @@ website:
         #   -
         #   - s04_r_quarto_literate_analysis.qmd
         # - section: "Day 2"
-      #   - s07_lecture_tidy_data.qmd
-      #   - s08_r_tidyverse_clean_wrangle.qmd
-      #   - s09_r_practice_tidy_data_joins.qmd
+      #   - s07_
+      #   - s08_
+      #   - s09_
       # - section: "Day 3"
       #   contents:
       #   - s10_github_collaboration.qmd
