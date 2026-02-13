@@ -1,5 +1,209 @@
 [
   {
+    "objectID": "r_tidyverse_clean_wrangle.html",
+    "href": "r_tidyverse_clean_wrangle.html",
+    "title": "Cleaning and Wrangling Data",
+    "section": "",
+    "text": "TipLearning Objectives\n\n\n\n\nIntroduce dplyr and tidyr functions to clean and wrangle data for analysis\nLearn about the Split-Apply-Combine strategy and how it applies to data wrangling\nDescribe the difference between wide vs. long table formats and how to convert between them",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#introduction",
+    "href": "r_tidyverse_clean_wrangle.html#introduction",
+    "title": "Cleaning and Wrangling Data",
+    "section": "1 Introduction",
+    "text": "1 Introduction\nThe data we get to work with are rarely, if ever, in the format we need to do our analyses. It’s often the case that one package requires data in one format, while another package requires the data to be in another format. To be efficient analysts, we should have good tools for reformatting data for our needs so we can do further work like making plots and fitting models. The dplyr and tidyr R packages provide a fairly complete and extremely powerful set of functions for us to do this reformatting quickly. Learning these tools well will greatly increase your efficiency as an analyst.\nLet’s look at two motivating examples.\n\n\n\n\n\n\nNoteExample 1\n\n\n\nSuppose you have the following data.frame called length_data with data about salmon length and want to calculate the average length per year.\n\n\n\nyear\nlength_cm\n\n\n\n\n1990\n5.673318\n\n\n1991\n3.081224\n\n\n1991\n4.592696\n\n\n1992\n4.381523\n\n\n1992\n5.597777\n\n\n1992\n4.900052\n\n\n\nBefore thinking about the code, let’s think about the steps we need to take to get to the answer (aka pseudocode).\nNow, how would we code this? The dplyr R library provides a fast and powerful way to do this calculation in a few lines of code:\n\n\nAnswer\nlength_data %&gt;% \n  group_by(year) %&gt;% \n  summarize(mean_length_cm = mean(length_cm))\n\n\n\n\n\n\n\n\n\n\nNoteExample 2\n\n\n\nAnother process we often need to do is to “reshape” our data. Consider the following table that is in what we call “wide” format:\n\n\n\nsite\n1990\n1991\n…\n1993\n\n\n\n\ngold\n100\n118\n…\n112\n\n\nlake\n100\n118\n…\n112\n\n\n…\n…\n…\n…\n…\n\n\ndredge\n100\n118\n…\n112\n\n\n\nYou are probably familiar with data in the above format, where values of the variable being observed are spread out across columns. In this example we have a different column per year. This wide format works well for data entry and sometimes works well for analysis but we quickly outgrow it when using R (and know it is not tidy data!). For example, how would you fit a model with year as a predictor variable? In an ideal world, we’d be able to just run lm(length ~ year). But this won’t work on our wide data because lm() needs length and year to be columns in our table.\nWhat steps would you take to get this data frame in a long format?\nThe tidyr package allows us to quickly switch between wide format and long format using the pivot_longer() function:\n\n\nAnswer\nsite_data %&gt;% \n  pivot_longer(-site, \n               names_to = \"year\", \n               values_to = \"length\")\n\n\n\n\n\nsite\nyear\nlength\n\n\n\n\ngold\n1990\n101\n\n\nlake\n1990\n104\n\n\ndredge\n1990\n144\n\n\n…\n…\n…\n\n\ndredge\n1993\n145\n\n\n\n\n\nThis lesson will cover examples to learn about the functions you’ll most commonly use from the dplyr and tidyr packages:\n\nCommon dplyr functions\n\n\n\n\n\n\nFunction name\nDescription\n\n\n\n\nmutate()\nCreates modify and deletes columns\n\n\ngroup_by()\nGroups data by one or more variables\n\n\nsummarise()\nSummaries each group down to one row\n\n\nselect()\nKeep or drop columns using their names\n\n\nfilter()\nKeeps rows that matches conditions\n\n\narrange()\norder rows using columns variable\n\n\nrename()\nRename a column\n\n\n\n\nCommon tidyr functions\n\n\n\n\n\n\nFunction name\nDescription\n\n\n\n\npivot_longer()\ntransforms data from a wide to a long format\n\n\npivot_wider()\ntransforms data from a long to a wide format\n\n\nunite()\nUnite multiple columns into one by pasting strings together\n\n\nseparate()\nSeparate a character column into multiple columns with a regular expression or numeric locations",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#data-cleaning-basics",
+    "href": "r_tidyverse_clean_wrangle.html#data-cleaning-basics",
+    "title": "Cleaning and Wrangling Data",
+    "section": "2 Data cleaning basics",
+    "text": "2 Data cleaning basics\nTo demonstrate, we’ll be working with a tidied up version of a data set from Alaska Department of Fish & Game containing commercial catch data from 1878-1997. The data set and reference to the original source can be found at its public archive.\n\n\n\n\n\n\nTipSetup\n\n\n\nFirst, open a new Quarto document. Delete everything below the setup chunk, and add a library chunk that calls dplyr, tidyr, and readr\n\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(readr)\n\n\n\n\n\n\n\n\n\nImportantA note on loading packages\n\n\n\nYou may have noticed the following messages pop up when you ran your library chunk.\nAttaching package: ‘dplyr’\n\nThe following objects are masked from ‘package:stats’:\n\n    filter, lag\n\nThe following objects are masked from ‘package:base’:\n\n    intersect, setdiff, setequal, union\nThese are important messages. They are letting you know that certain functions from the stats and base packages (which are loaded by default when you start R) are masked by different functions with the same name in the dplyr package. It turns out, the order that you load the packages in matters. Since we loaded dplyr after stats, R will assume that if you call filter(), you mean the dplyr version unless you specify otherwise.\nBeing specific about which version of filter(), for example, you call is easy. To explicitly call a function by its unambiguous name, we use the syntax package_name::function_name(...). So, if we wanted to call the stats version of filter() in this Rmarkdown document, I would use the syntax stats::filter(...).\n\n\n\n\n\n\n\n\nCautionRemove messages and warnings\n\n\n\nMessages and warnings are important, but we might not want them in our final document. After you have read the packages in, adjust the chunk settings in your library chunk to suppress warnings and messages by adding #| message: false or #| warning: false. Both of these chunk options, when set to false, prevents messages or warnings from appearing in the rendered file.\n\n\nNow that we have introduced some data wrangling libraries, let’s get the data that we are going to use for this lesson.\n\n\n\n\n\n\nTipSetup\n\n\n\n\nGo to KNB Data Package Alaska commercial salmon catches by management region (1886- 1997)\nFind the data file df35b.302.1. Right click the “Download” button and select “Copy Link Address”\nPaste the copied URL into the read_csv() function\n\nThe code chunk you use to read in the data should look something like this:\n\ncatch_original &lt;- read_csv(\"https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1\")\n\nNote for Windows users: Keep in mind, if you want to replicate this workflow in your local computer you also need to use the url() function here with the argument method = \"libcurl\".\nIt would look like this:\n\ncatch_original &lt;- read.csv(url(\"https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1\", method = \"libcurl\"))\n\n\n\nThis data set is relatively clean and easy to interpret as-is. While it may be clean, it’s in a shape that makes it hard to use for some types of analyses so we’ll want to fix that first.\n\n\n\n\n\n\nNoteExercise\n\n\n\nBefore we get too much further, spend a minute or two outlining your Quarto document so that it includes the following sections and steps:\n\nData Sources\n\nRead in the data\nExplore data\n\nClean and Reshape data\n\nUsing select() function\nCheck column types\nReplace values in a column with mutate()\nReshape data with pivot_longer() and pivot_wider()\nRename columns rename()\nAdd columns with mutate()\nSummary stats using group_by() and summarize()\nFiltering rows using filter()\nSort data using arrange()\nSplit and combine values in columns with separate() and unite()",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#data-exploration",
+    "href": "r_tidyverse_clean_wrangle.html#data-exploration",
+    "title": "Cleaning and Wrangling Data",
+    "section": "3 Data exploration",
+    "text": "3 Data exploration\nSimilar to what we did in our Literate Analysis lesson, it is good practice to skim through the data you just read in.\nDoing so is important to make sure the data is read as you were expecting and to familiarize yourself with the data.\nSome of the basic ways to explore your data are:\n\n## Prints the column names of my data frame\ncolnames(catch_original)\n\n## First 6 lines of the data frame\nhead(catch_original)\n\n## Summary of each column of data\nsummary(catch_original)\n\n## Prints unique values in a column (in this case, the region)\nunique(catch_original$Region)\n\n## Opens data frame in its own tab to see each row and column of the data (do in console)\nView(catch_original)",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#about-the-pipe-operator",
+    "href": "r_tidyverse_clean_wrangle.html#about-the-pipe-operator",
+    "title": "Cleaning and Wrangling Data",
+    "section": "4 About the pipe (%>%) operator",
+    "text": "4 About the pipe (%&gt;%) operator\nBefore we jump into learning tidyr and dplyr, we first need to explain the pipeline operator %&gt;%.\nBoth the tidyr and the dplyr packages use the pipe operator (%&gt;%), which may look unfamiliar. The pipe is a powerful way to efficiently chain together operations. The pipe will take the output of a previous statement, and use it as the input to the next statement.\nSay you want to both filter() out rows of a data set, and select() certain columns.\nInstead of writing:\n\ndf_filtered &lt;- filter(df, ...)\ndf_selected &lt;- select(df_filtered, ...)\n\nYou can write:\n\ndf_cleaned &lt;- df %&gt;% \n    filter(...) %&gt;%\n    select(...)\n\nIf you think of the assignment operator (&lt;-) as reading like “gets”, then the pipe operator would read like “then”.\nSo you might think of the above chunk being translated as:\n\nThe cleaned data frame gets the original data, and then a filter (of the original data), and then a select (of the filtered data).\n\nThe benefits to using pipes are that you don’t have to keep track of (or overwrite) intermediate data frames. The drawbacks are that it can be more difficult to explain the reasoning behind each step, especially when many operations are chained together. It is good to strike a balance between writing efficient code (chaining operations), while ensuring that you are still clearly explaining, both to your future self and others, what you are doing and why you are doing it.\n\n\n\n\n\n\nCautionQuick Tip\n\n\n\nRStudio has a keyboard shortcut for %&gt;%\n\nWindows: Ctrl + Shift + M\nMac: cmd + shift + M",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#selecting-or-removing-columns-using-select",
+    "href": "r_tidyverse_clean_wrangle.html#selecting-or-removing-columns-using-select",
+    "title": "Cleaning and Wrangling Data",
+    "section": "5 Selecting or removing columns using select()",
+    "text": "5 Selecting or removing columns using select()\nWe’re ready to go back to our salmon dataset. The first issue is the extra columns All and notesRegCode. Let’s select only the columns we want, and assign this to a variable called catch_data.\n\ncatch_data &lt;- catch_original %&gt;%\n    select(Region, Year, Chinook, Sockeye, Coho, Pink, Chum)\n\nhead(catch_data)\n\n# A tibble: 6 × 7\n  Region  Year Chinook Sockeye  Coho  Pink  Chum\n  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 SSE     1886 0             5     0     0     0\n2 SSE     1887 0           155     0     0     0\n3 SSE     1888 0           224    16     0     0\n4 SSE     1889 0           182    11    92     0\n5 SSE     1890 0           251    42     0     0\n6 SSE     1891 0           274    24     0     0\n\n\nMuch better!\nThe select() function also allows you to say which columns you don’t want, by passing unquoted column names preceded by minus (-) signs:\n\ncatch_data &lt;- catch_original %&gt;%\n    select(-All,-notesRegCode)",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#quality-check",
+    "href": "r_tidyverse_clean_wrangle.html#quality-check",
+    "title": "Cleaning and Wrangling Data",
+    "section": "6 Quality check",
+    "text": "6 Quality check\nNow that we have the data we are interested in using, we should do a little quality check to see that everything seems as expected. One nice way of doing this is the glimpse() function.\n\ndplyr::glimpse(catch_data)\n\nRows: 1,708\nColumns: 7\n$ Region  &lt;chr&gt; \"SSE\", \"SSE\", \"SSE\", \"SSE\", \"SSE\", \"SSE\", \"SSE\", \"SSE\", \"SSE\",…\n$ Year    &lt;dbl&gt; 1886, 1887, 1888, 1889, 1890, 1891, 1892, 1893, 1894, 1895, 18…\n$ Chinook &lt;chr&gt; \"0\", \"0\", \"0\", \"0\", \"0\", \"0\", \"0\", \"0\", \"0\", \"3\", \"4\", \"5\", \"9…\n$ Sockeye &lt;dbl&gt; 5, 155, 224, 182, 251, 274, 207, 189, 253, 408, 989, 791, 708,…\n$ Coho    &lt;dbl&gt; 0, 0, 16, 11, 42, 24, 11, 1, 5, 8, 192, 161, 132, 139, 84, 107…\n$ Pink    &lt;dbl&gt; 0, 0, 0, 92, 0, 0, 8, 187, 529, 606, 996, 2218, 673, 1545, 204…\n$ Chum    &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 1, 2, 0, 0, 0, 102, 343…\n\n\n\n\n\n\n\n\nNoteExercise\n\n\n\nExamine the output of the glimpse() function call. Does anything seem amiss with this data set that might warrant fixing?\n\n\nAnswer:\n\nThe Chinook catch data are character class. Let’s fix it using the function mutate() before moving on.",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#changing-column-content-using-mutate",
+    "href": "r_tidyverse_clean_wrangle.html#changing-column-content-using-mutate",
+    "title": "Cleaning and Wrangling Data",
+    "section": "7 Changing column content using mutate()",
+    "text": "7 Changing column content using mutate()\nWe can use the mutate() function to change a column, or to create a new column. First, let’s try to convert the Chinook catch values to numeric type using the as.numeric() function, and overwrite the old Chinook column.\n\ncatch_clean &lt;- catch_data %&gt;%\n    mutate(Chinook = as.numeric(Chinook))\n\nWarning: There was 1 warning in `mutate()`.\nℹ In argument: `Chinook = as.numeric(Chinook)`.\nCaused by warning:\n! NAs introduced by coercion\n\nhead(catch_clean)\n\n# A tibble: 6 × 7\n  Region  Year Chinook Sockeye  Coho  Pink  Chum\n  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 SSE     1886       0       5     0     0     0\n2 SSE     1887       0     155     0     0     0\n3 SSE     1888       0     224    16     0     0\n4 SSE     1889       0     182    11    92     0\n5 SSE     1890       0     251    42     0     0\n6 SSE     1891       0     274    24     0     0\n\n\nWe get a warning \"NAs introduced by coercion\" which is R telling us that it couldn’t convert every value to an integer and, for those values it couldn’t convert, it put an NA in its place. This is behavior we commonly experience when cleaning data sets and it’s important to have the skills to deal with it when it comes up.\nTo investigate, let’s isolate the issue. We can find out which values are NAs with a combination of is.na() and which(), and save that to a variable called i.\n\ni &lt;- which(is.na(catch_clean$Chinook))\ni\n\n[1] 401\n\n\nIt looks like there is only one problem row, lets have a look at it in the original data.\n\ncatch_data[i,]\n\n# A tibble: 1 × 7\n  Region  Year Chinook Sockeye  Coho  Pink  Chum\n  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 GSE     1955 I            66     0     0     1\n\n\nWell that’s odd: The value in Chinook is the letter I. It turns out that this data set is from a PDF which was automatically converted into a csv and this value of I is actually a 1.\nLet’s fix it by incorporating the if_else() function to our mutate() call, which will change the value of the Chinook column to 1 if the value is equal to I, then will use as.numeric() to turn the character representations of numbers into numeric typed values.\n\ncatch_clean &lt;- catch_data %&gt;%\n    mutate(Chinook = if_else(condition = Chinook == \"I\", \n                             true = \"1\", \n                             false = Chinook),\n           Chinook = as.numeric(Chinook))\n\n##check\ncatch_clean[i, ]\n\n# A tibble: 1 × 7\n  Region  Year Chinook Sockeye  Coho  Pink  Chum\n  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 GSE     1955       1      66     0     0     1",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#changing-shape-using-pivot_longer-and-pivot_wider",
+    "href": "r_tidyverse_clean_wrangle.html#changing-shape-using-pivot_longer-and-pivot_wider",
+    "title": "Cleaning and Wrangling Data",
+    "section": "8 Changing shape using pivot_longer() and pivot_wider()",
+    "text": "8 Changing shape using pivot_longer() and pivot_wider()\nThe next issue is that the data are in a wide format and we want the data in a long format instead. The function pivot_longer() from the tidyr package helps us do this conversion. If you do not remember all the arguments that go into pivot_longer() you can always call the help page by typing ?pivot_longer in the console.\n\ncatch_long &lt;- catch_clean %&gt;% \n    #pivot longer all columns except Region and Year\n    pivot_longer(\n        cols = -c(Region, Year),\n        names_to = \"species\",\n        values_to = \"catch\"\n    )\n\nhead(catch_long)\n\n# A tibble: 6 × 4\n  Region  Year species catch\n  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;\n1 SSE     1886 Chinook     0\n2 SSE     1886 Sockeye     5\n3 SSE     1886 Coho        0\n4 SSE     1886 Pink        0\n5 SSE     1886 Chum        0\n6 SSE     1887 Chinook     0\n\n\nThe syntax we used above for pivot_longer() might be a bit confusing so let’s walk though it.\n\nThe first argument to pivot_longer is the columns over which we are pivoting. You can select these by listing either the names of the columns you do want to pivot, or in this case, the names of the columns you are not pivoting over.\nThe names_to argument: this is the name of the column that you are creating from the column names of the columns you are pivoting over.\nThe values_to argument: the name of the column that you are creating from the values in the columns you are pivoting over.\n\nThe opposite of pivot_longer() is the pivot_wider() function. It works in a similar declarative fashion:\n\ncatch_wide &lt;- catch_long %&gt;%\n    pivot_wider(names_from = species,\n                values_from = catch)\n\nhead(catch_wide)\n\n# A tibble: 6 × 7\n  Region  Year Chinook Sockeye  Coho  Pink  Chum\n  &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 SSE     1886       0       5     0     0     0\n2 SSE     1887       0     155     0     0     0\n3 SSE     1888       0     224    16     0     0\n4 SSE     1889       0     182    11    92     0\n5 SSE     1890       0     251    42     0     0\n6 SSE     1891       0     274    24     0     0\n\n\nSame than we did above we can pull up the documentation of the function to remind ourselves what goes in which argument. Type ?pivot_wider in the console.",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#renaming-columns-with-rename",
+    "href": "r_tidyverse_clean_wrangle.html#renaming-columns-with-rename",
+    "title": "Cleaning and Wrangling Data",
+    "section": "9 Renaming columns with rename()",
+    "text": "9 Renaming columns with rename()\nIf you scan through the data, you may notice the values in the catch column are very small (these are supposed to be annual catches). If we look at the metadata we can see that the catch column is in thousands of fish, so let’s convert it before moving on.\nLet’s first rename the catch column to be called catch_thousands:\n\ncatch_long &lt;- catch_long %&gt;%\n    rename(catch_thousands = catch)\n\nhead(catch_long)\n\n# A tibble: 6 × 4\n  Region  Year species catch_thousands\n  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;\n1 SSE     1886 Chinook               0\n2 SSE     1886 Sockeye               5\n3 SSE     1886 Coho                  0\n4 SSE     1886 Pink                  0\n5 SSE     1886 Chum                  0\n6 SSE     1887 Chinook               0\n\n\n\n\n\n\n\n\nImportantnames() versus rename()\n\n\n\nMany people use the base R function names() to rename columns, often in combination with column indexing that relies on columns being in a particular order. Column indexing is often also used to select columns instead of the select() function from dplyr. Although these methods work just fine, they do have one major drawback: in most implementations they rely on you knowing exactly the column order your data is in.\nTo illustrate why your knowledge of column order isn’t reliable enough for these operations, considering the following scenario:\nYour colleague emails you letting you know that she has an updated version of the conductivity-temperature-depth data from this year’s research cruise, and sends it along. Excited, you re-run your scripts that use this data for your phytoplankton research. You run the script and suddenly all of your numbers seem off. You spend hours trying to figure out what is going on.\nUnbeknownst to you, your colleagues bought a new sensor this year that measures dissolved oxygen. Because of the new variables in the data set, the column order is different. Your script which previously renamed the fourth column, SAL_PSU to salinity now renames the fourth column, O2_MGpL to salinity. No wonder your results looked so weird, good thing you caught it!\nIf you had written your code so that it doesn’t rely on column order, but instead renames columns using the rename() function, the code would have run just fine (assuming the name of the original salinity column didn’t change, in which case the code would have thrown an error in an obvious way). This is an example of a defensive coding strategy, where you try to anticipate issues before they arise, and write your code in such a way as to keep the issues from happening.",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#adding-columns-using-mutate",
+    "href": "r_tidyverse_clean_wrangle.html#adding-columns-using-mutate",
+    "title": "Cleaning and Wrangling Data",
+    "section": "10 Adding columns using mutate()",
+    "text": "10 Adding columns using mutate()\nNow let’s use mutate() again to create a new column called catch with units of fish (instead of thousands of fish).\n\ncatch_long &lt;- catch_long %&gt;%\n    mutate(catch = catch_thousands * 1000)\n\nhead(catch_long)\n\nLet’s remove the catch_thousands column for now since we don’t need it. Note that here we have added to the expression we wrote above by adding another function call (mutate) to our expression. This takes advantage of the pipe operator by grouping together a similar set of statements, which all aim to clean up the catch_clean data frame.\n\ncatch_long &lt;- catch_long %&gt;%\n    mutate(catch = catch_thousands * 1000) %&gt;%\n    select(-catch_thousands)\n\nhead(catch_long)\n\n# A tibble: 6 × 4\n  Region  Year species catch\n  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;\n1 SSE     1886 Chinook     0\n2 SSE     1886 Sockeye  5000\n3 SSE     1886 Coho        0\n4 SSE     1886 Pink        0\n5 SSE     1886 Chum        0\n6 SSE     1887 Chinook     0\n\n\nWe’re now ready to start analyzing the data.",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#summary-statistics-using-group_by-and-summarize",
+    "href": "r_tidyverse_clean_wrangle.html#summary-statistics-using-group_by-and-summarize",
+    "title": "Cleaning and Wrangling Data",
+    "section": "11 Summary statistics using group_by() and summarize()",
+    "text": "11 Summary statistics using group_by() and summarize()\nSuppose we are now interested in getting the average catch per region. In our initial data exploration we saw there are 18 regions, we can easily see their names again:\n\nunique(catch_original$Region)\n\n [1] \"SSE\" \"NSE\" \"YAK\" \"GSE\" \"BER\" \"COP\" \"PWS\" \"CKI\" \"BRB\" \"KSK\" \"YUK\" \"NRS\"\n[13] \"KTZ\" \"KOD\" \"CHG\" \"SOP\" \"ALU\" \"NOP\"\n\n\nThink about how we would calculate the average catch per region “by hand”. It would be something like this:\n\nWe start with our table and notice there are multiple regions in the “Regions” column.\nWe split our original table to group all observations from the same region together.\nWe calculate the average catch for each of the groups we form.\nThen we combine the values for average catch per region into a single table.\n\n\n\n\n\n\n\n\nAnalyses like this conform to what is known as the Split-Apply-Combine strategy. This strategy follows the three steps we explained above:\n\nSplit: Split the data into logical groups (e.g., region, species, etc.)\nApply: Calculate some summary statistic on each group (e.g. mean catch by year, number of individuals per species)\nCombine: Combine the statistic calculated on each group back together into a single table\n\nThe dplyr library lets us easily employ the Split-Apply-Combine strategy by using the group_by() and summarize() functions:\n\nmean_region &lt;- catch_long %&gt;%\n    group_by(Region) %&gt;%\n    summarize(mean_catch = mean(catch))\n\nhead(mean_region)\n\n# A tibble: 6 × 2\n  Region mean_catch\n  &lt;chr&gt;       &lt;dbl&gt;\n1 ALU        40384.\n2 BER        16373.\n3 BRB      2709796.\n4 CHG       315487.\n5 CKI       683571.\n6 COP       179223.\n\n\nLet’s see how the previous code implements the Split-Apply-Combine strategy:\n\ngroup_by(Region): this is telling R to split the dataframe and create a group for each different value in the column Region. R just keeps track of the groups, it doesn’t return separate dataframes per region.\nmean(catch): here mean is the function we want to apply to the column catch in each group.\nsummarize(catch = mean(catch)) the function summarize() is used to combine the results of mean(catch) in each group into a single table. The argument mean_catch = mean(catch) indicates that the column having the results of mean(catch) will be named mean_catch.\n\nAnother common use of group_by() followed by summarize() is to count the number of rows in each group. We have to use a special function from dplyr, n().\n\nn_region &lt;- catch_long %&gt;%\n    group_by(Region) %&gt;%\n    summarize(n = n())\n\nhead(n_region)\n\n# A tibble: 6 × 2\n  Region     n\n  &lt;chr&gt;  &lt;int&gt;\n1 ALU      435\n2 BER      510\n3 BRB      570\n4 CHG      550\n5 CKI      525\n6 COP      470\n\n\n\n\n\n\n\n\nCautionTry using count()\n\n\n\nIf you are finding that you are reaching for this combination of group_by(), summarize() and n() a lot, there is a helpful dplyr function count() that accomplishes this in one function!\n\n\n\n\n\n\n\n\nNoteExercise\n\n\n\n\nFind another grouping and statistic to calculate for each group.\nFind out if you can group by multiple variables.\n\n\n\nAnswer\n## for example:\ncatch_year_sp &lt;- catch_long %&gt;%\n    group_by(Year, species) %&gt;%\n    summarize(total_year = sum(catch, na.rm = T))",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#filtering-rows-using-filter",
+    "href": "r_tidyverse_clean_wrangle.html#filtering-rows-using-filter",
+    "title": "Cleaning and Wrangling Data",
+    "section": "12 Filtering rows using filter()",
+    "text": "12 Filtering rows using filter()\nWe use the filter() function to filter our data.frame to rows matching some condition. It’s similar to subset() from base R.\nLet’s go back to our original data.frame and do some filter()ing:\n\nsse_catch &lt;- catch_long %&gt;%\n    filter(Region == \"SSE\")\n\nhead(sse_catch)\n\n# A tibble: 6 × 4\n  Region  Year species catch\n  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;\n1 SSE     1886 Chinook     0\n2 SSE     1886 Sockeye  5000\n3 SSE     1886 Coho        0\n4 SSE     1886 Pink        0\n5 SSE     1886 Chum        0\n6 SSE     1887 Chinook     0\n\n\n\n\n\n\n\n\nNoteExercise\n\n\n\n\nFilter to just catches of over one million fish\nFilter to just Chinook from the SSE region\n\n\n\nAnswer\n## Catches over a million fish\ncatch_million &lt;- catch_long %&gt;%\n    filter(catch &gt; 1000000)\n\n## Chinook from SSE data\nchinook_see &lt;- catch_long %&gt;%\n    filter(Region == \"SSE\",\n           species == \"Chinook\")\n\n## OR\nchinook_see &lt;- catch_long %&gt;%\n    filter(Region == \"SSE\" & species == \"Chinook\")",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#sorting-your-data-using-arrange",
+    "href": "r_tidyverse_clean_wrangle.html#sorting-your-data-using-arrange",
+    "title": "Cleaning and Wrangling Data",
+    "section": "13 Sorting your data using arrange()",
+    "text": "13 Sorting your data using arrange()\nThe arrange() function is used to sort the rows of a data.frame. Two common cases to use arrange() are:\n\nTo calculate a cumulative sum (with cumsum()) so row order matters\nTo display a table (like in an .qmd document) in sorted order\n\nLet’s re-calculate mean catch by region, and then arrange() the output by mean catch:\n\nmean_region &lt;- catch_long %&gt;%\n    group_by(Region) %&gt;%\n    summarize(mean_catch = mean(catch)) %&gt;%\n    arrange(mean_catch)\n\nhead(mean_region)\n\n# A tibble: 6 × 2\n  Region mean_catch\n  &lt;chr&gt;       &lt;dbl&gt;\n1 BER        16373.\n2 KTZ        18836.\n3 ALU        40384.\n4 NRS        51503.\n5 KSK        67642.\n6 YUK        68646.\n\n\nThe default sorting order of arrange() is to sort in ascending order. To reverse the sort order, wrap the column name inside the desc() function:\n\nmean_region &lt;- catch_long %&gt;%\n    group_by(Region) %&gt;%\n    summarize(mean_catch = mean(catch)) %&gt;%\n    arrange(desc(mean_catch))\n\nhead(mean_region)\n\n# A tibble: 6 × 2\n  Region mean_catch\n  &lt;chr&gt;       &lt;dbl&gt;\n1 SSE      3184661.\n2 BRB      2709796.\n3 NSE      1825021.\n4 KOD      1528350 \n5 PWS      1419237.\n6 SOP      1110942.",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#splitting-a-column-using-separate-and-unite",
+    "href": "r_tidyverse_clean_wrangle.html#splitting-a-column-using-separate-and-unite",
+    "title": "Cleaning and Wrangling Data",
+    "section": "14 Splitting a column using separate() and unite()",
+    "text": "14 Splitting a column using separate() and unite()\nThe separate() function allow us to easily split a single column into numerous. Its complement, the unite() function, allows us to combine multiple columns into a single one.\nThis can come in really handy when we need to split a column into two pieces by a consistent separator (like a dash).\nLet’s make a new data.frame with fake data to illustrate this. Here we have a set of site identification codes with information about the island where the site is (the first 3 letters) and a site number (the 3 numbers). If we want to group and summarize by island, we need a column with just the island information.\n\nsites_df &lt;- data.frame(site = c(\"HAW-101\",\n                                \"HAW-103\",\n                                \"OAH-320\",\n                                \"OAH-219\",\n                                \"MAU-039\"))\n\nsites_df %&gt;%\n    separate(site, c(\"island\", \"site_number\"), \"-\")\n\n  island site_number\n1    HAW         101\n2    HAW         103\n3    OAH         320\n4    OAH         219\n5    MAU         039\n\n\n\n\n\n\n\n\nNoteExercise\n\n\n\nSplit the city column in the data frame cities_df into city and state_code columns\n\n## create `cities_df`\ncities_df &lt;- data.frame(city = c(\"Juneau AK\",\n                                 \"Sitka AK\",\n                                 \"Anchorage AK\"))\n\n\n\nAnswer\ncolnames(cities_df)\n\ncities_clean &lt;- cities_df %&gt;%\n    separate(city, c(\"city\", \"state_code\"), \" \")\n\n\n\n\nThe unite() function does just the reverse of separate(). If we have a data.frame that contains columns for year, month, and day, we might want to unite these into a single date column.\n\ndates_df &lt;- data.frame(\n    year = c(\"1930\",\n             \"1930\",\n             \"1930\"),\n    month = c(\"12\",\n              \"12\",\n              \"12\"),\n    day = c(\"14\",\n            \"15\",\n            \"16\")\n)\n\ndates_df %&gt;%\n    unite(date, year, month, day, sep = \"-\")\n\n        date\n1 1930-12-14\n2 1930-12-15\n3 1930-12-16",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "r_tidyverse_clean_wrangle.html#now-all-together",
+    "href": "r_tidyverse_clean_wrangle.html#now-all-together",
+    "title": "Cleaning and Wrangling Data",
+    "section": "15 Now, all together!",
+    "text": "15 Now, all together!\nWe just ran through the various things we can do with dplyr and tidyr but if you’re wondering how this might look in a real analysis. Let’s look at that now:\n\ncatch_original &lt;- read_csv(\"https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1\")\n\nmean_region &lt;- catch_original %&gt;%\n  select(-All, -notesRegCode) %&gt;% \n  mutate(Chinook = if_else(Chinook == \"I\", \"1\", Chinook)) %&gt;% \n  mutate(Chinook = as.numeric(Chinook)) %&gt;% \n  pivot_longer(-c(Region, Year), \n               names_to = \"species\", \n               values_to = \"catch\") %&gt;%\n  mutate(catch = catch*1000) %&gt;% \n  group_by(Region) %&gt;% \n  summarize(mean_catch = mean(catch)) %&gt;% \n  arrange(desc(mean_catch))\n\nhead(mean_region)\n\n# A tibble: 6 × 2\n  Region mean_catch\n  &lt;chr&gt;       &lt;dbl&gt;\n1 SSE      3184661.\n2 BRB      2709796.\n3 NSE      1825021.\n4 KOD      1528350 \n5 PWS      1419237.\n6 SOP      1110942.\n\n\nWe have completed our lesson on Cleaning and Wrangling data. Before we break, let’s practice our Git workflow.\n\n\n\n\n\n\nTipSteps\n\n\n\n\nSave the .qmd you have been working on for this lesson.\nRender the Quarto file. This is a way to test everything in your code is working.\nStage (Add) &gt; Commit &gt; Pull &gt; Push",
+    "crumbs": [
+      "Cleaning and Wrangling Data"
+    ]
+  },
+  {
+    "objectID": "reproducibility.html",
+    "href": "reproducibility.html",
+    "title": "1 Intro to Reproducible Workflows",
+    "section": "",
+    "text": "TipLearning Objectives\n\n\n\n\nIntroduce the concept of reproducibility\nUnderstand the benefits of setting reproducible workflows\nDiscuss reproducibility best practices: file system structure, file organization, robust file paths!",
+    "crumbs": [
+      "1 Intro to Reproducible Workflows"
+    ]
+  },
+  {
+    "objectID": "reproducibility.html#slides",
+    "href": "reproducibility.html#slides",
+    "title": "1 Intro to Reproducible Workflows",
+    "section": "1 Slides",
+    "text": "1 Slides",
+    "crumbs": [
+      "1 Intro to Reproducible Workflows"
+    ]
+  },
+  {
+    "objectID": "reproducibility.html#more-on-reproducible-workflows",
+    "href": "reproducibility.html#more-on-reproducible-workflows",
+    "title": "1 Intro to Reproducible Workflows",
+    "section": "2 More on Reproducible Workflows",
+    "text": "2 More on Reproducible Workflows\n\nBest Practices for Writing Reproducible Code, University of Utrecht\nA Guide to Reproducible Code in Ecology and Evolution, British Ecological Society\nReproducibility Lesson, LTER Synthesis Skills for Early Career Researchers\nEDS 221 (2023), Lesson 1 and Lesson 2, UCSB MEDS, By Allison Horst\nGitHub Clinic, Openscapes\nBuilding reproducible analytical pipelines with R, Bruno Rodrigues",
+    "crumbs": [
+      "1 Intro to Reproducible Workflows"
+    ]
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides4_functions.html#title-slide",
+    "href": "slides/r_programming_introduction/slides4_functions.html#title-slide",
+    "title": "coreDUML",
+    "section": "",
+    "text": "Functions in R\nAn introduction to programming in R\n\n\nNCEAS Learning Hub"
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides3_data_structures.html#title-slide",
+    "href": "slides/r_programming_introduction/slides3_data_structures.html#title-slide",
+    "title": "coreDUML",
+    "section": "",
+    "text": "Data types & structures in R\nAn introduction to programming in R\n\nNCEAS Learning Hub"
+  },
+  {
     "objectID": "github_introduction.html",
     "href": "github_introduction.html",
     "title": "Git and GitHub",
@@ -56,114 +260,144 @@
     "text": "7 Git resources\n\nPro Git Book\nHappy Git and GitHub for the useR\nGitHub Documentation\nLearn Git Branching is an interactive tool to learn Git on the command line\nSoftware Carpentry Version Control with Git\nBitbucket’s tutorials on Git Workflows"
   },
   {
-    "objectID": "r_git_install_guide.html",
-    "href": "r_git_install_guide.html",
-    "title": "Installing R and Git on Your Computer",
+    "objectID": "zotero.html",
+    "href": "zotero.html",
+    "title": "Zotero 201",
     "section": "",
-    "text": "To install R, visit cloud.r-project.org to download the most recent version for your operating system. The latest release is version 4.5 ([Not] Part in a Rumble, released 2025-10-31). Note: As long as you have version 4.4 or higher you are set for this series.\n\n\n\nWhile R is a programming language, RStudio is a software (often referred to as an IDE, Integrated Development Environment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers.\nNote: RStudio will not work without R installed, and you won’t particularly enjoy using R without having RStudio installed. Be sure to install both!\n\n\n\n\n\nImage Credit: Manny Gimond | Accessible at https://mgimond.github.io/ES218/R_vs_RStudio.html\n\n\n\n\n\nNew install: To install RStudio, visit https://posit.co/download/rstudio-desktop/. Download the free (“Open Source Edition”) Desktop version for your operating system. You should install the most up-to-date version available that is supported by your operating system.\nUpdate: If you already have RStudio and need to update: Open RStudio, and under ‘Help’ in the top menu, choose ‘Check for updates.’ If you have the most recent release, it will return ‘No update available. You are running the most recent version of RStudio.’ Otherwise, you should follow the instructions to install an updated version.\nOpen RStudio (logo you’ll click on shown below): If upon opening RStudio you are prompted to install Command Line Tools, do it.\n\n\n\n\n\n\n\n\n\n\n\nNote: you may need to install command line tools and XQuartz.\n\nTo install command line tools (if you’re not automatically prompted), run in the Terminal tab in RStudio: xcode-select --install\nVisit xquartz.org to download & install XQuartz\n\n\n\n\n\nQuarto is a scientific publishing tool built on Pandoc that allows R, Python, Julia, and ObservableJS users to create dynamic documents, websites, books and more.\nQuarto is now included with RStudio v2022.07.1+ so no need for a separate download/install if you have the latest version of RStudio! You can find all releases (current, pre, and older releases) on the Quarto website download page, should you want/need to reference them.\n\n\n\nYou should already have git on your device, but let’s check for it anyway.\n\nOpen RStudio\nIn the Terminal, run the following command:\n\n\nwhich git\n\n\nIf after running that you get something that looks like a file path to git on your computer, then you have git installed. For example, that might return something like this (or it could differ a bit): /usr/local/bin/git. If you instead get no response at all, you should download & install git from here: git-scm.com/downloads\n\nAn aside: Is it necessary to have Git installed in your machine for this workshop. GitHub’s Git Guides are a really wonderful resource to start learning about this topic.\n\n\n\n\nInstall the usethis and gitcreds packages in R by running the following in the RStudio Console:\n\n\ninstall.packages(“usethis”)\n\ninstall.packages(\"gitcreds\")\n\nA lot of scary looking red text will show up while this is installing - don’t panic. If you get to the end and see something like below (with no error) it’s installed successfully.\n\n\n\n\n\n\n\n\n\n\n\n\n\nIf you don’t already have a GitHub account, go to github.com and create one. Here are helpful considerations for choosing a username: happygitwithr.com/github-acct.html.\n\nOnce you’ve completed these steps you are ready for our workshop on Git and Github",
+    "text": "TipLearning Objectives\n\n\n\n\nCompare Zotero pros & cons to other reference managers\nConfigure general Zotero settings\nExpand Zotero usage through add-ons",
     "crumbs": [
-      "Installing R and Git on Your Computer"
+      "Zotero 201"
     ]
   },
   {
-    "objectID": "r_git_install_guide.html#installation-steps-for-macos",
-    "href": "r_git_install_guide.html#installation-steps-for-macos",
-    "title": "Installing R and Git on Your Computer",
-    "section": "",
-    "text": "To install R, visit cloud.r-project.org to download the most recent version for your operating system. The latest release is version 4.5 ([Not] Part in a Rumble, released 2025-10-31). Note: As long as you have version 4.4 or higher you are set for this series.\n\n\n\nWhile R is a programming language, RStudio is a software (often referred to as an IDE, Integrated Development Environment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers.\nNote: RStudio will not work without R installed, and you won’t particularly enjoy using R without having RStudio installed. Be sure to install both!\n\n\n\n\n\nImage Credit: Manny Gimond | Accessible at https://mgimond.github.io/ES218/R_vs_RStudio.html\n\n\n\n\n\nNew install: To install RStudio, visit https://posit.co/download/rstudio-desktop/. Download the free (“Open Source Edition”) Desktop version for your operating system. You should install the most up-to-date version available that is supported by your operating system.\nUpdate: If you already have RStudio and need to update: Open RStudio, and under ‘Help’ in the top menu, choose ‘Check for updates.’ If you have the most recent release, it will return ‘No update available. You are running the most recent version of RStudio.’ Otherwise, you should follow the instructions to install an updated version.\nOpen RStudio (logo you’ll click on shown below): If upon opening RStudio you are prompted to install Command Line Tools, do it.\n\n\n\n\n\n\n\n\n\n\n\nNote: you may need to install command line tools and XQuartz.\n\nTo install command line tools (if you’re not automatically prompted), run in the Terminal tab in RStudio: xcode-select --install\nVisit xquartz.org to download & install XQuartz\n\n\n\n\n\nQuarto is a scientific publishing tool built on Pandoc that allows R, Python, Julia, and ObservableJS users to create dynamic documents, websites, books and more.\nQuarto is now included with RStudio v2022.07.1+ so no need for a separate download/install if you have the latest version of RStudio! You can find all releases (current, pre, and older releases) on the Quarto website download page, should you want/need to reference them.\n\n\n\nYou should already have git on your device, but let’s check for it anyway.\n\nOpen RStudio\nIn the Terminal, run the following command:\n\n\nwhich git\n\n\nIf after running that you get something that looks like a file path to git on your computer, then you have git installed. For example, that might return something like this (or it could differ a bit): /usr/local/bin/git. If you instead get no response at all, you should download & install git from here: git-scm.com/downloads\n\nAn aside: Is it necessary to have Git installed in your machine for this workshop. GitHub’s Git Guides are a really wonderful resource to start learning about this topic.\n\n\n\n\nInstall the usethis and gitcreds packages in R by running the following in the RStudio Console:\n\n\ninstall.packages(“usethis”)\n\ninstall.packages(\"gitcreds\")\n\nA lot of scary looking red text will show up while this is installing - don’t panic. If you get to the end and see something like below (with no error) it’s installed successfully.\n\n\n\n\n\n\n\n\n\n\n\n\n\nIf you don’t already have a GitHub account, go to github.com and create one. Here are helpful considerations for choosing a username: happygitwithr.com/github-acct.html.\n\nOnce you’ve completed these steps you are ready for our workshop on Git and Github",
+    "objectID": "zotero.html#slides",
+    "href": "zotero.html#slides",
+    "title": "Zotero 201",
+    "section": "1 Slides",
+    "text": "1 Slides",
     "crumbs": [
-      "Installing R and Git on Your Computer"
+      "Zotero 201"
     ]
   },
   {
-    "objectID": "r_git_install_guide.html#installation-steps-for-windows",
-    "href": "r_git_install_guide.html#installation-steps-for-windows",
-    "title": "Installing R and Git on Your Computer",
-    "section": "2 Installation steps for Windows",
-    "text": "2 Installation steps for Windows\n\n2.1 Install or update R\nTo install R, visit cloud.r-project.org to download the most recent version for your operating system. The latest release is version 4.3.2 ( released 2023-10-31).\n\n\n2.2 Install or update RStudio\nWhile R is a programming language, RStudio is a software (often referred to as an IDE, Integrated Development Environment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers.\nNote: RStudio will not work without R installed, and you won’t particularly enjoy using R without having RStudio installed. Be sure to install both!\n\n\n\n\n\nImage Credit: Manny Gimond | Accessible at https://mgimond.github.io/ES218/R_vs_RStudio.html\n\n\n\n\n\nNew install: To install RStudio, visit https://posit.co/download/rstudio-desktop/. Download the free (“Open Source Edition”) Desktop version for your operating system. You should install the most up-to-date version available that is supported by your operating system.\nUpdate: If you already have RStudio and need to update: Open RStudio, and under ‘Help’ in the top menu, choose ‘Check for updates.’ If you have the most recent release, it will return ‘No update available. You are running the most recent version of RStudio.’ Otherwise, you should follow the instructions to install an updated version.\nOpen RStudio (logo you’ll click on shown below): If upon opening RStudio you are prompted to install Command Line Tools, do it.\n\n\n\n\n\n\n\n\n\n\n\n\n2.3 Install Quarto\nQuarto is a scientific publishing tool built on Pandoc that allows R, Python, Julia, and ObservableJS users to create dynamic documents, websites, books and more.\nQuarto is now included with RStudio v2022.07.1+ so no need for a separate download/install if you have the latest version of RStudio! You can find all releases (current, pre, and older releases) on the Quarto website download page, should you want/need to reference them.\n\n\n2.4 Check for git\nYou should already have git on your device, but let’s check for it anyway.\n\nOpen RStudio\nIn the Terminal, run the following command:\n\n\nwhere git\n\n\nIf after running that you get something that looks like a file path to git on your computer, then you have git installed. For example, that might return something like this (or it could differ a bit): /usr/local/bin/git. If you instead get no response at all or something along the lines “git is not installed”, you should download & install git from here: https://gitforwindows.org/.\n\nOnce you have download and installed Git, restart your computer. Then open RStudio and again run:\n\nwhere git\n\nIf you still get a message saying something like “git is not installed”, check out the Troubleshooting section below.\nAn aside: Is it necessary to have Git installed in your machine for this workshop. GitHub’s Git Guides are a really wonderful resource to start learning about this topic.\n\n\n2.5 Install R packages\n\nInstall the usethis and gitcreds packages in R by running the following in the RStudio Console:\n\n\ninstall.packages(\"usethis\")\n\ninstall.packages(\"gitcreds\")\n\nA lot of scary looking red text will show up while this is installing - don’t panic. If you get to the end and see something like below (with no error) it’s installed successfully.\n\n\n\n\n\n\n\n\n\n\n\n2.6 Create a GitHub account\n\nIf you don’t already have a GitHub account, go to github.com and create one. Here are helpful considerations for choosing a username: happygitwithr.com/github-acct.html.\n\nOnce you’ve completed these steps you are ready for our workshop on Git and Github",
+    "objectID": "lecture_tidy_data.html",
+    "href": "lecture_tidy_data.html",
+    "title": "Tidy Data",
+    "section": "",
+    "text": "TipLearning Objectives\n\n\n\nLearn how to design and create effective data tables by:\n\napplying tidy and normalized data principles,\nfollowing best practices to format data tables’ content,\nrelating tables following relational data models principles, and\nunderstanding how to perform table joins.",
     "crumbs": [
-      "Installing R and Git on Your Computer"
+      "Tidy Data"
     ]
   },
   {
-    "objectID": "r_git_install_guide.html#troubleshooting",
-    "href": "r_git_install_guide.html#troubleshooting",
-    "title": "Installing R and Git on Your Computer",
-    "section": "3 Troubleshooting",
-    "text": "3 Troubleshooting\n\n\n\n\n\n\nWarningIssues installing Git on a Windows\n\n\n\nIf you download Git and the Git commands still not recognized by your computer, check your computer’s PATHS.\nTo do this, follow the instructions in this link on how to set the right PATHS.\nRestart your computer and try running git --version on the terminal. You should get something like git version XX.XX (but with numbers instead of Xs).\nIf you see the git version printed out in your terminal, you are all set",
+    "objectID": "lecture_tidy_data.html#what-is-tidy-data",
+    "href": "lecture_tidy_data.html#what-is-tidy-data",
+    "title": "Tidy Data",
+    "section": "1 What is tidy data?",
+    "text": "1 What is tidy data?\nTidy data is a standardized way of organizing data tables that allows us to manage and analyze data efficiently, because it makes it straightforward to understand the corresponding variable and observation of each value. The  tidy data principles  are:\n\nEvery column is a variable.\nEvery row is an observation.\nEvery cell is a single value.\n\n\n\n\n\n\n\nTipTidy Data: A way of life\n\n\n\n\nTidy data is not a language or tool specific.\nTidy data is not an R thing.\nTidy data is not a tidyverse thing.\n\nTidy Data is a way to organize data that will make life easier for people working with data.\n(Allison Horst & Julia Lowndes)",
     "crumbs": [
-      "Installing R and Git on Your Computer"
+      "Tidy Data"
     ]
   },
   {
-    "objectID": "slides/github_introduction/slides1_motivating_example.html#title-slide",
-    "href": "slides/github_introduction/slides1_motivating_example.html#title-slide",
-    "title": "coreDUML",
-    "section": "",
-    "text": "Git & GitHub\nA motivating example"
+    "objectID": "lecture_tidy_data.html#values-variables-observations-and-entities",
+    "href": "lecture_tidy_data.html#values-variables-observations-and-entities",
+    "title": "Tidy Data",
+    "section": "2 Values, variables, observations, and entities",
+    "text": "2 Values, variables, observations, and entities\nFirst, let’s get acquainted with our building blocks.\n\n\n\n\n\n\n\n\n\nConcept\nDefinition\n\n\n\n\n\n\nVariables\nA characteristic the is being measured, counted or described with data.\nExample: car type, salinity, year, height, mass.\n\n\n\n\nObservations\nA single “data point” for which the measure, count or description of one or more variables is recorded.\nExample: If you are collecting variables height, species, and location of plants, then each plant is an observation.\n\n\n\n\nValue\nThe record measured, count or description of a variable.\nExample: 3 ft\n\n\n\n\nEntity\nEach type of observation is an entity.\nExample: If you are collecting variables height, species, and location and site name of plants and where they are observed, then plants is an entity and site is an entity.",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#title-slide",
-    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#title-slide",
-    "title": "coreDUML",
-    "section": "",
-    "text": "Welcome to R & RStudio\nAn introduction to programming in R\n\nNCEAS Learning Hub"
+    "objectID": "lecture_tidy_data.html#assessing-tidy-data-principles",
+    "href": "lecture_tidy_data.html#assessing-tidy-data-principles",
+    "title": "Tidy Data",
+    "section": "3 Assessing Tidy Data Principles",
+    "text": "3 Assessing Tidy Data Principles\nThe following is an example of tidy data - it’s easy to see the three tidy data principles apply.",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-ide",
-    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-ide",
-    "title": "coreDUML",
-    "section": "",
-    "text": "RStudio IDE interface\n\n\n\n\nLet’s take a tour of the RStudio interface!"
+    "objectID": "lecture_tidy_data.html#recognizing-untidy-data",
+    "href": "lecture_tidy_data.html#recognizing-untidy-data",
+    "title": "Tidy Data",
+    "section": "4 Recognizing untidy data",
+    "text": "4 Recognizing untidy data\nAnything that does not follow the three tidy data principles is untidy data.\nThere are many ways in which data can become untidy, some can be noticed right away, while others are more subtle. In this section we will look at some examples of common untidy data situations.\n\n4.1 Example 1\nThe following is a screenshot of an actual dataset that came across NCEAS. We have all seen spreadsheets that look like this - and it is fairly obvious that whatever this is, it isn’t very tidy. Let’s dive deeper into why we consider it untidy data.\n\n\n4.1.1 Multiple tables\nTo begin with, notice there are actually three smaller tables within this table. Although for our human brain it is easy to see and interpret this, it is extremely difficult to get a computer to see it this way.\n\nHaving multiple tables within the same table will create headaches down the road should you try to read in this information using R or another programming language. Having multiple tables immediately breaks the tidy data principles, as we will see next.\n\n\n4.1.2 Inconsistent columns\nIn tidy data, each column corresponds to a single variable. If you look down a column, and see that multiple variables exist in the table, the data is not tidy. A good test for this can be to see if you think the column consists of only one unit type.\n\n\n\n4.1.3 Inconsistent rows\nThe second principle of tidy data is: every column must be a single observation. If you look across a single row, and you notice that there are clearly multiple observations in one row, the data are likely not tidy.\n\n\n\n4.1.4 Marginal sums and statistics\nMarginal sums and statistics are not considered tidy. They break principle one, “Every column is a variable”, because a marginal statistic does not represent the same variable as the values it is summarizing. They also break principle two, “Every row is an observation”, because they represent a combination of observations, rather than a single one.\n\n\n\n\n4.2 Example 2\nConsider the following table. It’s a single one this time! It shows data about species observed at a specific site and date. The column headers refer to the following:\n\ndate: date when a species was observed\nsite: site where a species was observed\nname: site’s name\naltitude: site’s altitude\nsp1code, sp2code: species code for two plants observed\nsp1height, sp2height: height of the plants observed\n\nTake a moment to see why this is not tidy data.\n\n\n4.2.1 Multiple Observations\nRemember that an observation is all the values measured for an individual entity.\nIf our entity is a single observed plant, then the values we measured are date and site of observation, the altitude, and the species code and height. This table breaks the second tidy data principles: Every row is an observation.\n\nPeople often refer to this as “wide format”, because the observations are spread across a wide number of columns. Note that, should one encounter a new species in the survey, we would have to add new columns to the table. This is difficult to analyze, understand, and maintain. To solve this problem, we can create a single column for species code and a single column for species height as in the following table.",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-ide2",
-    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-ide2",
-    "title": "coreDUML",
-    "section": "",
-    "text": "RStudio IDE interface\n\n\n\n\n\nNotice the default panes:\n\nConsole (entire left)\nEnvironment/History (tabbed in upper right)\nFiles/Plots/Packages/Help (tabbed in lower right)\n\nNOTE: New tabs may show up in different contexts (e.g., Git tab)\n\n\n\n\n\nQuick Tip: You can change the default location of the panes, among many other things. More information here."
+    "objectID": "lecture_tidy_data.html#why-tidy-data",
+    "href": "lecture_tidy_data.html#why-tidy-data",
+    "title": "Tidy Data",
+    "section": "5 Why Tidy Data?",
+    "text": "5 Why Tidy Data?\n\nEfficiency: less re-creating the wheel. Easier to apply the same tools to different datasets.\nCollaboration: Makes it easier to work with others as you can work with the same tools in the same ways.\nReuse: It makes it easier to apply similar techniques and analysis across different or new datasets.\nGeneralizability: Tools built for one tidy data set can be used to multiple other datasets. Opening posibilities of data you can work with.\n\n\n“There is a specific advantage to placing varables in columns becasuse it allows R’s vectorized nature to shine. …most buit-in R functions work with vactors of values. That makes transforming tidy data feel particularly natural. (R for Data Science by Grolemund and Wickham)",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-console",
-    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-console",
-    "title": "coreDUML",
-    "section": "",
-    "text": "RStudio IDE interface\n\n\n\n\n\nConsole is where you can directly type R code.\nWhen you start a new session, you’ll see some text that includes the current version of R software installed (yours may not match the image).\n\n\n\n\n\nThere are tabs for Terminal and Background Jobs. Terminal is direct access to your computer’s operating system (not R software)."
+    "objectID": "lecture_tidy_data.html#data-normalization",
+    "href": "lecture_tidy_data.html#data-normalization",
+    "title": "Tidy Data",
+    "section": "6 Data Normalization",
+    "text": "6 Data Normalization\n\n6.1 What is data normalization?\nData normalization is the process of creating normalized data, which are datasets free from data redundancy to simplify query, analysis, storing, and maintenance. In normalized data we organize data so that :\n\nEach table follows the tidy data principles\nWe have separate tables for each type of entity measured\nObservations (rows) are all unique\nEach column represents either an identifying variable or a measured variable\n\nIn denormalized data observations about different entities are combined. A good indication that a data table is denormalized and needs normalization is seeing the same column values repeated across multiple rows.\n\n\n6.2 Example\nIn the previous data table the row values for the last three columns are repeated.\n\nThis means the data is denormalized and it happens because each row has values about more than one entity:\n\n1st entity: individual plants found at that site, and\n2nd entity: sites at which the plants were observed.\n\n\nIf we use this information to normalize our data, we should end up with:\n\none tidy table for each entity observed, and\nadditional columns for identifying variables (such as site ID).\n\nHere’s how our normalized data would look like:\n\n\n\n\n\nNotice that each table also satisfies the tidy data principles.\nNormalizing data by separating it into multiple tables often makes researchers really uncomfortable. This is understandable! The person who designed this study collected all of these measurements for a reason - so that they could analyze the measurements together. Now that our site and plant information are in separate tables, how would we use site altitude as a predictor variable for species composition, for example? We will go over a solution in the next section.",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-envir",
-    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-envir",
-    "title": "coreDUML",
-    "section": "",
-    "text": "RStudio IDE interface\n\n\n\n\n\nEnvironment displays information in working memory - “objects” that may be individual values, lists or vectors with multiple values, data frames of tabular data, etc.\nWhen you start a new session, the environment pane should say “Environment is empty.” As you use R to make calculations and store values, you will see objects in this pane.\n\n\n\n\n\nThere is a tab for History and perhaps others. History will show you the sequence of any commands you have typed or executed into R. When writing R scripts, the History tab is not necessary for reproducible science."
+    "objectID": "lecture_tidy_data.html#relational-data-models",
+    "href": "lecture_tidy_data.html#relational-data-models",
+    "title": "Tidy Data",
+    "section": "7 Relational Data Models",
+    "text": "7 Relational Data Models\n\nIt’s rare that a data analysis involves only a single table of data. Typically you have many tables of data, and you must combine them to answer the questions that you’re interested in. Collectively, multiple tables of data are called relational data because it is the relations, not just the individual datasets, that are important. (R for Data Science Chapter 13 Relational Data)\n\n\n7.1 What are relational data models?\nA relational data model is a way of encoding links between multiple tables in a database. A database organized following a relational data model is a relational database. A few of the advantages of using a relational data model are:\n\nEnabling powerful search and filtering\nAbility to handle large, complex data sets\nEnforcing data integrity\nDecreasing errors from redundant updates\n\nRelational data models are used by relational databases (like mySQL, MariaDB, Oracle, or Microsoft Access) to organize tables. However, you don’t have to be using a relational database or handling large and complex data to enjoy the benefits of using a relational data model.\nWhen working with relational data, we generally don’t work with tables separately. We will need to join the information from different tables to run our analysis. To join two or more tables we need to learn about keys.\n\n\n7.2 Primary and foreign keys\nThe main way in which relational data models encode relationships between different tables is by using keys. Keys are variables whose values uniquely identify observations. For tidy data, where variables and columns are equivalent, a column is a key if it has a different value in each row. This allows us to use keys as unique identifiers that reference particular observations and create links across tables.\nTwo types of keys are common within relational data models:\n\nPrimary Key: chosen key for a table, uniquely identifies each observation in the table,\nForeign Key: reference to a primary key in another table, used to create links between tables.\n\n\n\n7.3 Example\nOn our previously normalized data for plants and sites, let’s choose primary keys for these tables and then identify any foreign keys.\nPrimary keys\nFirst, notice that the columns ‘date’, ‘site’ and ‘sp_code’ cannot be primary keys because they have repeated values across rows. The columns ‘sp_height’ and ‘id’ both have different values in each row, so both are candidates for primary keys. However, the decimal values of ‘sp_height’ don’t make it as useful to use it to reference observations. So we chose ‘id’ as the primary key for this table.\nFor the sites table, all three columns could be keys. We chose ‘site’ as the primary key because it is the most succinct and it also allows us to link the sites table with the plants table.\nForeign keys\nThe ‘site’ column is the primary key of that table because it uniquely identifies each row of the table as a unique observation of a site. In the first table, however, the ‘site’ column is a foreign key that references the primary key from the second table. This linkage tells us that the first height measurement for the DAPU observation occurred at the site with the name Taku.\n\n\n\n\n\n\n\n7.4 Compound keys\n\n\nIt can also be the case that a variable is not a key, but by combining it with a second variable we get that the combined values uniquely identify the rows. This is called a\n\nCompound Key: a key that is made up of more than one variable.\n\nFor example, the ‘site’ and ‘sp_code’ columns in the plants table cannot be keys on their own, since each has repeated values. However, when we look at their combined values (1-DAPU, 1-DAMA, 2-DAMA, 2-DAPU) we see each row has a unique value. So ‘site’ and ‘sp_code’ together form a compound key.\n\nThere are also other types of keys, like a natural key or a surrogate key. Each type of key has advantages and disadvantages. You can read more about this in  this article.",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-files",
-    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-files",
-    "title": "coreDUML",
-    "section": "",
-    "text": "RStudio IDE interface\n\n\n\n\n\nFiles displays files and folders on your computer. You can navigate just like you would normally browse on your computer.\n\n\n\n\n\nNote the other tabs in this pane: when you create plots or tables, they will generate in the plots pane. Packages provides information on the packages and versions installed, and Help is provides searchable documentation for those packages and functions. Viewer and Presentation display HTML or other outputs."
+    "objectID": "lecture_tidy_data.html#joins",
+    "href": "lecture_tidy_data.html#joins",
+    "title": "Tidy Data",
+    "section": "8 Joins",
+    "text": "8 Joins\nFrequently, analysis of data will require merging these separately managed tables back together. There are multiple ways to join the observations in two tables, based on how the rows of one table are merged with the rows of the other. Regardless of the join we will perform, we need to start by identifying the primary key in each table and how these appear as foreign keys in other tables.\nWhen conceptualizing merges, one can think of two tables, one on the left and one on the right.\n\n\n8.1 Inner Join\nAn INNER JOIN is when you merge the subset of rows that have matches in both the left table and the right table.\n\n\n\n8.2 Left Join\nA LEFT JOIN takes all of the rows from the left table, and merges on the data from matching rows in the right table. Keys that don’t match from the left table are still provided with a missing value (na) from the right table.\n\n\n\n8.3 Right Join\nA RIGHT JOIN is the same as a left join, except that all of the rows from the right table are included with matching data from the left, or a missing value. Notice that left and right joins can ultimately be the same depending on the positions of the tables\n\n\n\n8.4 Full Outer Join\nFinally, a FULL OUTER JOIN includes all data from all rows in both tables, and includes missing values wherever necessary.\n\nSometimes people represent joins as Venn diagrams, showing which parts of the left and right tables are included in the results for each join. This representation is useful, however, they miss part of the story related to where the missing value comes from in each result.\n\n\n\nImage source: R for Data Science, Wickham & Grolemund.\n\n\nWe suggest reading the Relational Data chapter in the “R for Data Science” book  for more examples and best practices about joins.\n\n\n8.5 Entity-Relationship models\nAn Entity-Relationship model (E-R model), also known as an E-R diagram, is a way to draw a compact diagram that reflects the structure and relationships of the tables in a relational database. These can be particularly useful for big databases that have many tables and complex relationships between them.\nWe will explain the steps to drawing a simplified E-R model with our previous plants and sites tables.\nStep 1: Identify the entities in the relational database and add each one in a box. In our case, entities are [plants] and [sites], since we are gathering observations about both of these.\n\n\n\n\n\nStep 2: Add variables for each entity and identify keys. Add the variables as a list inside each box. Then, identify the primary and foreign keys in each of the boxes. To visualize this, we have indicated\n\nthe  primary key  (of each entity) in  red  and\nany  foreign keys  in  blue .\n\n\n\n\n\n\nStep 3: Add relationships between entities.\n\nDraw a line between the boxes of any two entities that have a relationship.\nIdentify which box has the primary key of the other as a foreign key. Let’s call the box that has the foreign key [box1] and the other box [box2]. Using the previous diagram we can see that “site” is the primary key of [sites] and appears as a foreign key in [plants]. So [plants] is [box1] and [sites] is [box2].\nAdd a word describing how [box1] is related to [box2] above the line connecting the two boxes. So, for example, we need to describe how [plants] is related to [sites]. The relation is “a plant is located in a site”, so we write “located” above the line indicating the relationship between [plants] and [sites].\n\n\n\n\n\n\nStep 4: Add cardinality to every relationship in the diagram. At this step we want to quantify how many items in an entity are related to another entity. This is easiest if we reuse the description we found in the previous step. For example, “a plant is located in one site”. Then we add the symbol for “one” at the end of the line going from [plants] to [sites].\n\n\n\n\n\nTo finish, we also indicate how many plants are related to a single site. Since “a site has many plants”, we add the symbol for “many” at the end of the line going from [sites] to [plants]\n\n\n\n\n\nThat’s it!\n\n8.5.1 EDR Crow’s Foot\nThe symbols we used at the end of the lines are called ERD “crow’s foot”. You can see all the existing ones together with an example in the next diagram.\n\n\n\n\n\n\n\nNote\n\n\n\nIf you need to produce a publishable E-R model such as the one above,  Mermaid  is a great option. Read more about how to use this tool to create diagrams  here .",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#example-code-slide",
-    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#example-code-slide",
-    "title": "coreDUML",
-    "section": "",
-    "text": "Storing values in objects\n\n\nThe assignment operator (&lt;-) creates an “object” by assigning it a name. R will evaluate the expression on the right side, and store that value with the name on the left.\nFor example, assign the result of 3 * 4 and call it “result”. Then we can call the name of the object to use the value in other calculations, and so on.\n\n\nresult &lt;- 3 * 4   ### assign the value\n\nresult            ### retrieve the value\n\n[1] 12"
+    "objectID": "lecture_tidy_data.html#best-practices-summary",
+    "href": "lecture_tidy_data.html#best-practices-summary",
+    "title": "Tidy Data",
+    "section": "9 Best Practices Summary",
+    "text": "9 Best Practices Summary\nThis is a summary of what we have covered, and some extra advice!\nThe tidy data principles are:\n\nEvery column is a variable.\nEvery row is an observation.\nEvery cell is a single value.\n\nIn normalized data we organize data so that :\n\nWe have separate tables for each type of entity measured\nObservations (rows) are all unique\nEach column represents either an identifying variable or a measured variable\nEach table follows the tidy data principles\n\nCreating relational data models by assigning primary and foreign keys to each table allows us to maintain relationships between separate normalized tables. Choose the primary key for each table based on your understanding of the data and take efficiency into account. Once you choose a column as the primary key, make sure that all the values in that column are there!\nFor a big relational database, an Entity-Relationship model can be an effective way to explain how different tables and their keys are related to each other. If we need to merge tables we can do it using different types of joins.",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-envir2",
-    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-envir2",
-    "title": "coreDUML",
-    "section": "",
-    "text": "RStudio IDE interface\n\n\n\n\n\nNow the Environment pane contains the objects and values we created in our example."
+    "objectID": "lecture_tidy_data.html#more-on-data-management",
+    "href": "lecture_tidy_data.html#more-on-data-management",
+    "title": "Tidy Data",
+    "section": "10 More on Data Management",
+    "text": "10 More on Data Management\nTidy data is one very important step to data management best practices. However there is more to consider. Here we provide some extra advice from a great paper called  ‘Some Simple Guidelines for Effective Data Management’.\n\nDesign tables to add rows, not columns\nUse a scripted program (like R!)\nNon-proprietary file formats are preferred (eg: csv, txt)\nKeep a raw version of data\nUse descriptive files and variable names (without spaces!)\nInclude a header line in your tabular data files\nUse plain ASCII text\n\nIn the Cleaning & Wrangling chapter we will cover more best practices for cleaning irregular and missing data and how to implement them using R.",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides4_functions.html#title-slide",
-    "href": "slides/r_programming_introduction/slides4_functions.html#title-slide",
-    "title": "coreDUML",
-    "section": "",
-    "text": "Functions in R\nAn introduction to programming in R\n\n\nNCEAS Learning Hub"
+    "objectID": "lecture_tidy_data.html#activity",
+    "href": "lecture_tidy_data.html#activity",
+    "title": "Tidy Data",
+    "section": "11 Activity",
+    "text": "11 Activity\n\n\n\n\n\n\n\n\nTipTidy data, keys and joins\n\n\n\n\nGet together in pairs or small groups\nObtain materials from instructors including activity handout and blank paper(s).\nFollow instructions in activity handout.",
+    "crumbs": [
+      "Tidy Data"
+    ]
   },
   {
     "objectID": "index.html#why-should-i-join",
@@ -236,41 +470,230 @@
     ]
   },
   {
-    "objectID": "reproducibility.html",
-    "href": "reproducibility.html",
-    "title": "1 Intro to Reproducible Workflows",
+    "objectID": "r_practice_tidy_data_joins.html",
+    "href": "r_practice_tidy_data_joins.html",
+    "title": "Practice Session: Joins",
     "section": "",
-    "text": "TipLearning Objectives\n\n\n\n\nIntroduce the concept of reproducibility\nUnderstand the benefits of setting reproducible workflows\nDiscuss reproducibility best practices: file system structure, file organization, robust file paths!",
+    "text": "TipLearning Objectives\n\n\n\n\nPractice joining tables together\nPractice identifying primary and foreign keys\nPractice using common cleaning and wrangling functions",
     "crumbs": [
-      "1 Intro to Reproducible Workflows"
+      "Practice Session: Joins"
     ]
   },
   {
-    "objectID": "reproducibility.html#slides",
-    "href": "reproducibility.html#slides",
-    "title": "1 Intro to Reproducible Workflows",
-    "section": "1 Slides",
-    "text": "1 Slides",
+    "objectID": "r_practice_tidy_data_joins.html#about-the-data",
+    "href": "r_practice_tidy_data_joins.html#about-the-data",
+    "title": "Practice Session: Joins",
+    "section": "About the data",
+    "text": "About the data\nThese exercises will be using bird survey data collected from the central Arizona-Phoenix metropolitan area by Arizona State University researchers [@warren2021].",
     "crumbs": [
-      "1 Intro to Reproducible Workflows"
+      "Practice Session: Joins"
     ]
   },
   {
-    "objectID": "reproducibility.html#more-on-reproducible-workflows",
-    "href": "reproducibility.html#more-on-reproducible-workflows",
-    "title": "1 Intro to Reproducible Workflows",
-    "section": "2 More on Reproducible Workflows",
-    "text": "2 More on Reproducible Workflows\n\nBest Practices for Writing Reproducible Code, University of Utrecht\nA Guide to Reproducible Code in Ecology and Evolution, British Ecological Society\nReproducibility Lesson, LTER Synthesis Skills for Early Career Researchers\nEDS 221 (2023), Lesson 1 and Lesson 2, UCSB MEDS, By Allison Horst\nGitHub Clinic, Openscapes\nBuilding reproducible analytical pipelines with R, Bruno Rodrigues",
+    "objectID": "r_practice_tidy_data_joins.html#exercise-1-practice-joins",
+    "href": "r_practice_tidy_data_joins.html#exercise-1-practice-joins",
+    "title": "Practice Session: Joins",
+    "section": "Exercise 1: Practice Joins",
+    "text": "Exercise 1: Practice Joins\n\n\n\n\n\n\nTipSetup\n\n\n\n\nMake sure you’re in the right project (training_{USERNAME}) and use the Git workflow by Pulling to check for any changes in the remote repository (aka repository on GitHub).\nCreate a new Quarto Document.\n\nTitle it “R Practice: Tidy Data and Joins”.\nSave the file and name it “r-practice-tidy-data-joins” in your scripts folder.\n\n\nNote: Double check that you’re in the right project. Where in RStudio can you check where you are?\n\nLoad the following libraries at the top of your Quarto Document.\n\n\nlibrary(readr)\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nlibrary(here)\n\nhere() starts at /Users/lopazanski/Documents/github/duke_data_sci\n\nlibrary(lubridate) # for bonus question\n\n\nAttaching package: 'lubridate'\n\n\nThe following objects are masked from 'package:base':\n\n    date, intersect, setdiff, union\n\n# Quick question: Do you get a message after loading the libraries? What is it telling you? Talk to your neighbor about it or write a note in your qmd.\n\n\nObtain data from the EDI Data Portal Ecological and social interactions in urban parks: bird surveys in local parks in the central Arizona-Phoenix metropolitan area. Download the following files:\n\n\n52_pp52_birds_1.csv\n52_pp52_surveys_1.csv\n52_pp52_sites_1.csv\n52_pp52_taxalist_1.csv\n\nNote: It’s up to you on how you want to download and load the data! You can either use the download links (obtain by right-clicking the “Download” button and select “Copy Link Address” for each data entity) or manually download the data and then upload the files to RStudio server.\n\nOrganize your Quarto Document in a meaningful way. Organization is personal - so this is up to you! Consider the different ways we’ve organized previous files using: headers, bold text, naming code chunks, comments in code chunks. What is most important is organizing and documenting the file so that your future self (or if you share this file with others!) understands it as well as your current self does right now.\nUse the Git workflow. After you’ve set up your project and uploaded your data go through the workflow: Stage (add) -&gt; Commit -&gt; Pull -&gt; Push\n\nNote: You also want to Pull when you first open a project.",
     "crumbs": [
-      "1 Intro to Reproducible Workflows"
+      "Practice Session: Joins"
     ]
   },
   {
-    "objectID": "slides/r_programming_introduction/slides3_data_structures.html#title-slide",
-    "href": "slides/r_programming_introduction/slides3_data_structures.html#title-slide",
+    "objectID": "r_practice_tidy_data_joins.html#read-in-the-data",
+    "href": "r_practice_tidy_data_joins.html#read-in-the-data",
+    "title": "Practice Session: Joins",
+    "section": "1 Read in the data",
+    "text": "1 Read in the data\n\n\n\n\n\n\nNoteQuestion 1\n\n\n\nRead in the data and store the data frames as bird_observations, sites, surveys, and taxalist (it should be clear from the raw file names which is which).\n\n\n\n\nRows: 40425 Columns: 9\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (5): site_id, species_id, distance, notes, direction\ndbl (4): survey_id, bird_count, seen, heard\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 2004 Columns: 12\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr  (4): site_id, observer, wind_dir, notes\ndbl  (4): survey_id, wind_speed, air_temp, cloud_cover\nlgl  (1): temp_units\ndttm (3): survey_date, time_start, time_end\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 221 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (5): site_id, park_code, park_district, park_name, point_code\nlgl (2): point_location, park_acreage\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\nRows: 259 Columns: 3\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (2): species_id, common_name\ndbl (1): asu_itis\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n# read in data from the data directory after manually downloading data \nbird_observations &lt;- read_csv(here::here(\"data/52_pp52_birds_1.csv\"))\nsurveys &lt;- read_csv(here::here(\"data/52_pp52_surveys_1.csv\"))\nsites &lt;- read_csv(here::here(\"data/52_pp52_sites_1.csv\"))\ntaxalist &lt;- read_csv(here::here(\"data/52_pp52_taxalist_1.csv\"))",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_practice_tidy_data_joins.html#get-familiar-with-the-data",
+    "href": "r_practice_tidy_data_joins.html#get-familiar-with-the-data",
+    "title": "Practice Session: Joins",
+    "section": "2 Get familiar with the data",
+    "text": "2 Get familiar with the data\n\n\n\n\n\n\nNoteQuestion 2a\n\n\n\nWhat functions can you use to explore the data you just read in? Think about which functions we’ve been using to explore the structure of the data frame, information about columns, unique observations, etc. Tip: run View(name_of_your_data_frame) in the console to see data in a spreadsheet-style viewer.\n\n\n\n# returns dimensions of the dataframe by number of rows and number of cols\ndim(bird_observations)\n\n[1] 40425     9\n\n# returns the top six rows of the dataframe\nhead(bird_observations)\n\n# A tibble: 6 × 9\n  survey_id site_id species_id distance bird_count notes  seen heard direction\n      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;    \n1       144 LI-S    HOSP       5-10              4 &lt;NA&gt;      1     1 NE       \n2       145 LI-W    HOSP       20-40            10 &lt;NA&gt;      0     1 E        \n3       145 LI-W    AUWA       20-40             2 &lt;NA&gt;      0     1 SE       \n4       145 LI-W    RODO       FT                2 &lt;NA&gt;      1     0 E        \n5       145 LI-W    GTGR       &gt;40               2 &lt;NA&gt;      0     1 NE       \n6       145 LI-W    WCSP       20-40             3 &lt;NA&gt;      0     1 N        \n\n# returns all the columns and some info about the cols\nglimpse(bird_observations)\n\nRows: 40,425\nColumns: 9\n$ survey_id  &lt;dbl&gt; 144, 145, 145, 145, 145, 145, 145, 145, 145, 145, 145, 145,…\n$ site_id    &lt;chr&gt; \"LI-S\", \"LI-W\", \"LI-W\", \"LI-W\", \"LI-W\", \"LI-W\", \"LI-W\", \"LI…\n$ species_id &lt;chr&gt; \"HOSP\", \"HOSP\", \"AUWA\", \"RODO\", \"GTGR\", \"WCSP\", \"WCSP\", \"GT…\n$ distance   &lt;chr&gt; \"5-10\", \"20-40\", \"20-40\", \"FT\", \"&gt;40\", \"20-40\", \"20-40\", \"F…\n$ bird_count &lt;dbl&gt; 4, 10, 2, 2, 2, 3, 3, 2, 2, 3, 1, 10, 3, 1, 6, 6, 20, 12, 2…\n$ notes      &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…\n$ seen       &lt;dbl&gt; 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0,…\n$ heard      &lt;dbl&gt; 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1,…\n$ direction  &lt;chr&gt; \"NE\", \"E\", \"SE\", \"E\", \"NE\", \"N\", \"E\", \"E\", \"S\", \"E\", \"NE\", …\n\n# similar to glimpse but returns some summary statistics about the cols\nsummary(bird_observations)\n\n   survey_id      site_id           species_id          distance        \n Min.   :   1   Length:40425       Length:40425       Length:40425      \n 1st Qu.: 570   Class :character   Class :character   Class :character  \n Median :1028   Mode  :character   Mode  :character   Mode  :character  \n Mean   :1043                                                           \n 3rd Qu.:1550                                                           \n Max.   :2001                                                           \n                                                                        \n   bird_count          notes                seen            heard       \n Min.   :   1.000   Length:40425       Min.   :0.0000   Min.   :0.0000  \n 1st Qu.:   1.000   Class :character   1st Qu.:1.0000   1st Qu.:0.0000  \n Median :   2.000   Mode  :character   Median :1.0000   Median :0.0000  \n Mean   :   2.938                      Mean   :0.8463   Mean   :0.4967  \n 3rd Qu.:   3.000                      3rd Qu.:1.0000   3rd Qu.:1.0000  \n Max.   :1000.000                      Max.   :1.0000   Max.   :1.0000  \n NA's   :33                                                             \n  direction        \n Length:40425      \n Class :character  \n Mode  :character  \n                   \n                   \n                   \n                   \n\n# returns column names \nnames(bird_observations)\n\n[1] \"survey_id\"  \"site_id\"    \"species_id\" \"distance\"   \"bird_count\"\n[6] \"notes\"      \"seen\"       \"heard\"      \"direction\" \n\n# returns unique values in a column. In this case we can see all the different bird species IDs\nunique(bird_observations$species_id)\n\n  [1] \"HOSP\" \"AUWA\" \"RODO\" \"GTGR\" \"WCSP\" \"MODO\" \"NOMO\" \"EUST\" \"ANHU\" \"CBTH\"\n [11] \"INDO\" \"GIWO\" \"HOFI\" \"VERD\" \"GHJU\" \"ORJU\" \"KILL\" \"BCHU\" \"ABTO\" \"CACW\"\n [21] \"WEME\" \"CORA\" \"NOHA\" \"NOFL\" \"PYRR\" \"CANW\" \"GIFL\" \"SCJU\" \"BRCR\" \"RCKI\"\n [31] \"COHU\" \"BGGN\" \"SAPH\" \"AMKE\" \"HAHA\" \"HOLA\" \"LOSH\" \"AMGO\" \"BEVI\" \"OCWA\"\n [41] \"BRSP\" \"COYE\" \"SPTO\" \"WBNU\" \"noca\" \"BTSP\" \"ROWR\" \"PHAI\" \"RWBL\" \"FEHA\"\n [51] \"COHA\" \"RTHA\" \"ATFL\" \"BHCO\" \"BRBL\" \"UNDO\" \"SOVI\" \"MALL\" \"SSHA\" \"CEDW\"\n [61] \"AMRO\" \"WEBL\" \"GAQU\" \"LEWO\" \"unwa\" \"CAGO\" \"LEGO\" \"broc\" \"WWDO\" \"COFL\"\n [71] \"SOSP\" \"NRWS\" \"GBHE\" \"WEKI\" \"NAWA\" \"LBWO\" \"BTGN\" \"YWAR\" \"UDEJ\" \"BCNH\"\n [81] \"BTYW\" \"LUWA\" \"CLSW\" \"CAKI\" \"UNTA\" \"PFLB\" \"UNHA\" \"HRSH\" \"BETH\" \"UNWO\"\n [91] \"RSFL\" \"WIWA\" \"WEFL\" \"unhu\" \"GRRO\" \"ECDO\" \"BROC\" \"HOOR\" \"NOCA\" \"TOWA\"\n[101] \"YHBL\" \"WTSW\" \"UNTH\" \"RUHU\" \"WETA\" \"AMCO\" \"LENI\" \"UYRW\" \"LASP\" \"RNSA\"\n[111] \"UNFL\" \"BLPH\" \"MGWA\" \"TUVU\" \"UNBL\" \"TRES\" \"UNSP\" \"GREG\" \"SNEG\" \"UNSW\"\n[121] \"CHSP\" \"WAVI\"\n\n\n\n\n\n\n\n\nNoteQuestion 2b\n\n\n\nWhat are the primary and foreign keys for the tables bird_observations and taxalist? Recall that a primary key is a unique identifier for each observed entity, one per row. And a foreign key references to a primary key in another table (linkage).\nHint: First identify the primary keys for all the tables, then identify the foreign keys.\n\n\n\n\nAnswer\n\n\nbird_observations: Primary key is a compound key made up of survey_id, site_id, and species_id. The foreign key is species_id.\ntaxalist: Primary key is species_id and does not have a foreign key that match the primary key in bird_observations.\n\nHowever, we could join bird_observations and taxalist by species_id, but depending on the type of join some values would be droped or NAs would be introduce in the resulting data frame.",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_practice_tidy_data_joins.html#create-a-subset-of-bird_observations",
+    "href": "r_practice_tidy_data_joins.html#create-a-subset-of-bird_observations",
+    "title": "Practice Session: Joins",
+    "section": "3 Create a subset of bird_observations",
+    "text": "3 Create a subset of bird_observations\n\n\n\n\n\n\nNoteQuestion 3\n\n\n\nWrite code to create a subset of bird_observations called birds_subset that only contains observations for birds with species id BHCO and RWBL, and from sites with site ID LI-W and NU-C.\nHint: What function do you use to subset data by rows?\n\n\n\nbirds_subset &lt;- bird_observations %&gt;% \n  filter(species_id %in% c(\"BHCO\", \"RWBL\")) %&gt;% \n  filter(site_id %in% c(\"LI-W\", \"NU-C\"))",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_practice_tidy_data_joins.html#use-left_join-to-merge-birds_subset-with-the-tables-sites",
+    "href": "r_practice_tidy_data_joins.html#use-left_join-to-merge-birds_subset-with-the-tables-sites",
+    "title": "Practice Session: Joins",
+    "section": "4 Use left_join() to merge birds_subset with the tables sites",
+    "text": "4 Use left_join() to merge birds_subset with the tables sites\n\n\n\n\n\n\nNoteQuestion 4a\n\n\n\nFirst, answer: what do you expect the outcome data frame when doing left_join() between birds_subset and sites to look like? What observations do you expect in the outcome data frame.\nYou can use paper to draw if that helps you or talk to your neighbor. Write down the steps and expected outcome in your Quarto Document.\n\n\n\n\nAnswer\n\nI expect to see all columns and all observations from birds_subset and from sites, I expect to see the columns park_code, park_district, park-name, point_code, point_location and park_acreage and only observations for NU-C and LI-W because those are the only site_id values in birds_subset and in a left join only the observations matching the left table (in this case, birds_subset is the left table) will be kept.\n\n\n\n\n\n\n\nNoteQustion 4b\n\n\n\nUse a left join to update birds_subset so that it also includes sites information. For each join, include an explicit argument saying which key you are joining by (even if it will just assume the correct one for you). Store the updated data frame as birds_left. Make sure to look at the output - is what it contains consistent with what you expected it to contain?\n\n\n\n# syntax using pipe\nbirds_left &lt;- birds_subset %&gt;% \n  left_join(y = sites, by = \"site_id\")\n# don't see x = birds_subset here because piping in birds_subset means it automatically assumes birds_subset as x.\n\n# syntax without pipe\nbirds_left &lt;- left_join(x = birds_subset, y = sites, by = \"site_id\")",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_practice_tidy_data_joins.html#use-full_join-to-merge-birds_subset-and-sites-tables",
+    "href": "r_practice_tidy_data_joins.html#use-full_join-to-merge-birds_subset-and-sites-tables",
+    "title": "Practice Session: Joins",
+    "section": "5 Use full_join() to merge birds_subset and sites tables",
+    "text": "5 Use full_join() to merge birds_subset and sites tables\n\n\n\n\n\n\nNoteQuestion 5a\n\n\n\nFirst, answer: what do you expect a full_join() between birds_subset and sites to contain? Write this in your Quarto Document or tell a neighbor.\n\n\n\n\nAnswer\n\nI expect to see all columns and all observations from birds_subset and all columns and all observations from sites to be merged into one data frame because in a full join everything is kept. NA values could be introduced.\n\n\n\n\n\n\n\nNoteQuestions 5b\n\n\n\nWrite code to full_join() the birds_subset and sites data into a new object called birds_full. Explicitly include the variable you’re joining by. Look at the output. Is it what you expected?\n\n\n\n# syntax using pipe\nbirds_full &lt;- birds_subset %&gt;% \n  full_join(y = sites, by = \"site_id\")\n\n# syntax without pipe\nbirds_full &lt;- full_join(x = birds_subset, y = sites, by = \"site_id\")",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_practice_tidy_data_joins.html#use-inner_join-to-merge-birds_subset-and-taxalist-data",
+    "href": "r_practice_tidy_data_joins.html#use-inner_join-to-merge-birds_subset-and-taxalist-data",
+    "title": "Practice Session: Joins",
+    "section": "6 Use inner_join() to merge birds_subset and taxalist data",
+    "text": "6 Use inner_join() to merge birds_subset and taxalist data\n\n\n\n\n\n\nNoteQuestion 6a\n\n\n\nFirst, answer: what do you expect an inner_join() between birds_subset and taxalist to contain? Write this in your Quarto Document or tell a neighbor.\n\n\n\n\nAnswer\n\nI expect to only have data merge together based on species_id and since there is only BHCO and RWBL in birds_subset then I will only retain data related to those two species. I will also expect to see the columns from taxalist: common_name and asu_itis to be merged into the joined table.\n\n\n\n\n\n\n\nNoteQuestion 6b\n\n\n\nWrite code to inner_join() the birds_subset and taxalist, called birds_inner. Include an argument for what variable you’ll be joining by. Make sure you check the output.\n\n\n\n# syntax using pipe\nbirds_inner &lt;- birds_subset %&gt;% \n  inner_join(y = taxalist, by = \"species_id\")\n\n# syntax without pipe\nbirds_inner &lt;- inner_join(x = birds_subset, y = taxalist, by = \"species_id\" )\n\n\n\n\n\n\n\nNoteQuestion 6c\n\n\n\nWhat would you get if instead of inner_join() you’d used left_join() for this example? Write code for the left join and check.\n\n\n\n# syntax using pipe\nbirds_inner_left &lt;- birds_subset %&gt;% \n  left_join(y = taxalist, by = \"species_id\")\n\n# syntax without pipe\nbirds_inner_left &lt;- left_join(x = birds_subset, y = taxalist, by = \"species_id\")\n\n\n\n\n\n\n\nNoteQuestion 6d\n\n\n\nWhy does that make sense for this scenario? In what case would you expect the outcome to differ from an inner_join()? Write this in your Quarto Document or tell a neighbor.\n\n\n\n\nAnswer\n\nYou have the same resulting data set regardless of using inner_join() or left_join() to merge bird_subset and taxalist. The reasons for this are:\n\ninner_join() keeps only the rows (observations) that have a matching key across both data sets - here, species_id is our key, and the only rows that match across both data sets are those where species_id equals BHCO or RWBL\nleft_join() keeps all rows from the left table (in our case, the left table is birds_subset) and merges on data with matching keys (species_id) on the right (here, the right table is taxalist). Because our left data set (birds_subset) only contains species_ids equal to BHCO or RWBL, only rows with those species will be kept from the right data set (taxalist)\n\nYou’d expect the outcome to differ from an inner_join() if birds_subset contained an observation with a species_id that was not found in taxalist. If there was an observation of a species_id in birds_subset that was not in taxalist, then that observation would be kept, and NAs would be assigned to the common_name and asu_itis columns for that observations",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_practice_tidy_data_joins.html#exercise-2-practice-wrangling-joining-data",
+    "href": "r_practice_tidy_data_joins.html#exercise-2-practice-wrangling-joining-data",
+    "title": "Practice Session: Joins",
+    "section": "Exercise 2: Practice Wrangling & Joining Data",
+    "text": "Exercise 2: Practice Wrangling & Joining Data",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_practice_tidy_data_joins.html#wrangle-bird_observations-data-and-merge-the-data-with-all-the-other-tables-sites-surveys-and-taxalist",
+    "href": "r_practice_tidy_data_joins.html#wrangle-bird_observations-data-and-merge-the-data-with-all-the-other-tables-sites-surveys-and-taxalist",
+    "title": "Practice Session: Joins",
+    "section": "7 Wrangle bird_observations data and merge the data with all the other tables (sites, surveys, and taxalist)",
+    "text": "7 Wrangle bird_observations data and merge the data with all the other tables (sites, surveys, and taxalist)\n\n\n\n\n\n\nNoteQuestion 7a\n\n\n\nStarting with your object bird_observations, rename the notes column to bird_obs_notes (so this doesn’t conflict with notes in the surveys table).\n\n\n\nbird_observations &lt;- bird_observations %&gt;% \n  rename(bird_obs_notes = notes)\n\n\n\n\n\n\n\nNoteQuestion 7b\n\n\n\n\nCreate a subset that contains all observations in the birds_observations data frame,\nthen join the taxalist, sites and surveys tables to it,\nand finally limit to only columns survey_date, common_name, park_name, bird_count, and observer.\n\nHint: What function do you use to subset data by columns?\n\n\n\nbird_obs_subset &lt;- bird_observations %&gt;% \n  full_join(y = taxalist, by = \"species_id\") %&gt;% \n  full_join(y = sites, by = \"site_id\") %&gt;% \n  full_join(y = surveys, by = c(\"site_id\", \"survey_id\")) %&gt;%  \n  select(survey_date, common_name, park_name, bird_count, observer)",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_practice_tidy_data_joins.html#explore-observer-data-and-fix-the-values-within-this-column-so-that-all-values-are-in-the-same-format",
+    "href": "r_practice_tidy_data_joins.html#explore-observer-data-and-fix-the-values-within-this-column-so-that-all-values-are-in-the-same-format",
+    "title": "Practice Session: Joins",
+    "section": "8 Explore observer data and fix the values within this column so that all values are in the same format",
+    "text": "8 Explore observer data and fix the values within this column so that all values are in the same format\n\n\n\n\n\n\nNoteQuestion 8a\n\n\n\nContinuing with bird_obs_subset, first use unique() to see the different unique values in the column observer. How many observers are there? Which value is unlike the others?\n\n\n\nunique(bird_obs_subset$observer)\n\n[1] \"B. Rambo\"   \"J. Lemmer\"  \"D. Stuart\"  \"C. Putnam\"  \"S. Lerman\" \n[6] \"Josh Burns\" NA          \n\n\n\n\n\n\n\n\nNoteQuestion 8b\n\n\n\nReplace “Josh Burns” with a format that matches the other observer names. Then use unique() again to check your work.\nHint: What function do you use when you are making a change to an entire column?\n\n\n\nbird_obs_subset &lt;- bird_obs_subset %&gt;% \n  mutate(observer = if_else(condition = observer == \"Josh Burns\", \n                            true = \"J. Burns\", \n                            false = observer))\n\nunique(bird_obs_subset$observer)\n\n[1] \"B. Rambo\"  \"J. Lemmer\" \"D. Stuart\" \"C. Putnam\" \"S. Lerman\" \"J. Burns\" \n[7] NA         \n\n\n\n\n\n\n\n\nImportantSave your work and dont’s forget the Git and GitHub Workflow\n\n\n\nAfter you’ve completed the exercises or reached a significant stopping point, use the workflow: Stage (add) -&gt; Commit -&gt; Pull -&gt; Push",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_practice_tidy_data_joins.html#bonus-use-a-new-package-lubridate-to-wrangle-the-date-data-and-find-the-total-number-of-birds-by-park-and-month",
+    "href": "r_practice_tidy_data_joins.html#bonus-use-a-new-package-lubridate-to-wrangle-the-date-data-and-find-the-total-number-of-birds-by-park-and-month",
+    "title": "Practice Session: Joins",
+    "section": "9 Bonus: Use a new package lubridate to wrangle the date data and find the total number of birds by park and month",
+    "text": "9 Bonus: Use a new package lubridate to wrangle the date data and find the total number of birds by park and month\nHint: How do you learn about a new function or package?\n\n\n\n\n\n\nNoteBonus Question(s)\n\n\n\n\nUse lubridate::month() to add a new column to bird_obs_subset called survey_month, containing only the month number. Then, convert the month number to a factor (again within mutate()).\nUse dplyr::relocate() to move the new survey_month column to immediately after the survey_date column. You can do this in a separate code chunk, or pipe straight into it from your existing code.\nFilter to only include parks Lindo, Orme, Palomino, and Sonrisa.\nFind the total number of birds observed by park and month (Hint: You can use group_by() and summarize()).\n\n\n\n\nbird_obs_subset &lt;- bird_obs_subset %&gt;% \n  mutate(survey_month = lubridate::month(survey_date)) %&gt;% \n  mutate(survey_month = as.factor(survey_month)) %&gt;% \n  dplyr::relocate(survey_month, .after = survey_date) %&gt;% \n  filter(park_name %in% c(\"Lindo\", \"Orme\", \"Palomino\", \"Sonrisa\")) %&gt;% \n  group_by(park_name, survey_month) %&gt;% \n  summarize(tot_bird_count_month = n())\n\n`summarise()` has grouped output by 'park_name'. You can override using the\n`.groups` argument.\n\n\nTake a look at your final data frame. Does it give you the outcome you expected? Is it informative? How would you improve this wrangling process?",
+    "crumbs": [
+      "Practice Session: Joins"
+    ]
+  },
+  {
+    "objectID": "r_git_install_guide.html",
+    "href": "r_git_install_guide.html",
+    "title": "Installing R and Git on Your Computer",
+    "section": "",
+    "text": "To install R, visit cloud.r-project.org to download the most recent version for your operating system. The latest release is version 4.5 ([Not] Part in a Rumble, released 2025-10-31). Note: As long as you have version 4.4 or higher you are set for this series.\n\n\n\nWhile R is a programming language, RStudio is a software (often referred to as an IDE, Integrated Development Environment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers.\nNote: RStudio will not work without R installed, and you won’t particularly enjoy using R without having RStudio installed. Be sure to install both!\n\n\n\n\n\nImage Credit: Manny Gimond | Accessible at https://mgimond.github.io/ES218/R_vs_RStudio.html\n\n\n\n\n\nNew install: To install RStudio, visit https://posit.co/download/rstudio-desktop/. Download the free (“Open Source Edition”) Desktop version for your operating system. You should install the most up-to-date version available that is supported by your operating system.\nUpdate: If you already have RStudio and need to update: Open RStudio, and under ‘Help’ in the top menu, choose ‘Check for updates.’ If you have the most recent release, it will return ‘No update available. You are running the most recent version of RStudio.’ Otherwise, you should follow the instructions to install an updated version.\nOpen RStudio (logo you’ll click on shown below): If upon opening RStudio you are prompted to install Command Line Tools, do it.\n\n\n\n\n\n\n\n\n\n\n\nNote: you may need to install command line tools and XQuartz.\n\nTo install command line tools (if you’re not automatically prompted), run in the Terminal tab in RStudio: xcode-select --install\nVisit xquartz.org to download & install XQuartz\n\n\n\n\n\nQuarto is a scientific publishing tool built on Pandoc that allows R, Python, Julia, and ObservableJS users to create dynamic documents, websites, books and more.\nQuarto is now included with RStudio v2022.07.1+ so no need for a separate download/install if you have the latest version of RStudio! You can find all releases (current, pre, and older releases) on the Quarto website download page, should you want/need to reference them.\n\n\n\nYou should already have git on your device, but let’s check for it anyway.\n\nOpen RStudio\nIn the Terminal, run the following command:\n\n\nwhich git\n\n\nIf after running that you get something that looks like a file path to git on your computer, then you have git installed. For example, that might return something like this (or it could differ a bit): /usr/local/bin/git. If you instead get no response at all, you should download & install git from here: git-scm.com/downloads\n\nAn aside: Is it necessary to have Git installed in your machine for this workshop. GitHub’s Git Guides are a really wonderful resource to start learning about this topic.\n\n\n\n\nInstall the usethis and gitcreds packages in R by running the following in the RStudio Console:\n\n\ninstall.packages(“usethis”)\n\ninstall.packages(\"gitcreds\")\n\nA lot of scary looking red text will show up while this is installing - don’t panic. If you get to the end and see something like below (with no error) it’s installed successfully.\n\n\n\n\n\n\n\n\n\n\n\n\n\nIf you don’t already have a GitHub account, go to github.com and create one. Here are helpful considerations for choosing a username: happygitwithr.com/github-acct.html.\n\nOnce you’ve completed these steps you are ready for our workshop on Git and Github",
+    "crumbs": [
+      "Installing R and Git on Your Computer"
+    ]
+  },
+  {
+    "objectID": "r_git_install_guide.html#installation-steps-for-macos",
+    "href": "r_git_install_guide.html#installation-steps-for-macos",
+    "title": "Installing R and Git on Your Computer",
+    "section": "",
+    "text": "To install R, visit cloud.r-project.org to download the most recent version for your operating system. The latest release is version 4.5 ([Not] Part in a Rumble, released 2025-10-31). Note: As long as you have version 4.4 or higher you are set for this series.\n\n\n\nWhile R is a programming language, RStudio is a software (often referred to as an IDE, Integrated Development Environment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers.\nNote: RStudio will not work without R installed, and you won’t particularly enjoy using R without having RStudio installed. Be sure to install both!\n\n\n\n\n\nImage Credit: Manny Gimond | Accessible at https://mgimond.github.io/ES218/R_vs_RStudio.html\n\n\n\n\n\nNew install: To install RStudio, visit https://posit.co/download/rstudio-desktop/. Download the free (“Open Source Edition”) Desktop version for your operating system. You should install the most up-to-date version available that is supported by your operating system.\nUpdate: If you already have RStudio and need to update: Open RStudio, and under ‘Help’ in the top menu, choose ‘Check for updates.’ If you have the most recent release, it will return ‘No update available. You are running the most recent version of RStudio.’ Otherwise, you should follow the instructions to install an updated version.\nOpen RStudio (logo you’ll click on shown below): If upon opening RStudio you are prompted to install Command Line Tools, do it.\n\n\n\n\n\n\n\n\n\n\n\nNote: you may need to install command line tools and XQuartz.\n\nTo install command line tools (if you’re not automatically prompted), run in the Terminal tab in RStudio: xcode-select --install\nVisit xquartz.org to download & install XQuartz\n\n\n\n\n\nQuarto is a scientific publishing tool built on Pandoc that allows R, Python, Julia, and ObservableJS users to create dynamic documents, websites, books and more.\nQuarto is now included with RStudio v2022.07.1+ so no need for a separate download/install if you have the latest version of RStudio! You can find all releases (current, pre, and older releases) on the Quarto website download page, should you want/need to reference them.\n\n\n\nYou should already have git on your device, but let’s check for it anyway.\n\nOpen RStudio\nIn the Terminal, run the following command:\n\n\nwhich git\n\n\nIf after running that you get something that looks like a file path to git on your computer, then you have git installed. For example, that might return something like this (or it could differ a bit): /usr/local/bin/git. If you instead get no response at all, you should download & install git from here: git-scm.com/downloads\n\nAn aside: Is it necessary to have Git installed in your machine for this workshop. GitHub’s Git Guides are a really wonderful resource to start learning about this topic.\n\n\n\n\nInstall the usethis and gitcreds packages in R by running the following in the RStudio Console:\n\n\ninstall.packages(“usethis”)\n\ninstall.packages(\"gitcreds\")\n\nA lot of scary looking red text will show up while this is installing - don’t panic. If you get to the end and see something like below (with no error) it’s installed successfully.\n\n\n\n\n\n\n\n\n\n\n\n\n\nIf you don’t already have a GitHub account, go to github.com and create one. Here are helpful considerations for choosing a username: happygitwithr.com/github-acct.html.\n\nOnce you’ve completed these steps you are ready for our workshop on Git and Github",
+    "crumbs": [
+      "Installing R and Git on Your Computer"
+    ]
+  },
+  {
+    "objectID": "r_git_install_guide.html#installation-steps-for-windows",
+    "href": "r_git_install_guide.html#installation-steps-for-windows",
+    "title": "Installing R and Git on Your Computer",
+    "section": "2 Installation steps for Windows",
+    "text": "2 Installation steps for Windows\n\n2.1 Install or update R\nTo install R, visit cloud.r-project.org to download the most recent version for your operating system. The latest release is version 4.3.2 ( released 2023-10-31).\n\n\n2.2 Install or update RStudio\nWhile R is a programming language, RStudio is a software (often referred to as an IDE, Integrated Development Environment) that provides R programmers with a neat, easy-to-use interface for coding in R. There are a number of IDEs out there, but RStudio is arguably the best and definitely most popular among R programmers.\nNote: RStudio will not work without R installed, and you won’t particularly enjoy using R without having RStudio installed. Be sure to install both!\n\n\n\n\n\nImage Credit: Manny Gimond | Accessible at https://mgimond.github.io/ES218/R_vs_RStudio.html\n\n\n\n\n\nNew install: To install RStudio, visit https://posit.co/download/rstudio-desktop/. Download the free (“Open Source Edition”) Desktop version for your operating system. You should install the most up-to-date version available that is supported by your operating system.\nUpdate: If you already have RStudio and need to update: Open RStudio, and under ‘Help’ in the top menu, choose ‘Check for updates.’ If you have the most recent release, it will return ‘No update available. You are running the most recent version of RStudio.’ Otherwise, you should follow the instructions to install an updated version.\nOpen RStudio (logo you’ll click on shown below): If upon opening RStudio you are prompted to install Command Line Tools, do it.\n\n\n\n\n\n\n\n\n\n\n\n\n2.3 Install Quarto\nQuarto is a scientific publishing tool built on Pandoc that allows R, Python, Julia, and ObservableJS users to create dynamic documents, websites, books and more.\nQuarto is now included with RStudio v2022.07.1+ so no need for a separate download/install if you have the latest version of RStudio! You can find all releases (current, pre, and older releases) on the Quarto website download page, should you want/need to reference them.\n\n\n2.4 Check for git\nYou should already have git on your device, but let’s check for it anyway.\n\nOpen RStudio\nIn the Terminal, run the following command:\n\n\nwhere git\n\n\nIf after running that you get something that looks like a file path to git on your computer, then you have git installed. For example, that might return something like this (or it could differ a bit): /usr/local/bin/git. If you instead get no response at all or something along the lines “git is not installed”, you should download & install git from here: https://gitforwindows.org/.\n\nOnce you have download and installed Git, restart your computer. Then open RStudio and again run:\n\nwhere git\n\nIf you still get a message saying something like “git is not installed”, check out the Troubleshooting section below.\nAn aside: Is it necessary to have Git installed in your machine for this workshop. GitHub’s Git Guides are a really wonderful resource to start learning about this topic.\n\n\n2.5 Install R packages\n\nInstall the usethis and gitcreds packages in R by running the following in the RStudio Console:\n\n\ninstall.packages(\"usethis\")\n\ninstall.packages(\"gitcreds\")\n\nA lot of scary looking red text will show up while this is installing - don’t panic. If you get to the end and see something like below (with no error) it’s installed successfully.\n\n\n\n\n\n\n\n\n\n\n\n2.6 Create a GitHub account\n\nIf you don’t already have a GitHub account, go to github.com and create one. Here are helpful considerations for choosing a username: happygitwithr.com/github-acct.html.\n\nOnce you’ve completed these steps you are ready for our workshop on Git and Github",
+    "crumbs": [
+      "Installing R and Git on Your Computer"
+    ]
+  },
+  {
+    "objectID": "r_git_install_guide.html#troubleshooting",
+    "href": "r_git_install_guide.html#troubleshooting",
+    "title": "Installing R and Git on Your Computer",
+    "section": "3 Troubleshooting",
+    "text": "3 Troubleshooting\n\n\n\n\n\n\nWarningIssues installing Git on a Windows\n\n\n\nIf you download Git and the Git commands still not recognized by your computer, check your computer’s PATHS.\nTo do this, follow the instructions in this link on how to set the right PATHS.\nRestart your computer and try running git --version on the terminal. You should get something like git version XX.XX (but with numbers instead of Xs).\nIf you see the git version printed out in your terminal, you are all set",
+    "crumbs": [
+      "Installing R and Git on Your Computer"
+    ]
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#title-slide",
+    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#title-slide",
     "title": "coreDUML",
     "section": "",
-    "text": "Data types & structures in R\nAn introduction to programming in R\n\nNCEAS Learning Hub"
+    "text": "Welcome to R & RStudio\nAn introduction to programming in R\n\nNCEAS Learning Hub"
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-ide",
+    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-ide",
+    "title": "coreDUML",
+    "section": "",
+    "text": "RStudio IDE interface\n\n\n\n\nLet’s take a tour of the RStudio interface!"
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-ide2",
+    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-ide2",
+    "title": "coreDUML",
+    "section": "",
+    "text": "RStudio IDE interface\n\n\n\n\n\nNotice the default panes:\n\nConsole (entire left)\nEnvironment/History (tabbed in upper right)\nFiles/Plots/Packages/Help (tabbed in lower right)\n\nNOTE: New tabs may show up in different contexts (e.g., Git tab)\n\n\n\n\n\nQuick Tip: You can change the default location of the panes, among many other things. More information here."
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-console",
+    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-console",
+    "title": "coreDUML",
+    "section": "",
+    "text": "RStudio IDE interface\n\n\n\n\n\nConsole is where you can directly type R code.\nWhen you start a new session, you’ll see some text that includes the current version of R software installed (yours may not match the image).\n\n\n\n\n\nThere are tabs for Terminal and Background Jobs. Terminal is direct access to your computer’s operating system (not R software)."
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-envir",
+    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-envir",
+    "title": "coreDUML",
+    "section": "",
+    "text": "RStudio IDE interface\n\n\n\n\n\nEnvironment displays information in working memory - “objects” that may be individual values, lists or vectors with multiple values, data frames of tabular data, etc.\nWhen you start a new session, the environment pane should say “Environment is empty.” As you use R to make calculations and store values, you will see objects in this pane.\n\n\n\n\n\nThere is a tab for History and perhaps others. History will show you the sequence of any commands you have typed or executed into R. When writing R scripts, the History tab is not necessary for reproducible science."
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-files",
+    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-files",
+    "title": "coreDUML",
+    "section": "",
+    "text": "RStudio IDE interface\n\n\n\n\n\nFiles displays files and folders on your computer. You can navigate just like you would normally browse on your computer.\n\n\n\n\n\nNote the other tabs in this pane: when you create plots or tables, they will generate in the plots pane. Packages provides information on the packages and versions installed, and Help is provides searchable documentation for those packages and functions. Viewer and Presentation display HTML or other outputs."
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#example-code-slide",
+    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#example-code-slide",
+    "title": "coreDUML",
+    "section": "",
+    "text": "Storing values in objects\n\n\nThe assignment operator (&lt;-) creates an “object” by assigning it a name. R will evaluate the expression on the right side, and store that value with the name on the left.\nFor example, assign the result of 3 * 4 and call it “result”. Then we can call the name of the object to use the value in other calculations, and so on.\n\n\nresult &lt;- 3 * 4   ### assign the value\n\nresult            ### retrieve the value\n\n[1] 12"
+  },
+  {
+    "objectID": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-envir2",
+    "href": "slides/r_programming_introduction/slides1_coding_in_console.html#rstudio-envir2",
+    "title": "coreDUML",
+    "section": "",
+    "text": "RStudio IDE interface\n\n\n\n\n\nNow the Environment pane contains the objects and values we created in our example."
   },
   {
     "objectID": "slides/r_programming_introduction/slides2_coding_in_script.html#title-slide",
@@ -287,24 +710,11 @@
     "text": "Creating an R script\n\n\n\n\n\nFrom the “File” menu, select “New File,” then choose “R Script.”\nYou can also create the script from the “new file” button in the Files pane.\nA new pane appears. This is the Source pane, where we write and edit code and documents. This pane is only present if there are files open in the editor.\n\n\n\n\n\nSave the R Script in your script folder, name the file intro_to_programming.R. The name at the top of the Source pane will change from Untitled to the new file name."
   },
   {
-    "objectID": "zotero.html",
-    "href": "zotero.html",
-    "title": "Zotero 201",
+    "objectID": "slides/github_introduction/slides1_motivating_example.html#title-slide",
+    "href": "slides/github_introduction/slides1_motivating_example.html#title-slide",
+    "title": "coreDUML",
     "section": "",
-    "text": "TipLearning Objectives\n\n\n\n\nCompare Zotero pros & cons to other reference managers\nConfigure general Zotero settings\nExpand Zotero usage through add-ons",
-    "crumbs": [
-      "Zotero 201"
-    ]
-  },
-  {
-    "objectID": "zotero.html#slides",
-    "href": "zotero.html#slides",
-    "title": "Zotero 201",
-    "section": "1 Slides",
-    "text": "1 Slides",
-    "crumbs": [
-      "Zotero 201"
-    ]
+    "text": "Git & GitHub\nA motivating example"
   },
   {
     "objectID": "r_programming_introduction.html",
